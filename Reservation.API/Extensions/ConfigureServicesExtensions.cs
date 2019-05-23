@@ -1,5 +1,9 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Reservation.Identity.Data.Context;
+using Reservation.Identity.Entities.Entities;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.IO;
@@ -20,7 +24,7 @@ namespace Reservation.API.Extensions
         public static IServiceCollection AddRegisterServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddCors();
-            //services.AddDbServices(configuration);
+            services.AddIdentityDb(configuration);
             services.AddApiDocumentationServices();
             //services.AddAutoMapper();
             return services;
@@ -36,6 +40,23 @@ namespace Reservation.API.Extensions
                 options.IncludeXmlComments(filePath);
 
             });
+        }
+        private static void AddIdentityDb(this IServiceCollection services,IConfiguration _configuration)
+        {
+            services.AddDbContext<IdentityContext>(cfg =>
+            {
+                cfg.UseSqlServer(_configuration.GetConnectionString("IdentityContext"))
+                    .UseLazyLoadingProxies();
+            })
+            .AddIdentity<ApplicationUser,ApplicationRole>(option =>
+            {
+                option.Password.RequireDigit = false;
+                option.Password.RequiredLength = 6;
+                option.Password.RequireNonAlphanumeric = false;
+                option.Password.RequireUppercase = false;
+                option.Password.RequireLowercase = false;
+                option.User.RequireUniqueEmail = true;
+            }).AddEntityFrameworkStores<IdentityContext>().AddDefaultTokenProviders(); ;
         }
     }
 }
