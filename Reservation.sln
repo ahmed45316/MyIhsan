@@ -11,6 +11,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reservation.Identity.Data",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reservation.Identity.Entities", "Reservation.Identity.Entities\Reservation.Identity.Entities.csproj", "{59F20D74-09E0-417C-A2DF-64456B5A5C4E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reservation.Common", "Reservation.Common\Reservation.Common.csproj", "{73B70991-FAD3-4539-965C-A7EBBADDC107}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reservation.Identity.Service", "Reservation.Identity.Service\Reservation.Identity.Service.csproj", "{3A376FA8-8FF4-411F-A682-0EC538CF431A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{59F20D74-09E0-417C-A2DF-64456B5A5C4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{59F20D74-09E0-417C-A2DF-64456B5A5C4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{59F20D74-09E0-417C-A2DF-64456B5A5C4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73B70991-FAD3-4539-965C-A7EBBADDC107}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73B70991-FAD3-4539-965C-A7EBBADDC107}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73B70991-FAD3-4539-965C-A7EBBADDC107}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73B70991-FAD3-4539-965C-A7EBBADDC107}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A376FA8-8FF4-411F-A682-0EC538CF431A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A376FA8-8FF4-411F-A682-0EC538CF431A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A376FA8-8FF4-411F-A682-0EC538CF431A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A376FA8-8FF4-411F-A682-0EC538CF431A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

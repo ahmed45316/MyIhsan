@@ -29,6 +29,24 @@
             <param name="app"></param>
             <returns></returns>
         </member>
+        <member name="T:Reservation.API.Program">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Reservation.API.Program.Main(System.String[])">
+            <summary>
+            
+            </summary>
+            <param name="args"></param>
+        </member>
+        <member name="M:Reservation.API.Program.CreateWebHostBuilder(System.String[])">
+            <summary>
+            
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
         <member name="T:Reservation.API.Startup">
             <summary>
             

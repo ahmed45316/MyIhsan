@@ -2,11 +2,16 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NetCore.AutoRegisterDi;
+using Reservation.Common.Core;
 using Reservation.Identity.Data.Context;
-using Reservation.Identity.Entities.Entities;
+using Reservation.Identity.Service.Core;
+using Reservation.Identity.Service.Services;
+using Reservation.Identity.Service.UnitOfWork;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.IO;
+using System.Reflection;
 
 namespace Reservation.API.Extensions
 {
@@ -24,10 +29,19 @@ namespace Reservation.API.Extensions
         public static IServiceCollection AddRegisterServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddCors();
-            services.AddIdentityDb(configuration);
             services.AddApiDocumentationServices();
-            //services.AddAutoMapper();
+            services.RegisterIdentityCores();
+            services.AddIdentiyUnitOfWork();
+            services.RegisterIdentityAssemply();
             return services;
+        }
+        private static void RegisterIdentityCores(this IServiceCollection services)
+        {
+            services.AddTransient<IHandlerResponse, HandlerResponse>();
+            services.AddTransient<IResponseResult, ResponseResult>();
+            services.AddTransient<IResult,Result>();
+            services.AddTransient(typeof(IBusinessBaseParameter<>), typeof(BusinessBaseParameter<>));
+            services.AddTransient<ITokenBusiness, TokenBusiness>();
         }
         private static void AddApiDocumentationServices(this IServiceCollection services)
         {
@@ -40,23 +54,17 @@ namespace Reservation.API.Extensions
                 options.IncludeXmlComments(filePath);
 
             });
-        }
-        private static void AddIdentityDb(this IServiceCollection services,IConfiguration _configuration)
+        }       
+        private static void AddIdentiyUnitOfWork(this IServiceCollection services)
         {
-            services.AddDbContext<IdentityContext>(cfg =>
-            {
-                cfg.UseSqlServer(_configuration.GetConnectionString("IdentityContext"))
-                    .UseLazyLoadingProxies();
-            })
-            .AddIdentity<ApplicationUser,ApplicationRole>(option =>
-            {
-                option.Password.RequireDigit = false;
-                option.Password.RequiredLength = 6;
-                option.Password.RequireNonAlphanumeric = false;
-                option.Password.RequireUppercase = false;
-                option.Password.RequireLowercase = false;
-                option.User.RequireUniqueEmail = true;
-            }).AddEntityFrameworkStores<IdentityContext>().AddDefaultTokenProviders(); ;
+            services.AddTransient(typeof(IIdentityUnitOfWork<>), typeof(IdentityUnitOfWork<>));
+        }
+        private static void RegisterIdentityAssemply(this IServiceCollection services)
+        {
+            var assemblyToScan = Assembly.GetAssembly(typeof(LoginServices)); //..or whatever assembly you need
+            services.RegisterAssemblyPublicNonGenericClasses(assemblyToScan)
+              .Where(c => c.Name.EndsWith("Services"))
+              .AsPublicImplementedInterfaces();
         }
     }
 }

@@ -13,6 +13,7 @@
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="2.2.4" />
+    <PackageReference Include="NetCore.AutoRegisterDi" Version="1.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
   </ItemGroup>
 
@@ -23,6 +24,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Reservation.Identity.Data\Reservation.Identity.Data.csproj" />
     <ProjectReference Include="..\Reservation.Identity.Entities\Reservation.Identity.Entities.csproj" />
+    <ProjectReference Include="..\Reservation.Identity.Service\Reservation.Identity.Service.csproj" />
   </ItemGroup>
 
 </Project>
