@@ -24,17 +24,16 @@ namespace Reservation.Identity.Service.Core
             _decodingValidToken = decodingValidToken;
         }
 
-        public IUserLoginReturn GenerateJsonWebToken(UserDto userInfo, string roles, string childRoles, string refreshToken ="")
+        public IUserLoginReturn GenerateJsonWebToken(IUserDto userInfo, string roles, string refreshToken ="")
         {            
             var claims = new[] {
                 new Claim( JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Sub, userInfo.UserName),
                 new Claim("UserId", userInfo.Id),
-                new Claim("AdminId", userInfo.AdminId),
-                new Claim("VendorId", userInfo.VendorId),
-                new Claim("ClientId", userInfo.ClientId),
-                new Claim("Roles", roles),
-                new Claim("ChildrenRoles",childRoles)
+                new Claim("AdminId", userInfo.AdminId??""),
+                new Claim("VendorId", userInfo.VendorId??""),
+                new Claim("ClientId", userInfo.ClientId??""),
+                new Claim("Roles", roles)
             };
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:SigningKey"]));
             var expiryInHours = DateTime.Now.AddHours(Convert.ToDouble(_config["Jwt:ExpiryInHours"]));

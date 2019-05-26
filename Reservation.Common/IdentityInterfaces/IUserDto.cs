@@ -7,9 +7,6 @@ namespace Reservation.Common.IdentityInterfaces
     public interface IUserDto
     {
         string Id { get; set; }
-        string EntityIdInfo { get; set; }
-        String Name { get; set; }
-        String NameEn { get; set; }
         string Email { get; set; }
         bool EmailConfirmed { get; set; }
         string PasswordHash { get; set; }
@@ -21,11 +18,6 @@ namespace Reservation.Common.IdentityInterfaces
         bool LockoutEnabled { get; set; }
         int AccessFailedCount { get; set; }
         string UserName { get; set; }
-        string TelNumber { get; set; }
-        string Address { get; set; }
-        bool? Gender { get; set; }
-        string CountryId { get; set; }
-        string CityId { get; set; }
         bool IsDeleted { get; set; }
         bool IsBlock { get; set; } 
         string AdminId { get; set; }

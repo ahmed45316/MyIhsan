@@ -4,6 +4,62 @@
         <name>Reservation.API</name>
     </assembly>
     <members>
+        <member name="T:Reservation.API.Controllers.Base.BaseMainController">
+            <inheritdoc />
+        </member>
+        <member name="F:Reservation.API.Controllers.Base.BaseMainController.TokenBusiness">
+            <inheritdoc />
+        </member>
+        <member name="F:Reservation.API.Controllers.Base.BaseMainController.ResponseHandler">
+            <inheritdoc />
+        </member>
+        <member name="M:Reservation.API.Controllers.Base.BaseMainController.#ctor(Reservation.Common.Core.IHandlerResponse)">
+            <inheritdoc />
+        </member>
+        <member name="M:Reservation.API.Controllers.Base.BaseMainController.#ctor(Reservation.Common.Core.IHandlerResponse,Reservation.Identity.Service.Core.ITokenBusiness)">
+            <inheritdoc />
+        </member>
+        <member name="T:Reservation.API.Controllers.Base.MainController`2">
+            <inheritdoc />
+        </member>
+        <member name="F:Reservation.API.Controllers.Base.MainController`2.TokenBusiness">
+            <inheritdoc />
+        </member>
+        <member name="F:Reservation.API.Controllers.Base.MainController`2.ResponseHandler">
+            <inheritdoc />
+        </member>
+        <member name="M:Reservation.API.Controllers.Base.MainController`2.#ctor(Reservation.Common.Core.IHandlerResponse,Reservation.Identity.Service.Core.IBaseService{`0,`1})">
+            <inheritdoc />
+        </member>
+        <member name="M:Reservation.API.Controllers.Base.MainController`2.#ctor(Reservation.Common.Core.IHandlerResponse,Reservation.Identity.Service.Core.ITokenBusiness,Reservation.Identity.Service.Core.IBaseService{`0,`1})">
+            <inheritdoc />
+        </member>
+        <member name="M:Reservation.API.Controllers.Base.MainController`2.Add(`1)">
+            <summary>
+            Add Entity
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Reservation.API.Controllers.Base.MainController`2.GetAll">
+            <summary>
+            Get all Data
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Reservation.API.Controllers.Secuirty.AccountsController">
+            <inheritdoc />
+        </member>
+        <member name="M:Reservation.API.Controllers.Secuirty.AccountsController.#ctor(Reservation.Common.Core.IHandlerResponse,Reservation.Identity.Service.Interfaces.ILoginServices,Reservation.Identity.Service.Core.ITokenBusiness)">
+            <inheritdoc />
+        </member>
+        <member name="M:Reservation.API.Controllers.Secuirty.AccountsController.Login(Reservation.Common.Parameters.LoginParameters)">
+            <summary>
+            Login
+            </summary>
+            <param name="parameter"></param>
+            <returns></returns>
+        </member>
         <member name="T:Reservation.API.Extensions.ConfigureServicesExtensions">
             <summary>
             

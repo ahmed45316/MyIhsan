@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Reservation.Identity.Data.Context;
 
 namespace Reservation.Identity.Data.Migrations
 {
     [DbContext(typeof(IdentityContext))]
-    partial class IdentityContextModelSnapshot : ModelSnapshot
+    [Migration("20190526082537_addRefreshTokenTable")]
+    partial class addRefreshTokenTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,15 +38,6 @@ namespace Reservation.Identity.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("AspNetRoles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "c21c91c0-5c2f-45cc-ab6d-1d256538a5ee",
-                            IsBlock = false,
-                            IsDeleted = false,
-                            Name = "Administrator"
-                        });
                 });
 
             modelBuilder.Entity("Reservation.Identity.Entities.Entities.AspNetUser", b =>
@@ -117,24 +110,6 @@ namespace Reservation.Identity.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("AspNetUsers");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "c21c91c0-5c2f-45cc-ab6d-1d256538a4ee",
-                            AccessFailedCount = 0,
-                            Email = "admin@A3n.com",
-                            EmailConfirmed = false,
-                            IsBlock = false,
-                            IsDeleted = false,
-                            LockoutEnabled = false,
-                            PasswordHash = "ALQ9yNzGkKdXRP8gdol1whMNSIZAlmjXpF6SNHELSKf0N6+aZs24+5h8B4OzpBWrIw==",
-                            PhoneNumber = "+9",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "eb2cfd84-1e8a-4cf6-b50b-ed117ff108bf",
-                            TwoFactorEnabled = false,
-                            UserName = "admin"
-                        });
                 });
 
             modelBuilder.Entity("Reservation.Identity.Entities.Entities.AspNetUserClaim", b =>
@@ -215,16 +190,6 @@ namespace Reservation.Identity.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("AspNetUsersRoles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "c21c91c0-5c2f-45cc-ab6d-1d256538a6ee",
-                            IsBlock = false,
-                            IsDeleted = false,
-                            RoleId = "c21c91c0-5c2f-45cc-ab6d-1d256538a5ee",
-                            UserId = "c21c91c0-5c2f-45cc-ab6d-1d256538a4ee"
-                        });
                 });
 
             modelBuilder.Entity("Reservation.Identity.Entities.Entities.Menu", b =>

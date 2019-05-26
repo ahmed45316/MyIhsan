@@ -7,7 +7,7 @@ namespace Reservation.Identity.Service.Core
 {
     public interface ITokenBusiness
     {
-        IUserLoginReturn GenerateJsonWebToken(UserDto userInfo, string roles, string childRoles,  string refreshToken="" );        
+        IUserLoginReturn GenerateJsonWebToken(IUserDto userInfo, string roles,  string refreshToken="" );        
         IDecodingValidToken GetUserDataFromToken(ControllerBase controller);
     }
 }

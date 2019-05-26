@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
+using Reservation.Identity.Data.SeedData;
 using System.IO;
 
 namespace Reservation.Identity.Data.Context
@@ -16,7 +17,7 @@ namespace Reservation.Identity.Data.Context
             var builder = new DbContextOptionsBuilder<IdentityContext>();
             var connectionString = configuration.GetConnectionString("IdentityContext");
             builder.UseSqlServer(connectionString);
-            return new IdentityContext(builder.Options);
+            return new IdentityContext(builder.Options, new DataInitialize());
         }
     }
 }

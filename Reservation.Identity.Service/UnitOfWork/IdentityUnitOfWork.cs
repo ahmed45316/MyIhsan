@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Configuration;
 using Reservation.Identity.Data.Context;
+using Reservation.Identity.Data.SeedData;
 using Reservation.Infrastructure.Repository;
 using System;
 using System.Collections.Generic;
@@ -16,13 +17,14 @@ namespace Reservation.Identity.Service.UnitOfWork
         private IDbContextTransaction _transaction;
 
         public IRepository<T> Repository { get; }
-
-        public IdentityUnitOfWork(IConfiguration config)
+        private readonly IDataInitialize _dataInitialize;
+        public IdentityUnitOfWork(IConfiguration config, IDataInitialize dataInitialize)
         {
+            _dataInitialize = dataInitialize;
             var connection = config.GetConnectionString("IdentityContext");
             var optionsBuilder = new DbContextOptionsBuilder<IdentityContext>();
             optionsBuilder.UseLazyLoadingProxies().UseSqlServer(connection).EnableSensitiveDataLogging();
-            _context = new IdentityContext(optionsBuilder.Options);
+            _context = new IdentityContext(optionsBuilder.Options, _dataInitialize);
             Repository = new Repository<T>(_context);
         }
 
