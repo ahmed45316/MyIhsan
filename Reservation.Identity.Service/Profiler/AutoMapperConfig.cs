@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Reservation.Common.IdentityInterfaces;
+using Reservation.Identity.Entities.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,22 +11,17 @@ namespace Reservation.Identity.Service.Profiler
     {
         public AutoMapperConfig()
         {
-            MappEmployee();
-            MappTask();
-            MappUser();
+            MappUsers();
+            MappMenu();
         }
-        private void MappEmployee()
+        private void MappUsers()
         {
-            //CreateMap<Employees, EmployeeDto>().ReverseMap();
-            //CreateMap<Employees, EmployeeWithTasksDto>().ReverseMap();
+            CreateMap<AspNetUser, IUserDto>().ReverseMap();
         }
-        private void MappTask()
+        private void MappMenu()
         {
-            //CreateMap<Tasks, TaskDto>().ReverseMap();
+            CreateMap<Menu, IMenuDto>().ReverseMap();
         }
-        private void MappUser()
-        {
-            //CreateMap<AspNetUser, UserDto>().ReverseMap();
-        }
+        
     }
 }

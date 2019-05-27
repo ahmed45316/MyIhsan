@@ -26,6 +26,7 @@ namespace Reservation.Identity.Data.Context
             modelBuilder.Entity<AspNetUser>().HasData(_dataInitialize.AddSystemAdmin());
             modelBuilder.Entity<AspNetRole>().HasData(_dataInitialize.AddDefaultRole());
             modelBuilder.Entity<AspNetUsersRole>().HasData(_dataInitialize.AddUserRole());
+            modelBuilder.Entity<Menu>().HasData(_dataInitialize.addMenus());
             #endregion
         }
     }

@@ -10,5 +10,6 @@ namespace Reservation.Identity.Data.SeedData
         AspNetUser[] AddSystemAdmin();
         AspNetRole[] AddDefaultRole();
         AspNetUsersRole[] AddUserRole();
+        Menu[] addMenus();
     }
 }

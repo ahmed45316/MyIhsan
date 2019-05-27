@@ -32,9 +32,9 @@ namespace Reservation.Identity.Service.Services
             if (!rightPass) return ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.NotFound, message: HttpStatusCode.NotFound.ToString());
             var refToken = Guid.NewGuid().ToString();
             var roles = user.AspNetUsersRole.Select(q => q.RoleId).ToList();
-            var userDto = Mapper.Map<AspNetUser, UserDto>(user);
+            var userDto = Mapper.Map<AspNetUser, IUserDto>(user);
             var userLoginReturn = _tokenBusiness.GenerateJsonWebToken(userDto, string.Join(",", roles), refToken);
-            return ResponseResult.GetRepositoryActionResult(userLoginReturn, status: HttpStatusCode.OK, message: HttpStatusCode.OK.ToString()); ;
+            return ResponseResult.GetRepositoryActionResult(userLoginReturn, status: HttpStatusCode.OK, message: HttpStatusCode.OK.ToString()); 
         }
     }
 }

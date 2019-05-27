@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Reservation.Identity.Data.Context;
 
 namespace Reservation.Identity.Data.Migrations
 {
     [DbContext(typeof(IdentityContext))]
-    partial class IdentityContextModelSnapshot : ModelSnapshot
+    [Migration("20190526130523_ModifyAspNetUserTable")]
+    partial class ModifyAspNetUserTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -108,7 +110,7 @@ namespace Reservation.Identity.Data.Migrations
                             PasswordHash = "ALQ9yNzGkKdXRP8gdol1whMNSIZAlmjXpF6SNHELSKf0N6+aZs24+5h8B4OzpBWrIw==",
                             PhoneNumber = "+9",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "85b831b9-dc43-4d66-af71-1dd9f4a81c6d",
+                            SecurityStamp = "edd6a87f-9b76-411c-9bcc-b18e65a6b61e",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
@@ -243,52 +245,6 @@ namespace Reservation.Identity.Data.Migrations
                     b.HasIndex("ParentId");
 
                     b.ToTable("Menu");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "menu-1",
-                            Action = "index",
-                            Controller = "Home",
-                            Icon = "icon-home",
-                            IsStop = false,
-                            ItsOrder = 1,
-                            ScreenNameAr = "الشاشة الرئيسية",
-                            ScreenNameEn = "Main Screen"
-                        },
-                        new
-                        {
-                            Id = "menu-2",
-                            Icon = "fas fa-address-card",
-                            IsStop = false,
-                            ItsOrder = 2,
-                            ScreenNameAr = "الصلاحيات",
-                            ScreenNameEn = "Authentication"
-                        },
-                        new
-                        {
-                            Id = "menu-7",
-                            Action = "ManageRoles",
-                            Controller = "Security",
-                            Icon = "icon-user",
-                            IsStop = false,
-                            ItsOrder = 7,
-                            ParentId = "menu-2",
-                            ScreenNameAr = "الدور الوظيفي",
-                            ScreenNameEn = "Roles"
-                        },
-                        new
-                        {
-                            Id = "menu-8",
-                            Action = "Users",
-                            Controller = "Security",
-                            Icon = "icon-user",
-                            IsStop = false,
-                            ItsOrder = 8,
-                            ParentId = "menu-2",
-                            ScreenNameAr = "المستخدمين",
-                            ScreenNameEn = "Users"
-                        });
                 });
 
             modelBuilder.Entity("Reservation.Identity.Entities.Entities.MenuRole", b =>

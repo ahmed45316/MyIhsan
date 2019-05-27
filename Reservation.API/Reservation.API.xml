@@ -50,7 +50,7 @@
         <member name="T:Reservation.API.Controllers.Secuirty.AccountsController">
             <inheritdoc />
         </member>
-        <member name="M:Reservation.API.Controllers.Secuirty.AccountsController.#ctor(Reservation.Common.Core.IHandlerResponse,Reservation.Identity.Service.Interfaces.ILoginServices,Reservation.Identity.Service.Core.ITokenBusiness)">
+        <member name="M:Reservation.API.Controllers.Secuirty.AccountsController.#ctor(Reservation.Common.Core.IHandlerResponse,Reservation.Identity.Service.Interfaces.ILoginServices,Reservation.Identity.Service.Core.ITokenBusiness,Reservation.Identity.Service.Interfaces.IMenuServices)">
             <inheritdoc />
         </member>
         <member name="M:Reservation.API.Controllers.Secuirty.AccountsController.Login(Reservation.Common.Parameters.LoginParameters)">
@@ -58,6 +58,12 @@
             Login
             </summary>
             <param name="parameter"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Reservation.API.Controllers.Secuirty.AccountsController.GetMenu">
+            <summary>
+            Get Menu
+            </summary>
             <returns></returns>
         </member>
         <member name="T:Reservation.API.Extensions.ConfigureServicesExtensions">

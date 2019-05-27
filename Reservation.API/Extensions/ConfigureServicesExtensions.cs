@@ -62,6 +62,7 @@ namespace Reservation.API.Extensions
             services.AddTransient<ITokenBusiness, TokenBusiness>();
             services.AddTransient<IDecodingValidToken, DecodingValidToken>();
             services.AddSingleton<IUserDto,UserDto>();
+            services.AddSingleton<IMenuDto, MenuDto>();
             services.AddSingleton<IUserLoginReturn, UserLoginReturn>();
             services.AddSingleton<IDataInitialize, DataInitialize>();
         }

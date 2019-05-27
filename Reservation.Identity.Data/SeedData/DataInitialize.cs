@@ -20,6 +20,45 @@ namespace Reservation.Identity.Data.SeedData
             return rolesList.ToArray();
         }
 
+        public Menu[] addMenus()
+        {
+            var menuList = new List<Menu>();
+            menuList.AddRange(new[] {
+                new Menu{Id = "menu-1",
+                ScreenNameAr = "الشاشة الرئيسية",
+                ScreenNameEn="Main Screen",
+                Controller= "Home",
+                Action= "index",
+                ItsOrder=1,
+                Icon= "icon-home"
+                },
+                new Menu{ Id = "menu-2",
+                ScreenNameAr = "الصلاحيات",
+                ScreenNameEn = "Authentication",
+                ItsOrder = 2,
+                Icon = "fas fa-address-card"
+                },
+                new Menu{ Id = "menu-7",
+                ScreenNameAr = "الدور الوظيفي",
+                ScreenNameEn = "Roles",
+                Controller = "Security",
+                Action = "ManageRoles",
+                ItsOrder = 7,
+                ParentId= "menu-2",
+                Icon = "icon-user"
+                },
+                new Menu{Id = "menu-8",
+                ScreenNameAr = "المستخدمين",
+                ScreenNameEn = "Users",
+                Controller = "Security",
+                Action = "Users",
+                ItsOrder = 8,
+                ParentId = "menu-2",
+                Icon = "icon-user"}
+            });
+            return menuList.ToArray();
+        }
+
         public AspNetUser[] AddSystemAdmin()
         {
             var usersList = new List<AspNetUser>();
