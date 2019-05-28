@@ -80,7 +80,9 @@ namespace Reservation.Identity.Service.Services
                 return ResponseResult.GetRepositoryActionResult(true, status: HttpStatusCode.Accepted, message: HttpStatusCode.Accepted.ToString());
         }
         public IEnumerable<IRoleDto> GetRoleFromStored(string Name)
-        {       
+        {
+            //another way to pass parameters
+            //context.Database.ExecuteSqlCommand("GetRoles @p0, @p1", parameters: new[] { Name, "b" })
             var role = _unitOfWork.IdentityDbContext.AspNetRoles.FromSql($"GetRoles {Name}").ToList();
             var roleDto = Mapper.Map<List<AspNetRole>, List<IRoleDto>>(role);
             return roleDto;
