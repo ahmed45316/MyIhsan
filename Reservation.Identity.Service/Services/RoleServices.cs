@@ -1,7 +1,11 @@
-﻿using Reservation.Common.Core;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Reservation.Common.Core;
 using Reservation.Common.Extensions;
 using Reservation.Common.IdentityInterfaces;
 using Reservation.Common.Parameters;
+using Reservation.Identity.Data.Context;
+using Reservation.Identity.Data.SeedData;
 using Reservation.Identity.Entities.Entities;
 using Reservation.Identity.Service.Core;
 using Reservation.Identity.Service.Interfaces;
@@ -74,6 +78,13 @@ namespace Reservation.Identity.Service.Services
                 _unitOfWork.Repository.Update(role, role.Id);
                 await _unitOfWork.SaveChanges();
                 return ResponseResult.GetRepositoryActionResult(true, status: HttpStatusCode.Accepted, message: HttpStatusCode.Accepted.ToString());
+        }
+
+        public IEnumerable<IRoleDto> GetRoleFromStored(string Name)
+        {       
+            var role = _unitOfWork.IdentityDbContext.AspNetRoles.FromSql($"GetRoles {Name}").ToList();
+            var roleDto = Mapper.Map<List<AspNetRole>, List<IRoleDto>>(role);
+            return roleDto;
         }
     }
 }

@@ -17,6 +17,8 @@ namespace Reservation.Identity.Service.UnitOfWork
         private IDbContextTransaction _transaction;
 
         public IRepository<T> Repository { get; }
+        public IdentityContext IdentityDbContext { get; set; }
+
         private readonly IDataInitialize _dataInitialize;
         public IdentityUnitOfWork(IConfiguration config, IDataInitialize dataInitialize)
         {
@@ -24,7 +26,7 @@ namespace Reservation.Identity.Service.UnitOfWork
             var connection = config.GetConnectionString("IdentityContext");
             var optionsBuilder = new DbContextOptionsBuilder<IdentityContext>();
             optionsBuilder.UseLazyLoadingProxies().UseSqlServer(connection).EnableSensitiveDataLogging();
-            _context = new IdentityContext(optionsBuilder.Options, _dataInitialize);
+            _context = IdentityDbContext = new IdentityContext(optionsBuilder.Options, _dataInitialize);
             Repository = new Repository<T>(_context);
         }
 
