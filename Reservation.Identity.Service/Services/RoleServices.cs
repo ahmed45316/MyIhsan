@@ -79,7 +79,6 @@ namespace Reservation.Identity.Service.Services
                 await _unitOfWork.SaveChanges();
                 return ResponseResult.GetRepositoryActionResult(true, status: HttpStatusCode.Accepted, message: HttpStatusCode.Accepted.ToString());
         }
-
         public IEnumerable<IRoleDto> GetRoleFromStored(string Name)
         {       
             var role = _unitOfWork.IdentityDbContext.AspNetRoles.FromSql($"GetRoles {Name}").ToList();
