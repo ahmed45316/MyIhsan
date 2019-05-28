@@ -66,6 +66,46 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:Reservation.API.Controllers.Secuirty.RoleController">
+            <inheritdoc />
+        </member>
+        <member name="M:Reservation.API.Controllers.Secuirty.RoleController.#ctor(Reservation.Common.Core.IHandlerResponse,Reservation.Identity.Service.Core.ITokenBusiness,Reservation.Identity.Service.Interfaces.IRoleServices)">
+            <inheritdoc />
+        </member>
+        <member name="M:Reservation.API.Controllers.Secuirty.RoleController.GetRoles(Reservation.Common.Parameters.GetAllRoleParameters)">
+            <summary>
+            Get All Roles
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Reservation.API.Controllers.Secuirty.RoleController.GetRole(System.String)">
+            <summary>
+            Get  Role by RoleId
+            </summary>
+            <param name="roleId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Reservation.API.Controllers.Secuirty.RoleController.AddRole(Reservation.Identity.Service.Dtos.GetRoleDto)">
+            <summary>
+            Add new Role
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Reservation.API.Controllers.Secuirty.RoleController.UpdateRole(Reservation.Identity.Service.Dtos.UpdateRoleDto)">
+             <summary>
+             Update Role
+             </summary>
+            <param name="model"></param>
+             <returns></returns>
+        </member>
+        <member name="M:Reservation.API.Controllers.Secuirty.RoleController.RemoveRoleById(System.String)">
+            <summary>
+            Remove Role by id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="T:Reservation.API.Extensions.ConfigureServicesExtensions">
             <summary>
             

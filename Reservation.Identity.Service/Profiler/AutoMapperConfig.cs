@@ -13,6 +13,7 @@ namespace Reservation.Identity.Service.Profiler
         {
             MappUsers();
             MappMenu();
+            MappRole();
         }
         private void MappUsers()
         {
@@ -22,6 +23,11 @@ namespace Reservation.Identity.Service.Profiler
         {
             CreateMap<Menu, IMenuDto>().ReverseMap();
         }
-        
+        private void MappRole()
+        {
+            CreateMap<AspNetRole, IRoleDto>().ReverseMap();
+            CreateMap<AspNetRole, IGetRoleDto>().ReverseMap();
+            CreateMap<AspNetRole, IUpdateRoleDto>().ReverseMap();
+        }
     }
 }

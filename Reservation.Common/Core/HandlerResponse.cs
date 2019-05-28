@@ -24,7 +24,6 @@ namespace Reservation.Common.Core
 
             return _result;
         }
-
         private bool HasError(Exception exception)
         {
             return exception != null;

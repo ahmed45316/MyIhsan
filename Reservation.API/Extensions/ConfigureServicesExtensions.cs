@@ -44,6 +44,8 @@ namespace Reservation.API.Extensions
             services.AddIdentiyUnitOfWork();
             services.RegisterIdentityAssemply();
             services.RegisterAutoMapper();
+            services.RegistersDtos();
+            services.RegisterMainCore();
             return services;
         }
 
@@ -52,18 +54,19 @@ namespace Reservation.API.Extensions
         {
             services.AddAutoMapper();
         }
-        private static void RegisterIdentityCores(this IServiceCollection services)
+        private static void RegisterMainCore(this IServiceCollection services)
         {
-            services.AddTransient(typeof(IBaseService<,>), typeof(BaseService<,>));
             services.AddTransient<IHandlerResponse, HandlerResponse>();
             services.AddTransient<IResponseResult, ResponseResult>();
-            services.AddTransient<IResult,Result>();
+            services.AddTransient<IResult, Result>();
+            services.AddTransient<IDataPagging, DataPagging>();
+        }
+        private static void RegisterIdentityCores(this IServiceCollection services)
+        {
+            services.AddTransient(typeof(IBaseService<,>), typeof(BaseService<,>));            
             services.AddTransient(typeof(IBusinessBaseParameter<>), typeof(BusinessBaseParameter<>));
             services.AddTransient<ITokenBusiness, TokenBusiness>();
-            services.AddTransient<IDecodingValidToken, DecodingValidToken>();
-            services.AddSingleton<IUserDto,UserDto>();
-            services.AddSingleton<IMenuDto, MenuDto>();
-            services.AddSingleton<IUserLoginReturn, UserLoginReturn>();
+            services.AddTransient<IDecodingValidToken, DecodingValidToken>();         
             services.AddSingleton<IDataInitialize, DataInitialize>();
         }
         private static void AddApiDocumentationServices(this IServiceCollection services)
@@ -99,10 +102,19 @@ namespace Reservation.API.Extensions
         }
         private static void RegisterIdentityAssemply(this IServiceCollection services)
         {
-            var assemblyToScan = Assembly.GetAssembly(typeof(LoginServices)); //..or whatever assembly you need
-            services.RegisterAssemblyPublicNonGenericClasses(assemblyToScan)
+            var servicesToScan = Assembly.GetAssembly(typeof(LoginServices)); //..or whatever assembly you need
+            services.RegisterAssemblyPublicNonGenericClasses(servicesToScan)
               .Where(c => c.Name.EndsWith("Services"))
               .AsPublicImplementedInterfaces();
+        }
+        private static void RegistersDtos(this IServiceCollection services)
+        {
+            services.AddSingleton<IUserDto, UserDto>();
+            services.AddSingleton<IRoleDto, RoleDto>();
+            services.AddSingleton<IGetRoleDto, GetRoleDto>();
+            services.AddSingleton<IUpdateRoleDto, UpdateRoleDto>();
+            services.AddSingleton<IMenuDto, MenuDto>();
+            services.AddSingleton<IUserLoginReturn, UserLoginReturn>();
         }
         private static void JWTSettings(this IServiceCollection services, IConfiguration _configuration)
         {
