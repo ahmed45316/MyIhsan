@@ -113,6 +113,14 @@
             <param name="roleName"></param>
             <returns></returns>
         </member>
+        <member name="M:Reservation.API.Controllers.Secuirty.RoleController.IsNameExists(System.String,System.String)">
+            <summary>
+            check Name is Exists
+            </summary>
+            <param name="name"></param>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="T:Reservation.API.Extensions.ConfigureServicesExtensions">
             <summary>
             

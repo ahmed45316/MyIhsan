@@ -79,6 +79,13 @@ namespace Reservation.Identity.Service.Services
                 await _unitOfWork.SaveChanges();
                 return ResponseResult.GetRepositoryActionResult(true, status: HttpStatusCode.Accepted, message: HttpStatusCode.Accepted.ToString());
         }
+        // Check IsExists
+        public async Task<IResponseResult> IsNameExists(string name, string id)
+        {
+            var res = await _unitOfWork.Repository.FirstOrDefault(q => q.Name == name && q.Id != id && !q.IsDeleted);
+            return ResponseResult.GetRepositoryActionResult(res != null, status: HttpStatusCode.Accepted, message: HttpStatusCode.Accepted.ToString());
+        }
+        //for test using stored procedure
         public IEnumerable<IRoleDto> GetRoleFromStored(string Name)
         {
             //another way to pass parameters

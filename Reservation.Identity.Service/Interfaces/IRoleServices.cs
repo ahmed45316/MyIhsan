@@ -16,5 +16,6 @@ namespace Reservation.Identity.Service.Interfaces
         Task<IResponseResult> UpdateRole(IUpdateRoleDto model);
         Task<IResponseResult> RemoveRoleById(string id);
         IEnumerable<IRoleDto> GetRoleFromStored(string Name);
+        Task<IResponseResult> IsNameExists(string name, string id);
     }
 }

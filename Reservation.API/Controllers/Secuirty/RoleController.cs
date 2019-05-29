@@ -93,5 +93,19 @@ namespace Reservation.API.Controllers.Secuirty
             var repositoryResult = _roleServices.GetRoleFromStored(roleName);
             return Ok(repositoryResult);
         }
+        /// <summary>
+        /// check Name is Exists
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [Route("IsNameExists/{name}/{id?}")]
+        [HttpGet]
+        public async Task<IResult> IsNameExists(string name, string id = null)
+        {
+            var repositoryResult = await _roleServices.IsNameExists(name,id);
+            var result = ResponseHandler.GetResult(repositoryResult);
+            return result;
+        }
     }
 }
