@@ -24,5 +24,6 @@ namespace Reservation.Identity.Service.Dtos
         public string AdminId { get; set; }
         public string VendorId { get; set; }
         public string ClientId { get; set; }
+        public string Roles { get; set; }
     }
 }

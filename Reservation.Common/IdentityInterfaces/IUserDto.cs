@@ -23,5 +23,6 @@ namespace Reservation.Common.IdentityInterfaces
         string AdminId { get; set; }
         string VendorId { get; set; }
         string ClientId { get; set; }
+        string Roles { get; set; }
     }
 }

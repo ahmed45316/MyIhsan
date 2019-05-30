@@ -179,6 +179,50 @@
         <member name="M:Reservation.API.Controllers.Secuirty.UserController.#ctor(Reservation.Common.Core.IHandlerResponse,Reservation.Identity.Service.Core.ITokenBusiness,Reservation.Identity.Service.Interfaces.IUserServices)">
             <inheritdoc />
         </member>
+        <member name="M:Reservation.API.Controllers.Secuirty.UserController.GetUsers(Reservation.Common.Parameters.GetAllUserParameters)">
+            <summary>
+            Get Users
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Reservation.API.Controllers.Secuirty.UserController.GetUser(System.String,System.String)">
+            <summary>
+            Get User by Id
+            </summary>
+            <param name="lang"></param>
+            <param name="Id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Reservation.API.Controllers.Secuirty.UserController.AddUser(Reservation.Identity.Service.Dtos.UserDto)">
+            <summary>
+            Add User
+            </summary>
+            <param name="userDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Reservation.API.Controllers.Secuirty.UserController.UpdateUser(Reservation.Identity.Service.Dtos.UserDto)">
+            <summary>
+            Update User
+            </summary>
+            <param name="userDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Reservation.API.Controllers.Secuirty.UserController.RemoveUserById(System.String)">
+            <summary>
+            Remove User by id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Reservation.API.Controllers.Secuirty.UserController.IsUsernameExists(System.String,System.Byte,System.String)">
+            <summary>
+            Check Fields IsExists
+            </summary>
+            <param name="name"></param>
+            <param name="type"></param>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="M:Reservation.API.Controllers.Secuirty.UserController.GetUsersSelect2(System.Int32,System.Int32,System.String)">
             <summary>
             Get Users Select2

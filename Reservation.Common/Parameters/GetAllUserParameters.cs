@@ -5,8 +5,8 @@ using System.Text;
 
 namespace Reservation.Common.Parameters
 {
-    public class GetAllRoleParameters: BaseParam
-    {        
-        public string RoleName { get; set; }
+    public class GetAllUserParameters: BaseParam
+    {
+        public string UserName { get; set; }
     }
 }
