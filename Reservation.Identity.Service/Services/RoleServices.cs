@@ -26,7 +26,7 @@ namespace Reservation.Identity.Service.Services
         }
         public async Task<IDataPagging> GetRoles(GetAllRoleParameters parameters)
         {
-                var roles = string.IsNullOrEmpty(parameters.RoleName) ?await _unitOfWork.Repository.Find(q => !q.IsDeleted && q.Id != "c21c91c0-5c2f-45cc-ab6d-1d256538a5ee", q => q.AspNetUsersRole) :await _unitOfWork.Repository.Find(q => !q.IsDeleted && q.Id != "c21c91c0-5c2f-45cc-ab6d-1d256538a5ee" && q.Name.Contains(parameters.RoleName), q => q.AspNetUsersRole);
+                var roles = string.IsNullOrEmpty(parameters.RoleName) ?await _unitOfWork.Repository.Find(q => !q.IsDeleted && q.Id != AdmistratorRoleId, q => q.AspNetUsersRole) :await _unitOfWork.Repository.Find(q => !q.IsDeleted && q.Id != AdmistratorRoleId && q.Name.Contains(parameters.RoleName), q => q.AspNetUsersRole);
                 var rolesPagging = roles.AsQueryable().OrderBy(parameters.OrderByValue).Skip(parameters.PageNumber).Take(parameters.PageSize).ToList();
                 if (!rolesPagging.Any())
                 {
@@ -94,5 +94,6 @@ namespace Reservation.Identity.Service.Services
             var roleDto = Mapper.Map<List<AspNetRole>, List<IRoleDto>>(role);
             return roleDto;
         }
+
     }
 }

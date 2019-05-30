@@ -107,5 +107,6 @@ namespace Reservation.API.Controllers.Secuirty
             var result = ResponseHandler.GetResult(repositoryResult);
             return result;
         }
+        
     }
 }

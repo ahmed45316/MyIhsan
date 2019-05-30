@@ -66,6 +66,58 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:Reservation.API.Controllers.Secuirty.PageController">
+            <inheritdoc />
+        </member>
+        <member name="M:Reservation.API.Controllers.Secuirty.PageController.#ctor(Reservation.Common.Core.IHandlerResponse,Reservation.Identity.Service.Core.ITokenBusiness,Reservation.Identity.Service.Interfaces.IMenuServices)">
+            <inheritdoc />
+        </member>
+        <member name="M:Reservation.API.Controllers.Secuirty.PageController.GetScreensSelect2(System.Int32,System.Int32,System.String,System.String)">
+            <summary>
+            Get Screens Select2
+            </summary>
+            <param name="pageSize"></param>
+            <param name="pageNumber"></param>
+            <param name="searchTerm"></param>
+            <param name="lang"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Reservation.API.Controllers.Secuirty.PageController.GetChildScreensSelect2(System.Int32,System.Int32,System.String,System.String,System.String)">
+            <summary>
+            Get child Screens Select2
+            </summary>
+            <param name="pageSize"></param>
+            <param name="pageNumber"></param>
+            <param name="parentId"></param>
+            <param name="searchTerm"></param>
+            <param name="lang"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Reservation.API.Controllers.Secuirty.PageController.GetScreenData(System.String,System.String,System.String)">
+            <summary>
+            Get Screen NotSelected
+            </summary>
+            <param name="roleId"></param>
+            <param name="menuId"></param>
+            <param name="childId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Reservation.API.Controllers.Secuirty.PageController.GetScreenDataSelected(System.String,System.String,System.String)">
+            <summary>
+            Get Screen Selected
+            </summary>
+            <param name="roleId"></param>
+            <param name="menuId"></param>
+            <param name="childId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Reservation.API.Controllers.Secuirty.PageController.SaveScreens(Reservation.Common.Parameters.ScreensAssignedParameters)">
+            <summary>
+            Save Screens
+            </summary>
+            <param name="parameters"></param>
+            <returns></returns>
+        </member>
         <member name="T:Reservation.API.Controllers.Secuirty.RoleController">
             <inheritdoc />
         </member>
@@ -119,6 +171,35 @@
             </summary>
             <param name="name"></param>
             <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Reservation.API.Controllers.Secuirty.UserController">
+            <inheritdoc />
+        </member>
+        <member name="M:Reservation.API.Controllers.Secuirty.UserController.#ctor(Reservation.Common.Core.IHandlerResponse,Reservation.Identity.Service.Core.ITokenBusiness,Reservation.Identity.Service.Interfaces.IUserServices)">
+            <inheritdoc />
+        </member>
+        <member name="M:Reservation.API.Controllers.Secuirty.UserController.GetUsersSelect2(System.Int32,System.Int32,System.String)">
+            <summary>
+            Get Users Select2
+            </summary>
+            <param name="pageSize"></param>
+            <param name="pageNumber"></param>
+            <param name="searchTerm"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Reservation.API.Controllers.Secuirty.UserController.GetUserAssigned(System.String)">
+            <summary>
+            Get users to assigned to Role 
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Reservation.API.Controllers.Secuirty.UserController.SaveUserAssigned(Reservation.Common.Parameters.AssignUserOnRoleParameters)">
+            <summary>
+            Save User assigned
+            </summary>
+            <param name="parameters"></param>
             <returns></returns>
         </member>
         <member name="T:Reservation.API.Extensions.ConfigureServicesExtensions">

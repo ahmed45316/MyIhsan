@@ -1,7 +1,10 @@
 ﻿using Reservation.Common.Core;
 using Reservation.Common.IdentityInterfaces;
+using Reservation.Common.OptionModel;
+using Reservation.Common.Parameters;
 using Reservation.Identity.Entities.Entities;
 using Reservation.Identity.Service.Core;
+using Reservation.Identity.Service.Dtos;
 using Reservation.Identity.Service.Interfaces;
 using Reservation.Identity.Service.UnitOfWork;
 using System;
@@ -17,10 +20,16 @@ namespace Reservation.Identity.Service.Services
     {
         private readonly IIdentityUnitOfWork<AspNetUser> _userUnitOfWork;
         private readonly IIdentityUnitOfWork<AspNetRole> _roleUnitOfWork;
-        public MenuServices(IBusinessBaseParameter<Menu> businessBaseParameter, IIdentityUnitOfWork<AspNetUser> userUnitOfWork, IIdentityUnitOfWork<AspNetRole> roleUnitOfWork) : base(businessBaseParameter)
+        private readonly IIdentityUnitOfWork<MenuRole> _menuRoleUnitOfWork;
+        private readonly List<string> _menuIdList;
+        private readonly List<string> _menuIdSelectedList;
+        public MenuServices(IBusinessBaseParameter<Menu> businessBaseParameter, IIdentityUnitOfWork<AspNetUser> userUnitOfWork, IIdentityUnitOfWork<AspNetRole> roleUnitOfWork, IIdentityUnitOfWork<MenuRole> menuRoleUnitOfWork) : base(businessBaseParameter)
         {
             _userUnitOfWork = userUnitOfWork;
             _roleUnitOfWork = roleUnitOfWork;
+            _menuRoleUnitOfWork = menuRoleUnitOfWork;
+            _menuIdList = new List<string>();
+            _menuIdSelectedList = new List<string>();
         }
 
         public async Task<IResponseResult> GetMenu(string userId)
@@ -141,6 +150,168 @@ namespace Reservation.Identity.Service.Services
             }
             var menuDto = Mapper.Map<List<Menu>, List<IMenuDto>>(data);
             return ResponseResult.GetRepositoryActionResult(menuDto, status: HttpStatusCode.OK, message: HttpStatusCode.OK.ToString()); ;
+        }
+        //Screens
+        public async Task<Select2PagedResult> GetScreensSelect2(string searchTerm, int pageSize, int pageNumber, string lang)
+        {
+            var entityData = !string.IsNullOrEmpty(searchTerm) ? await _unitOfWork.Repository.Find(n => !n.IsStop && n.ParentId == null && n.ScreenNameAr.ToLower().Contains(searchTerm.ToLower())) :await _unitOfWork.Repository.Find(n => !n.IsStop && n.ParentId == null);
+            var result = entityData.OrderBy(q => q.Id).Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(q => new Select2OptionModel { id = q.Id, text = lang == "ar-EG" ? q.ScreenNameAr : q.ScreenNameEn }).ToList();
+            var select2pagedResult = new Select2PagedResult();
+            select2pagedResult.Total = entityData.Count();
+            select2pagedResult.Results = result;
+            return select2pagedResult;
+        }
+        public async Task<Select2PagedResult> GetChildScreensSelect2(string searchTerm, int pageSize, int pageNumber, string parentId, string lang)
+        {
+            var entityData = !string.IsNullOrEmpty(searchTerm) ?await _unitOfWork.Repository.Find(n => !n.IsStop && n.ParentId == parentId && n.ScreenNameAr.ToLower().Contains(searchTerm.ToLower())) :await _unitOfWork.Repository.Find(n => !n.IsStop && n.ParentId == parentId);
+            var result = entityData.OrderBy(q => q.Id).Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(q => new Select2OptionModel { id = q.Id, text = lang == "ar-EG" ? q.ScreenNameAr : q.ScreenNameEn }).ToList();
+            var select2pagedResult = new Select2PagedResult();
+            select2pagedResult.Total = entityData.Count();
+            select2pagedResult.Results = result;
+            return select2pagedResult;
+        }
+        public async Task<IResponseResult> GetScreens(string roleId, string menuId, string childId)
+        {
+            var screenDto = new List<ScreenDto>();
+            var role =await _roleUnitOfWork.Repository.FirstOrDefault(q => q.Id == roleId, q => q.Menu);
+            var dataAssigned = role.Menu.Select(q => q.MenuId).ToList();
+            if (string.IsNullOrEmpty(menuId) || menuId == "null")
+            {
+                var menuu = await _unitOfWork.Repository.Find(q => !q.IsStop && !dataAssigned.Contains(q.Id), q => q.Children, q => q.Parent);
+                var dtAll = menuu.Where(s => s.Children.Count == 0).Distinct().ToList();
+                foreach (var item in dtAll)
+                {
+                    var screen = new ScreenDto()
+                    {
+                        Id = item.Id,
+                        ScreenNameAr = item.Parent == null ? item.ScreenNameAr : item.Parent.ScreenNameAr + ">" + item.ScreenNameAr,
+                        ScreenNameEn = item.Parent == null ? item.ScreenNameEn : item.Parent.ScreenNameEn + ">" + item.ScreenNameEn
+                    };
+                    screenDto.Add(screen);
+                }
+                return ResponseResult.GetRepositoryActionResult(screenDto,status: HttpStatusCode.OK,message: HttpStatusCode.OK.ToString());
+            }
+            var parent = new Menu();
+            if (string.IsNullOrEmpty(childId) || childId == "null")
+            {
+                parent = await _unitOfWork.Repository.FirstOrDefault(q => !q.IsStop && q.Id == menuId, q => q.Children);
+            }
+            else
+            {
+                parent = await _unitOfWork.Repository.FirstOrDefault(q => !q.IsStop && q.Id == childId, q => q.Children);
+            }
+            var idss = parent.Children.Select(q => q.Id).ToList();
+            _menuIdList.Add(parent.Id); _menuIdList.AddRange(idss);
+            await GetChilds(idss);
+            var MenuIdsPass = _menuIdList.Distinct().ToList();
+            var dataRes =await _unitOfWork.Repository.Find(q => !q.IsStop && !dataAssigned.Contains(q.Id) && MenuIdsPass.Contains(q.Id), q => q.Children, q => q.Parent);
+            var data = dataRes.Where(s => s.Children.Count == 0).Distinct().ToList();
+
+            foreach (var item in data)
+            {
+                var screen = new ScreenDto()
+                {
+                    Id = item.Id,
+                    ScreenNameAr = item.Parent == null ? item.ScreenNameAr : item.Parent.ScreenNameAr + ">" + item.ScreenNameAr,
+                    ScreenNameEn = item.Parent == null ? item.ScreenNameEn : item.Parent.ScreenNameEn + ">" + item.ScreenNameEn
+                };
+                screenDto.Add(screen);
+            }
+            return ResponseResult.GetRepositoryActionResult(screenDto,status: HttpStatusCode.OK,message: HttpStatusCode.OK.ToString());
+        }
+        public async Task<IResponseResult> GetScreensSelected(string roleId, string menuId, string childId)
+        {
+            var screenDto = new List<ScreenDto>();
+            if (string.IsNullOrEmpty(menuId) || menuId == "null")
+            {
+                var role =await _roleUnitOfWork.Repository.FirstOrDefault(q => q.Id == roleId, q => q.Menu);
+                var dataAssigned = role.Menu.Select(q => q.MenuId).ToList();
+                var dataRes =await _unitOfWork.Repository.Find(q => !q.IsStop && dataAssigned.Contains(q.Id), q => q.Children, q => q.Parent);
+                var data= dataRes.Where(s => s.Children.Count == 0).Distinct().ToList();
+                foreach (var item in data)
+                {
+                    var screen = new ScreenDto()
+                    {
+                        Id = item.Id,
+                        ScreenNameAr = item.Parent == null ? item.ScreenNameAr : item.Parent.ScreenNameAr + ">" + item.ScreenNameAr,
+                        ScreenNameEn = item.Parent == null ? item.ScreenNameEn : item.Parent.ScreenNameEn + ">" + item.ScreenNameEn
+                    };
+                    screenDto.Add(screen);
+                }
+            }
+            else
+            {
+                var role =await _roleUnitOfWork.Repository.FirstOrDefault(q => q.Id == roleId, q => q.Menu);
+                var parent = new Menu();
+                if (string.IsNullOrEmpty(childId) || childId == "null")
+                {
+                    parent =await _unitOfWork.Repository.FirstOrDefault(q => !q.IsStop && q.Id == menuId, q => q.Children);
+                }
+                else
+                {
+                    parent =await _unitOfWork.Repository.FirstOrDefault(q => !q.IsStop && q.Id == childId, q => q.Children);
+                }
+                var idss = parent.Children.Select(q => q.Id).ToList();
+                _menuIdSelectedList.Add(parent.Id); _menuIdSelectedList.AddRange(idss);
+                await GetChildsSelected(idss);
+                var dataAssigned = role.Menu.Select(q => q.MenuId).ToList();
+                var dataQuery = await _unitOfWork.Repository.Find(q => !q.IsStop && dataAssigned.Contains(q.Id), q => q.Children, q => q.Parent);
+                var data= dataQuery.Where(s => s.Children.Count == 0).Distinct().ToList();
+                foreach (var item in data)
+                {
+                    if (_menuIdSelectedList.Contains(item.Id))
+                    {
+                        var screen = new ScreenDto()
+                        {
+                            Id = item.Id,
+                            ScreenNameAr = item.Parent == null ? item.ScreenNameAr : item.Parent.ScreenNameAr + ">" + item.ScreenNameAr,
+                            ScreenNameEn = item.Parent == null ? item.ScreenNameEn : item.Parent.ScreenNameEn + ">" + item.ScreenNameEn
+                        };
+                        screenDto.Add(screen);
+                    }
+                }
+            }
+
+            return ResponseResult.GetRepositoryActionResult(screenDto,status: HttpStatusCode.OK,message:HttpStatusCode.OK.ToString());
+        }
+        public async Task<IResponseResult> SaveScreens(ScreensAssignedParameters parameters)
+        {
+            if (parameters.ScreenAssigned != null)
+            {
+                foreach (var ScreenId in parameters.ScreenAssigned)
+                {
+                    var isExists = await _menuRoleUnitOfWork.Repository.FirstOrDefault(q => q.MenuId == ScreenId && q.RoleId == parameters.RoleId) != null;
+                    if (!isExists)
+                    {
+                        var obj = new MenuRole() { Id = Guid.NewGuid().ToString(), RoleId = parameters.RoleId, MenuId = ScreenId };
+                        _menuRoleUnitOfWork.Repository.Add(obj);
+                    }
+                }
+            }
+            if (parameters.ScreenAssignedRemove != null)
+            {
+                var dataRemoved = await _menuRoleUnitOfWork.Repository.Find(q => parameters.ScreenAssignedRemove.Contains(q.MenuId) && q.RoleId == parameters.RoleId);
+                _menuRoleUnitOfWork.Repository.RemoveRange(dataRemoved);
+            }
+
+            await _menuRoleUnitOfWork.SaveChanges();
+            return ResponseResult.GetRepositoryActionResult(true,status: HttpStatusCode.Created,message: HttpStatusCode.Created.ToString());
+        }
+        private async Task GetChilds(List<string> menuId)
+        {
+            var child =await _unitOfWork.Repository.Find(q => menuId.Contains(q.Id), q => q.Children);
+            var res = child.SelectMany(p => p.Children.Select(q => q.Id)).ToList();
+            _menuIdList.AddRange(res);
+            var dd = child.Select(q => q.Children.Any()).Where(d => d == true).ToList();
+            if (dd.Any()) await GetChilds(res);
+        }
+        private async Task GetChildsSelected(List<string> menuId)
+        {
+            var child = await _unitOfWork.Repository.Find(q => menuId.Contains(q.Id), q => q.Children);
+            var res = child.SelectMany(p => p.Children.Select(q => q.Id)).ToList();
+            _menuIdSelectedList.AddRange(res);
+            var dd = child.Select(q => q.Children.Any()).Where(d => d == true).ToList();
+            if (dd.Any())await GetChildsSelected(res);
         }
         //private async IEnumerable<Menu> GetChildern(IEnumerable<Menu> menus)
         //{

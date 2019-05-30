@@ -110,6 +110,7 @@ namespace Reservation.API.Extensions
         private static void RegistersDtos(this IServiceCollection services)
         {
             services.AddSingleton<IUserDto, UserDto>();
+            services.AddSingleton<IScreenDto, ScreenDto>();
             services.AddSingleton<IRoleDto, RoleDto>();
             services.AddSingleton<IGetRoleDto, GetRoleDto>();
             services.AddSingleton<IUpdateRoleDto, UpdateRoleDto>();

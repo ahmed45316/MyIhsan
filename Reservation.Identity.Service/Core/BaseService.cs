@@ -18,6 +18,8 @@ namespace Reservation.Identity.Service.Core
         protected readonly IMapper Mapper;
         protected readonly IResponseResult ResponseResult;
         protected TDto currentModel { get; set; }
+        protected const string AdmistratorId = "c21c91c0-5c2f-45cc-ab6d-1d256538a4ee";
+        protected const string AdmistratorRoleId = "c21c91c0-5c2f-45cc-ab6d-1d256538a5ee";
         protected IResponseResult result;
         protected internal BaseService(IBusinessBaseParameter<T> businessBaseParameter)
         {
