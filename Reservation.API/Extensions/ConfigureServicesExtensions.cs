@@ -43,17 +43,12 @@ namespace Reservation.API.Extensions
             services.RegisterIdentityCores();
             services.AddIdentiyUnitOfWork();
             services.RegisterIdentityAssemply();
-            services.RegisterAutoMapper();
+            services.AddAutoMapper();
             services.RegistersDtos();
             services.RegisterMainCore();
             return services;
         }
 
-        [Obsolete]
-        private static void RegisterAutoMapper(this IServiceCollection services)
-        {
-            services.AddAutoMapper();
-        }
         private static void RegisterMainCore(this IServiceCollection services)
         {
             services.AddTransient<IHandlerResponse, HandlerResponse>();
