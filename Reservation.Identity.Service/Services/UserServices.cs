@@ -43,7 +43,7 @@ namespace Reservation.Identity.Service.Services
             var usersDto = Mapper.Map<IEnumerable<AspNetUser>, IEnumerable<IUserDto>>(usesrPagging);
             foreach (var item in usersDto)
             {
-                var rolesUserHave = await _usersRoleUnitOfWork.Repository.Find(q => roleIdList.Contains(q.Id) && q.UserId == item.Id);
+                var rolesUserHave = await _usersRoleUnitOfWork.Repository.Find(q => roleIdList.Contains(q.RoleId) && q.UserId == item.Id);
                 var userRoleList = rolesUserHave.Select(q => q.RoleId).ToList();
                 var role = rolesHave.Where(q => userRoleList.Contains(q.Id)).Select(p => p.Name).ToList();
                 item.Roles = (role == null || role.Count == 0) ? null : String.Join(",", role.ToArray());

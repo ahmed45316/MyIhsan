@@ -127,7 +127,7 @@ namespace Reservation.API.Controllers.Secuirty
         /// <param name="parameters"></param>
         /// <returns></returns>
         [HttpPost("SaveUserAssigned")]
-        public async Task<IResult> SaveUserAssigned(AssignUserOnRoleParameters parameters)
+        public async Task<IResult> SaveUserAssigned([FromForm]AssignUserOnRoleParameters parameters)
         {
             var repositoryResult = await _userServices.SaveUserAssigned(parameters);
             var result = ResponseHandler.GetResult(repositoryResult);
