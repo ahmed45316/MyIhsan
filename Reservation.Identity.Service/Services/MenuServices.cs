@@ -173,11 +173,11 @@ namespace Reservation.Identity.Service.Services
         public async Task<IResponseResult> GetScreens(string roleId, string menuId, string childId)
         {
             var screenDto = new List<ScreenDto>();
-            var role = _roleUnitOfWork.Repository.FirstOrDefault(q => q.Id == roleId, q => q.Menu);
+            var role = await _roleUnitOfWork.Repository.FirstOrDefault(q => q.Id == roleId, q => q.Menu);
             var dataAssigned = role.Menu.Select(q => q.MenuId).ToList();
             if (string.IsNullOrEmpty(menuId) || menuId == "null")
             {
-                var menuu =  _unitOfWork.Repository.Find(q => !q.IsStop && !dataAssigned.Contains(q.Id), q => q.Children, q => q.Parent);
+                var menuu = await _unitOfWork.Repository.Find(q => !q.IsStop && !dataAssigned.Contains(q.Id), q => q.Children, q => q.Parent);
                 var dtAll = menuu.Where(s => s.Children.Count == 0).Distinct().ToList();
                 foreach (var item in dtAll)
                 {
