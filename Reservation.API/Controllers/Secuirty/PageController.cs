@@ -5,18 +5,15 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Reservation.API.Controllers.Base;
-using Reservation.Common.Core;
-using Reservation.Common.Parameters;
-using Reservation.Identity.Service.Core;
-using Reservation.Identity.Service.Interfaces;
+using MyIhsan.API.Controllers.Base;
+using MyIhsan.Common.Core;
+using MyIhsan.Common.Parameters;
+using MyIhsan.Identity.Service.Core;
+using MyIhsan.Identity.Service.Interfaces;
 
-namespace Reservation.API.Controllers.Secuirty
+namespace MyIhsan.API.Controllers.Secuirty
 {
     /// <inheritdoc />
-    [Route("[controller]")]
-    [ApiController]
-    [Authorize]
     public class PageController : BaseMainController
     {
         private readonly IMenuServices _menuServices;
@@ -33,7 +30,7 @@ namespace Reservation.API.Controllers.Secuirty
         /// <param name="searchTerm"></param>
         /// <param name="lang"></param>
         /// <returns></returns>
-        [HttpGet("GetScreensSelect2")]
+        [HttpGet]
         public async Task<IActionResult> GetScreensSelect2(int pageSize, int pageNumber, string searchTerm = null, string lang = "ar-EG")
         {
             return Ok(await _menuServices.GetScreensSelect2(searchTerm, pageSize, pageNumber, lang));
@@ -47,7 +44,7 @@ namespace Reservation.API.Controllers.Secuirty
         /// <param name="searchTerm"></param>
         /// <param name="lang"></param>
         /// <returns></returns>
-        [HttpGet("GetChildScreensSelect2")]
+        [HttpGet]
         public async Task<IActionResult> GetChildScreensSelect2(int pageSize, int pageNumber, string parentId, string searchTerm = null, string lang = "ar-EG")
         {
             return Ok(await _menuServices.GetChildScreensSelect2(searchTerm, pageSize, pageNumber, parentId, lang));
@@ -59,7 +56,7 @@ namespace Reservation.API.Controllers.Secuirty
         /// <param name="menuId"></param>
         /// <param name="childId"></param>
         /// <returns></returns>
-        [HttpGet("GetScreenData/{roleId}/{menuId?}/{childId?}")]
+        [HttpGet("{roleId}/{menuId?}/{childId?}")]
         public async Task<IResult> GetScreenData(string roleId, string menuId = null, string childId = null)
         {
             var repositoryResult = await _menuServices.GetScreens(roleId, menuId, childId);
@@ -73,7 +70,7 @@ namespace Reservation.API.Controllers.Secuirty
         /// <param name="menuId"></param>
         /// <param name="childId"></param>
         /// <returns></returns>
-        [HttpGet("GetScreenDataSelected/{roleId}/{menuId?}/{childId?}")]
+        [HttpGet("{roleId}/{menuId?}/{childId?}")]
         public async Task<IResult> GetScreenDataSelected(string roleId, string menuId = null, string childId = null)
         {
             var repositoryResult = await _menuServices.GetScreensSelected(roleId, menuId, childId);
@@ -85,7 +82,7 @@ namespace Reservation.API.Controllers.Secuirty
         /// </summary>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        [HttpPost("SaveScreens")]
+        [HttpPost]
         public async Task<IResult> SaveScreens([FromForm]ScreensAssignedParameters parameters)
         {
             var repositoryResult = await _menuServices.SaveScreens(parameters);

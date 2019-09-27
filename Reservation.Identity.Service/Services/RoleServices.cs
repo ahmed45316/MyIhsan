@@ -1,66 +1,63 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Reservation.Common.Core;
-using Reservation.Common.Extensions;
-using Reservation.Common.IdentityInterfaces;
-using Reservation.Common.Parameters;
-using Reservation.Identity.Data.Context;
-using Reservation.Identity.Data.SeedData;
-using Reservation.Identity.Entities.Entities;
-using Reservation.Identity.Service.Core;
-using Reservation.Identity.Service.Interfaces;
+using MyIhsan.Identity.Service.Core;
+using MyIhsan.Identity.Service.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using MyIhsan.Identity.Service.Dtos;
+using MyIhsan.Common.Parameters;
+using MyIhsan.Common.Core;
 
-namespace Reservation.Identity.Service.Services
+namespace MyIhsan.Identity.Service.Services
 {
-    public class RoleServices : BaseService<AspNetRole, IRoleDto>, IRoleServices
+    public class RoleServices : BaseService<RoleDto, RoleDto>, IRoleServices
     {
-        public RoleServices(IBusinessBaseParameter<AspNetRole> businessBaseParameter) : base(businessBaseParameter)
+        public RoleServices(IBusinessBaseParameter<RoleDto> businessBaseParameter) : base(businessBaseParameter)
         {
 
         }
         public async Task<IDataPagging> GetRoles(GetAllRoleParameters parameters)
         {
-                var roles = string.IsNullOrEmpty(parameters.RoleName) ?await _unitOfWork.Repository.Find(q => !q.IsDeleted && q.Id != AdmistratorRoleId, q => q.AspNetUsersRole) :await _unitOfWork.Repository.Find(q => !q.IsDeleted && q.Id != AdmistratorRoleId && q.Name.Contains(parameters.RoleName), q => q.AspNetUsersRole);
-                var rolesPagging = roles.AsQueryable().OrderBy(parameters.OrderByValue).Skip(parameters.PageNumber).Take(parameters.PageSize).ToList();
-                if (!rolesPagging.Any())
-                {
-                    var res = ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.NoContent, message: HttpStatusCode.NoContent.ToString());
-                    return new DataPagging(0,0,0,res);
-                };
-                var RolesDto = Mapper.Map<IEnumerable<AspNetRole>, IEnumerable<IGetRoleDto>>(rolesPagging);
-                var repoResult = ResponseResult.GetRepositoryActionResult(RolesDto,status: HttpStatusCode.OK, message: HttpStatusCode.OK.ToString());
-                return new DataPagging(parameters.PageNumber, parameters.PageSize, roles.Count(), repoResult);           
+            //    var roles = string.IsNullOrEmpty(parameters.RoleName) ?await _unitOfWork.Repository.Find(q => !q.IsDeleted && q.Id != AdmistratorRoleId, q => q.AspNetUsersRole) :await _unitOfWork.Repository.Find(q => !q.IsDeleted && q.Id != AdmistratorRoleId && q.Name.Contains(parameters.RoleName), q => q.AspNetUsersRole);
+            //var rolesPagging = roles.AsQueryable().ToList();//.OrderBy(parameters.OrderByValue).Skip(parameters.PageNumber).Take(parameters.PageSize).ToList();
+            //    if (!rolesPagging.Any())
+            //    {
+            //        var res = ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.NoContent, message: HttpStatusCode.NoContent.ToString());
+            //        return new DataPagging(0,0,0,res);
+            //    };
+            //    var RolesDto = Mapper.Map<IEnumerable<GetRoleDto>>(rolesPagging);
+            //    var repoResult = ResponseResult.GetRepositoryActionResult(RolesDto,status: HttpStatusCode.OK, message: HttpStatusCode.OK.ToString());
+            //    return new DataPagging(parameters.PageNumber, parameters.PageSize, roles.Count(), repoResult);         
+            return null;
         }
         public async Task<IResponseResult> GetRole(string Id)
         {
            
                 var role =await _unitOfWork.Repository.Get(Id);
                 if (role == null) return ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.NoContent, message: HttpStatusCode.NoContent.ToString());
-                var roleDto = Mapper.Map<AspNetRole, IGetRoleDto>(role);
+                var roleDto = Mapper.Map<GetRoleDto>(role);
                 return ResponseResult.GetRepositoryActionResult(roleDto,status: HttpStatusCode.OK, message: HttpStatusCode.OK.ToString());
         }
-        public async Task<IResponseResult> AddRole(IGetRoleDto model)
+        public async Task<IResponseResult> AddRole(GetRoleDto model)
         {
                 if (model == null) return ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.NoContent, message: HttpStatusCode.NoContent.ToString());
-                var role = Mapper.Map<IGetRoleDto, AspNetRole>(model);
+                var role = Mapper.Map<RoleDto>(model);
                 var isExist = await _unitOfWork.Repository.FirstOrDefault(q => q.Name == model.Name && !q.IsDeleted) != null;
                 if (isExist) return ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.BadRequest, message: HttpStatusCode.BadRequest.ToString());
                 role.Id = Guid.NewGuid().ToString();
                 var roleAdded = _unitOfWork.Repository.Add(role);
                 await _unitOfWork.SaveChanges();
-                var roleDto = Mapper.Map<AspNetRole, IGetRoleDto>(roleAdded);
+                var roleDto = Mapper.Map<GetRoleDto>(roleAdded);
                 return ResponseResult.GetRepositoryActionResult(roleDto, status: HttpStatusCode.OK, message: HttpStatusCode.OK.ToString());           
         }
-        public async Task<IResponseResult> UpdateRole(IUpdateRoleDto model)
+        public async Task<IResponseResult> UpdateRole(UpdateRoleDto model)
         {
                 if (model == null) return ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.NoContent, message: HttpStatusCode.NoContent.ToString());
-                var role = Mapper.Map<IUpdateRoleDto, AspNetRole>(model);
+                var role = Mapper.Map<RoleDto>(model);
                 var isExist = await _unitOfWork.Repository.FirstOrDefault(q => q.Name == model.Name && q.Id != model.Id && !q.IsDeleted) != null;
                 if (isExist) return ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.BadRequest, message: HttpStatusCode.BadRequest.ToString());
                 _unitOfWork.Repository.Update(role, role.Id);
@@ -70,14 +67,15 @@ namespace Reservation.Identity.Service.Services
         }
         public async Task<IResponseResult> RemoveRoleById(string id)
         {
-                if (id == null) return ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.NoContent, message: HttpStatusCode.NoContent.ToString());
-                var role = await _unitOfWork.Repository.FirstOrDefault(q => q.Id == id, q => q.AspNetUsersRole, q => q.Menu);
-                if (role.AspNetUsersRole.Count > 0 || role.Menu.Count > 0)
-                    return ResponseResult.GetRepositoryActionResult(false,status: HttpStatusCode.Forbidden, message: HttpStatusCode.Forbidden.ToString());
-                role.IsDeleted = true;
-                _unitOfWork.Repository.Update(role, role.Id);
-                await _unitOfWork.SaveChanges();
-                return ResponseResult.GetRepositoryActionResult(true, status: HttpStatusCode.Accepted, message: HttpStatusCode.Accepted.ToString());
+            //if (id == null) return ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.NoContent, message: HttpStatusCode.NoContent.ToString());
+            //var role = await _unitOfWork.Repository.FirstOrDefault(q => q.Id == id, q => q.AspNetUsersRole, q => q.Menu);
+            //if (role.AspNetUsersRole.Count > 0 || role.Menu.Count > 0)
+            //    return ResponseResult.GetRepositoryActionResult(false,status: HttpStatusCode.Forbidden, message: HttpStatusCode.Forbidden.ToString());
+            //role.IsDeleted = true;
+            //_unitOfWork.Repository.Update(role, role.Id);
+            //await _unitOfWork.SaveChanges();
+            //return ResponseResult.GetRepositoryActionResult(true, status: HttpStatusCode.Accepted, message: HttpStatusCode.Accepted.ToString());
+            return null;
         }
         // Check IsExists
         public async Task<IResponseResult> IsNameExists(string name, string id)
@@ -86,13 +84,14 @@ namespace Reservation.Identity.Service.Services
             return ResponseResult.GetRepositoryActionResult(res != null, status: HttpStatusCode.Accepted, message: HttpStatusCode.Accepted.ToString());
         }
         //for test using stored procedure
-        public IEnumerable<IRoleDto> GetRoleFromStored(string Name)
+        public IEnumerable<RoleDto> GetRoleFromStored(string Name)
         {
             //another way to pass parameters
             //context.Database.ExecuteSqlCommand("GetRoles @p0, @p1", parameters: new[] { Name, "b" })
-            var role = _unitOfWork.IdentityDbContext.AspNetRoles.FromSql($"GetRoles {Name}").ToList();
-            var roleDto = Mapper.Map<List<AspNetRole>, List<IRoleDto>>(role);
-            return roleDto;
+            //var role = _unitOfWork.IdentityDbContext.AspNetRoles.FromSql($"GetRoles {Name}").ToList();
+            //var roleDto = Mapper.Map<List<RoleDto>>(role);
+            //return roleDto;
+            return null;
         }
 
     }

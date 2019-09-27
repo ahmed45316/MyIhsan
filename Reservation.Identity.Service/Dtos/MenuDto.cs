@@ -1,11 +1,10 @@
-﻿using Reservation.Common.IdentityInterfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Reservation.Identity.Service.Dtos
+namespace MyIhsan.Identity.Service.Dtos
 {
-    public class MenuDto : IMenuDto
+    public class MenuDto 
     {
         public string Id { get; set; }
         public string ScreenNameAr { get; set; }
@@ -16,6 +15,6 @@ namespace Reservation.Identity.Service.Dtos
         public string Parameters { get; set; }
         public string Icon { get; set; }
         public int ItsOrder { get; set; }
-        public List<IMenuDto> Children { get; set; }
+        public List<MenuDto> Children { get; set; }
     }
 }

@@ -1,11 +1,10 @@
-﻿using Reservation.Common.IdentityInterfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Reservation.Identity.Service.Dtos
+namespace MyIhsan.Identity.Service.Dtos
 {
-    public class UserLoginReturn : IUserLoginReturn
+    public class UserLoginReturn 
     {
         public string Token { get; set; }
         public string RefreshToken { get; set; }

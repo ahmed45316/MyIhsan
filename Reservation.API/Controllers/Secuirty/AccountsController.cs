@@ -1,23 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Reservation.API.Controllers.Base;
-using Reservation.Common.Core;
-using Reservation.Common.IdentityInterfaces;
-using Reservation.Common.Parameters;
-using Reservation.Identity.Entities.Entities;
-using Reservation.Identity.Service.Core;
-using Reservation.Identity.Service.Interfaces;
+using MyIhsan.API.Controllers.Base;
+using MyIhsan.Common.Core;
+using MyIhsan.Common.Parameters;
+using MyIhsan.Identity.Service.Core;
+using MyIhsan.Identity.Service.Interfaces;
 
-namespace Reservation.API.Controllers.Secuirty
+namespace MyIhsan.API.Controllers.Secuirty
 {
     /// <inheritdoc />
-    [Route("[controller]")]
-    [ApiController]
     public class AccountsController : BaseMainController
     {
         private readonly ILoginServices _loginServices;
@@ -36,7 +29,7 @@ namespace Reservation.API.Controllers.Secuirty
         /// </summary>
         /// <param name="parameter"></param>
         /// <returns></returns>
-        [HttpPost(nameof(Login))]
+        [HttpPost]
         [AllowAnonymous]
         public async Task<IResult> Login(LoginParameters parameter)
         {
@@ -48,8 +41,7 @@ namespace Reservation.API.Controllers.Secuirty
         /// Get Menu
         /// </summary>
         /// <returns></returns>
-        [HttpGet(nameof(GetMenu))]
-        [Authorize]
+        [HttpGet]
         public async Task<IResult> GetMenu()
         {
             var userId = User.Claims.First(t => t.Type == "UserId").Value;

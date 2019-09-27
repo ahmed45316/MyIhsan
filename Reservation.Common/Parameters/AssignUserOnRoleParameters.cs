@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Reservation.Common.Parameters
+namespace MyIhsan.Common.Parameters
 {
     public class AssignUserOnRoleParameters
     {

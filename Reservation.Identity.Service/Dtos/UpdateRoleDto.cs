@@ -1,11 +1,10 @@
-﻿using Reservation.Common.IdentityInterfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Reservation.Identity.Service.Dtos
+namespace MyIhsan.Identity.Service.Dtos
 {
-    public class UpdateRoleDto : IUpdateRoleDto
+    public class UpdateRoleDto
     {
         public bool IsBlock { get; set; }
         public string Name { get; set; }

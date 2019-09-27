@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
-using Reservation.Common.Core;
-using Reservation.Identity.Service.UnitOfWork;
+using MyIhsan.Common.Core;
+using MyIhsan.Identity.Service.UnitOfWork;
 using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Reservation.Identity.Service.Core
+namespace MyIhsan.Identity.Service.Core
 {
    
     public class BaseService<T,TDto> :IBaseService<T,TDto>

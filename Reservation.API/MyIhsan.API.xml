@@ -1,0 +1,289 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MyIhsan.API</name>
+    </assembly>
+    <members>
+        <member name="T:MyIhsan.API.Controllers.Base.BaseMainController">
+            <inheritdoc />
+        </member>
+        <member name="F:MyIhsan.API.Controllers.Base.BaseMainController.TokenBusiness">
+            <inheritdoc />
+        </member>
+        <member name="F:MyIhsan.API.Controllers.Base.BaseMainController.ResponseHandler">
+            <inheritdoc />
+        </member>
+        <member name="M:MyIhsan.API.Controllers.Base.BaseMainController.#ctor(MyIhsan.Common.Core.IHandlerResponse)">
+            <inheritdoc />
+        </member>
+        <member name="M:MyIhsan.API.Controllers.Base.BaseMainController.#ctor(MyIhsan.Common.Core.IHandlerResponse,MyIhsan.Identity.Service.Core.ITokenBusiness)">
+            <inheritdoc />
+        </member>
+        <member name="T:MyIhsan.API.Controllers.Secuirty.AccountsController">
+            <inheritdoc />
+        </member>
+        <member name="M:MyIhsan.API.Controllers.Secuirty.AccountsController.#ctor(MyIhsan.Common.Core.IHandlerResponse,MyIhsan.Identity.Service.Interfaces.ILoginServices,MyIhsan.Identity.Service.Core.ITokenBusiness,MyIhsan.Identity.Service.Interfaces.IMenuServices)">
+            <inheritdoc />
+        </member>
+        <member name="M:MyIhsan.API.Controllers.Secuirty.AccountsController.Login(MyIhsan.Common.Parameters.LoginParameters)">
+            <summary>
+            Login
+            </summary>
+            <param name="parameter"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MyIhsan.API.Controllers.Secuirty.AccountsController.GetMenu">
+            <summary>
+            Get Menu
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:MyIhsan.API.Controllers.Secuirty.PageController">
+            <inheritdoc />
+        </member>
+        <member name="M:MyIhsan.API.Controllers.Secuirty.PageController.#ctor(MyIhsan.Common.Core.IHandlerResponse,MyIhsan.Identity.Service.Core.ITokenBusiness,MyIhsan.Identity.Service.Interfaces.IMenuServices)">
+            <inheritdoc />
+        </member>
+        <member name="M:MyIhsan.API.Controllers.Secuirty.PageController.GetScreensSelect2(System.Int32,System.Int32,System.String,System.String)">
+            <summary>
+            Get Screens Select2
+            </summary>
+            <param name="pageSize"></param>
+            <param name="pageNumber"></param>
+            <param name="searchTerm"></param>
+            <param name="lang"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MyIhsan.API.Controllers.Secuirty.PageController.GetChildScreensSelect2(System.Int32,System.Int32,System.String,System.String,System.String)">
+            <summary>
+            Get child Screens Select2
+            </summary>
+            <param name="pageSize"></param>
+            <param name="pageNumber"></param>
+            <param name="parentId"></param>
+            <param name="searchTerm"></param>
+            <param name="lang"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MyIhsan.API.Controllers.Secuirty.PageController.GetScreenData(System.String,System.String,System.String)">
+            <summary>
+            Get Screen NotSelected
+            </summary>
+            <param name="roleId"></param>
+            <param name="menuId"></param>
+            <param name="childId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MyIhsan.API.Controllers.Secuirty.PageController.GetScreenDataSelected(System.String,System.String,System.String)">
+            <summary>
+            Get Screen Selected
+            </summary>
+            <param name="roleId"></param>
+            <param name="menuId"></param>
+            <param name="childId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MyIhsan.API.Controllers.Secuirty.PageController.SaveScreens(MyIhsan.Common.Parameters.ScreensAssignedParameters)">
+            <summary>
+            Save Screens
+            </summary>
+            <param name="parameters"></param>
+            <returns></returns>
+        </member>
+        <member name="T:MyIhsan.API.Controllers.Secuirty.RoleController">
+            <inheritdoc />
+        </member>
+        <member name="M:MyIhsan.API.Controllers.Secuirty.RoleController.#ctor(MyIhsan.Common.Core.IHandlerResponse,MyIhsan.Identity.Service.Core.ITokenBusiness,MyIhsan.Identity.Service.Interfaces.IRoleServices)">
+            <inheritdoc />
+        </member>
+        <member name="M:MyIhsan.API.Controllers.Secuirty.RoleController.GetAll(MyIhsan.Common.Parameters.GetAllRoleParameters)">
+            <summary>
+            Get All Roles
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MyIhsan.API.Controllers.Secuirty.RoleController.Get(System.String)">
+            <summary>
+            Get  Role by RoleId
+            </summary>
+            <param name="roleId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MyIhsan.API.Controllers.Secuirty.RoleController.Add(MyIhsan.Identity.Service.Dtos.GetRoleDto)">
+            <summary>
+            Add new Role
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MyIhsan.API.Controllers.Secuirty.RoleController.Update(MyIhsan.Identity.Service.Dtos.UpdateRoleDto)">
+             <summary>
+             Update Role
+             </summary>
+            <param name="model"></param>
+             <returns></returns>
+        </member>
+        <member name="M:MyIhsan.API.Controllers.Secuirty.RoleController.Remove(System.String)">
+            <summary>
+            Remove Role by id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MyIhsan.API.Controllers.Secuirty.RoleController.GetRoleByName(System.String)">
+            <summary>
+            Get  Role by Name from stored
+            </summary>
+            <param name="roleName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MyIhsan.API.Controllers.Secuirty.RoleController.IsNameExists(System.String,System.String)">
+            <summary>
+            check Name is Exists
+            </summary>
+            <param name="name"></param>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="T:MyIhsan.API.Controllers.Secuirty.UserController">
+            <inheritdoc />    
+        </member>
+        <member name="M:MyIhsan.API.Controllers.Secuirty.UserController.#ctor(MyIhsan.Common.Core.IHandlerResponse,MyIhsan.Identity.Service.Core.ITokenBusiness,MyIhsan.Identity.Service.Interfaces.IUserServices)">
+            <inheritdoc />
+        </member>
+        <member name="M:MyIhsan.API.Controllers.Secuirty.UserController.GetAll(MyIhsan.Common.Parameters.GetAllUserParameters)">
+            <summary>
+            Get Users
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MyIhsan.API.Controllers.Secuirty.UserController.Get(System.String,System.String)">
+            <summary>
+            Get User by Id
+            </summary>
+            <param name="lang"></param>
+            <param name="Id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MyIhsan.API.Controllers.Secuirty.UserController.Add(MyIhsan.Identity.Service.Dtos.UserDto)">
+            <summary>
+            Add User
+            </summary>
+            <param name="userDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MyIhsan.API.Controllers.Secuirty.UserController.Update(MyIhsan.Identity.Service.Dtos.UserDto)">
+            <summary>
+            Update User
+            </summary>
+            <param name="userDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MyIhsan.API.Controllers.Secuirty.UserController.Remove(System.String)">
+            <summary>
+            Remove User by id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MyIhsan.API.Controllers.Secuirty.UserController.IsExists(System.String,System.Byte,System.String)">
+            <summary>
+            Check Fields IsExists
+            </summary>
+            <param name="name"></param>
+            <param name="type"></param>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MyIhsan.API.Controllers.Secuirty.UserController.GetUsersSelect2(System.Int32,System.Int32,System.String)">
+            <summary>
+            Get Users Select2
+            </summary>
+            <param name="pageSize"></param>
+            <param name="pageNumber"></param>
+            <param name="searchTerm"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MyIhsan.API.Controllers.Secuirty.UserController.GetUserAssigned(System.String)">
+            <summary>
+            Get users to assigned to Role 
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MyIhsan.API.Controllers.Secuirty.UserController.SaveUserAssigned(MyIhsan.Common.Parameters.AssignUserOnRoleParameters)">
+            <summary>
+            Save User assigned
+            </summary>
+            <param name="parameters"></param>
+            <returns></returns>
+        </member>
+        <member name="T:MyIhsan.API.Extensions.ConfigureServicesExtensions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:MyIhsan.API.Extensions.ConfigureServicesExtensions.AddRegisterServices(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            
+            </summary>
+            <param name="services"></param>
+            <param name="configuration"></param>
+            <returns></returns>
+        </member>
+        <member name="T:MyIhsan.API.Extensions.UseServiceExtensions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:MyIhsan.API.Extensions.UseServiceExtensions.UseRegisteredService(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            
+            </summary>
+            <param name="app"></param>
+            <returns></returns>
+        </member>
+        <member name="T:MyIhsan.API.Program">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:MyIhsan.API.Program.Main(System.String[])">
+            <summary>
+            
+            </summary>
+            <param name="args"></param>
+        </member>
+        <member name="M:MyIhsan.API.Program.CreateWebHostBuilder(System.String[])">
+            <summary>
+            
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="T:MyIhsan.API.Startup">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:MyIhsan.API.Startup.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            
+            </summary>
+            <param name="configuration"></param>
+        </member>
+        <member name="M:MyIhsan.API.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            This method gets called by the runtime. Use this method to add services to the container.
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="M:MyIhsan.API.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IHostingEnvironment)">
+            <summary>
+            This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+            </summary>
+            <param name="app"></param>
+            <param name="env"></param>
+        </member>
+    </members>
+</doc>

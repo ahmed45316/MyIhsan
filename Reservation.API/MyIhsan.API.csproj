@@ -3,10 +3,12 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <AssemblyName>MyIhsan.API</AssemblyName>
+    <RootNamespace>MyIhsan.API</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>E:\WorkSpace\ReservationProject\Reservation\Reservation.API\Reservation.API.xml</DocumentationFile>
+    <DocumentationFile>MyIhsan.API.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,9 +22,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Reservation.Identity.Data\Reservation.Identity.Data.csproj" />
-    <ProjectReference Include="..\Reservation.Identity.Entities\Reservation.Identity.Entities.csproj" />
-    <ProjectReference Include="..\Reservation.Identity.Service\Reservation.Identity.Service.csproj" />
+    <ProjectReference Include="..\Reservation.Identity.Data\MyIhsan.Identity.Data.csproj" />
+    <ProjectReference Include="..\Reservation.Identity.Entities\MyIhsan.Identity.Entities.csproj" />
+    <ProjectReference Include="..\Reservation.Identity.Service\MyIhsan.Identity.Service.csproj" />
   </ItemGroup>
 
 </Project>

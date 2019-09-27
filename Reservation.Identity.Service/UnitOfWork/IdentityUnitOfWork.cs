@@ -1,33 +1,25 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Basic.Infrastructure.Repository;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Configuration;
-using Reservation.Identity.Data.Context;
-using Reservation.Identity.Data.SeedData;
-using Reservation.Infrastructure.Repository;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Reservation.Identity.Service.UnitOfWork
+namespace MyIhsan.Identity.Service.UnitOfWork
 {
     public class IdentityUnitOfWork<T> : IIdentityUnitOfWork<T> where T : class
     {
-        private DbContext _context;
         private IDbContextTransaction _transaction;
 
         public IRepository<T> Repository { get; }
-        public IdentityContext IdentityDbContext { get; set; }
+        private DbContext _context;
 
-        private readonly IDataInitialize _dataInitialize;
-        public IdentityUnitOfWork(IConfiguration config, IDataInitialize dataInitialize)
+        public IdentityUnitOfWork(IConfiguration config , DbContext context)
         {
-            _dataInitialize = dataInitialize;
-            var connection = config.GetConnectionString("IdentityContext");
-            var optionsBuilder = new DbContextOptionsBuilder<IdentityContext>();
-            optionsBuilder.UseLazyLoadingProxies().UseSqlServer(connection).EnableSensitiveDataLogging();
-            _context = IdentityDbContext = new IdentityContext(optionsBuilder.Options, _dataInitialize);
-            Repository = new Repository<T>(_context);
+            _context = context;
+             Repository = new Repository<T>(_context);
         }
 
         public async Task<int> SaveChanges()

@@ -6,14 +6,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using NetCore.AutoRegisterDi;
-using Reservation.Common.Core;
-using Reservation.Common.IdentityInterfaces;
-using Reservation.Identity.Data.Context;
-using Reservation.Identity.Data.SeedData;
-using Reservation.Identity.Service.Core;
-using Reservation.Identity.Service.Dtos;
-using Reservation.Identity.Service.Services;
-using Reservation.Identity.Service.UnitOfWork;
+using MyIhsan.Common.Core;
+using MyIhsan.Identity.Service.Core;
+using MyIhsan.Identity.Service.Dtos;
+using MyIhsan.Identity.Service.Services;
+using MyIhsan.Identity.Service.UnitOfWork;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.Collections.Generic;
@@ -21,7 +18,7 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 
-namespace Reservation.API.Extensions
+namespace MyIhsan.API.Extensions
 {
     /// <summary>
     /// 
@@ -44,7 +41,6 @@ namespace Reservation.API.Extensions
             services.AddIdentiyUnitOfWork();
             services.RegisterIdentityAssemply();
             services.AddAutoMapper();
-            services.RegistersDtos();
             services.RegisterMainCore();
             return services;
         }
@@ -60,9 +56,7 @@ namespace Reservation.API.Extensions
         {
             services.AddTransient(typeof(IBaseService<,>), typeof(BaseService<,>));            
             services.AddTransient(typeof(IBusinessBaseParameter<>), typeof(BusinessBaseParameter<>));
-            services.AddTransient<ITokenBusiness, TokenBusiness>();
-            services.AddTransient<IDecodingValidToken, DecodingValidToken>();         
-            services.AddSingleton<IDataInitialize, DataInitialize>();
+            services.AddTransient<ITokenBusiness, TokenBusiness>();     
         }
         private static void AddApiDocumentationServices(this IServiceCollection services)
         {
@@ -102,16 +96,7 @@ namespace Reservation.API.Extensions
               .Where(c => c.Name.EndsWith("Services"))
               .AsPublicImplementedInterfaces();
         }
-        private static void RegistersDtos(this IServiceCollection services)
-        {
-            services.AddSingleton<IUserDto, UserDto>();
-            services.AddSingleton<IScreenDto, ScreenDto>();
-            services.AddSingleton<IRoleDto, RoleDto>();
-            services.AddSingleton<IGetRoleDto, GetRoleDto>();
-            services.AddSingleton<IUpdateRoleDto, UpdateRoleDto>();
-            services.AddSingleton<IMenuDto, MenuDto>();
-            services.AddSingleton<IUserLoginReturn, UserLoginReturn>();
-        }
+       
         private static void JWTSettings(this IServiceCollection services, IConfiguration _configuration)
         {
             services.AddAuthentication(option =>

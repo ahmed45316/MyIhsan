@@ -5,19 +5,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Reservation.API.Controllers.Base;
-using Reservation.Common.Core;
-using Reservation.Common.Parameters;
-using Reservation.Identity.Service.Core;
-using Reservation.Identity.Service.Dtos;
-using Reservation.Identity.Service.Interfaces;
+using MyIhsan.API.Controllers.Base;
+using MyIhsan.Common.Core;
+using MyIhsan.Common.Parameters;
+using MyIhsan.Identity.Service.Core;
+using MyIhsan.Identity.Service.Dtos;
+using MyIhsan.Identity.Service.Interfaces;
 
-namespace Reservation.API.Controllers.Secuirty
+namespace MyIhsan.API.Controllers.Secuirty
 {
-    /// <inheritdoc />
-    [Route("[controller]")]
-    [ApiController] 
-    [Authorize]
+    /// <inheritdoc />    
     public class UserController : BaseMainController
     {
         private readonly IUserServices _userServices;
@@ -30,8 +27,8 @@ namespace Reservation.API.Controllers.Secuirty
         /// Get Users
         /// </summary>
         /// <returns></returns>
-        [HttpPost("GetAll")]
-        public async Task<IDataPagging> GetUsers(GetAllUserParameters parameters)
+        [HttpPost]
+        public async Task<IDataPagging> GetAll(GetAllUserParameters parameters)
         {
             var repositoryResult = await _userServices.GetUsers(parameters);
             return repositoryResult;
@@ -42,8 +39,8 @@ namespace Reservation.API.Controllers.Secuirty
         /// <param name="lang"></param>
         /// <param name="Id"></param>
         /// <returns></returns>
-        [HttpGet("Get/{lang}/{Id}")]
-        public async Task<IResult> GetUser(string lang, string Id)
+        [HttpGet("{lang}/{Id}")]
+        public async Task<IResult> Get(string lang, string Id)
         {
             var repositoryResult = await _userServices.GetUser(lang, Id);
             var result = ResponseHandler.GetResult(repositoryResult);
@@ -54,8 +51,8 @@ namespace Reservation.API.Controllers.Secuirty
         /// </summary>
         /// <param name="userDto"></param>
         /// <returns></returns>
-        [HttpPost("Add")]
-        public async Task<IResult> AddUser(UserDto userDto)
+        [HttpPost]
+        public async Task<IResult> Add(UserDto userDto)
         {
             var repositoryResult = await _userServices.AddUser(userDto);
             var result = ResponseHandler.GetResult(repositoryResult);
@@ -66,8 +63,8 @@ namespace Reservation.API.Controllers.Secuirty
         /// </summary>
         /// <param name="userDto"></param>
         /// <returns></returns>
-        [HttpPut("Update")]
-        public async Task<IResult> UpdateUser(UserDto userDto)
+        [HttpPut]
+        public async Task<IResult> Update(UserDto userDto)
         {
             var repositoryResult = await _userServices.UpdateUser(userDto);
             var result = ResponseHandler.GetResult(repositoryResult);
@@ -78,8 +75,8 @@ namespace Reservation.API.Controllers.Secuirty
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpDelete("RemoveById/{id}")]
-        public async Task<IResult> RemoveUserById(string id)
+        [HttpDelete("{id}")]
+        public async Task<IResult> Remove(string id)
         {
             var repositoryResult = await _userServices.RemoveUserById(id);
             var result = ResponseHandler.GetResult(repositoryResult);
@@ -92,10 +89,10 @@ namespace Reservation.API.Controllers.Secuirty
         /// <param name="type"></param>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet("IsExists/{name}/{type}/{id?}")]
-        public async Task<IResult> IsUsernameExists(string name, byte type, string id = null)
+        [HttpGet("{name}/{type}/{id?}")]
+        public async Task<IResult> IsExists(string name, byte type, string id = null)
         {
-            var repositoryResult = type == 3 ? await _userServices.IsPhoneExists(name, id):type==2? await _userServices.IsEmailExists(name, id): await _userServices.IsUsernameExists(name, id);
+            var repositoryResult = type == 3 ? await _userServices.IsPhoneExists(name, id) : type == 2 ? await _userServices.IsEmailExists(name, id) : await _userServices.IsUsernameExists(name, id);
             var result = ResponseHandler.GetResult(repositoryResult);
             return result;
         }
@@ -106,7 +103,7 @@ namespace Reservation.API.Controllers.Secuirty
         /// <param name="pageNumber"></param>
         /// <param name="searchTerm"></param>
         /// <returns></returns>
-        [HttpGet("GetUsersSelect2")]
+        [HttpGet]
         public async Task<IActionResult> GetUsersSelect2(int pageSize, int pageNumber, string searchTerm = null)
         {
             return  Ok(await _userServices.GetUsersSelect2(searchTerm, pageSize, pageNumber));
@@ -116,7 +113,7 @@ namespace Reservation.API.Controllers.Secuirty
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet("GetUserAssigned/{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetUserAssigned(string id)
         {
             return Ok(await _userServices.GetUserAssignedSelect2(id));
@@ -126,7 +123,7 @@ namespace Reservation.API.Controllers.Secuirty
         /// </summary>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        [HttpPost("SaveUserAssigned")]
+        [HttpPost]
         public async Task<IResult> SaveUserAssigned([FromForm]AssignUserOnRoleParameters parameters)
         {
             var repositoryResult = await _userServices.SaveUserAssigned(parameters);

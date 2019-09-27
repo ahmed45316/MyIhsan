@@ -1,21 +1,17 @@
 ﻿
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Reservation.API.Controllers.Base;
-using Reservation.Common.Core;
-using Reservation.Common.IdentityInterfaces;
-using Reservation.Common.Parameters;
-using Reservation.Identity.Service.Core;
-using Reservation.Identity.Service.Dtos;
-using Reservation.Identity.Service.Interfaces;
+using MyIhsan.API.Controllers.Base;
+using MyIhsan.Common.Core;
+using MyIhsan.Common.Parameters;
+using MyIhsan.Identity.Service.Core;
+using MyIhsan.Identity.Service.Dtos;
+using MyIhsan.Identity.Service.Interfaces;
 using System.Threading.Tasks;
 
-namespace Reservation.API.Controllers.Secuirty
+namespace MyIhsan.API.Controllers.Secuirty
 {
     /// <inheritdoc />
-    [Route("[controller]")]
-    [ApiController]
-    [Authorize]
     public class RoleController : BaseMainController
     {
         private readonly IRoleServices _roleServices;
@@ -28,8 +24,8 @@ namespace Reservation.API.Controllers.Secuirty
         /// Get All Roles
         /// </summary>
         /// <returns></returns>
-        [HttpPost("GetAll")]
-        public async Task<IDataPagging> GetRoles(GetAllRoleParameters parameters)
+        [HttpPost]
+        public async Task<IDataPagging> GetAll(GetAllRoleParameters parameters)
         {
             var repositoryResult = await _roleServices.GetRoles(parameters);
             return repositoryResult;
@@ -39,8 +35,8 @@ namespace Reservation.API.Controllers.Secuirty
         /// </summary>
         /// <param name="roleId"></param>
         /// <returns></returns>
-        [HttpGet("Get/{roleId}")]
-        public async Task<IResult> GetRole(string roleId)
+        [HttpGet("{roleId}")]
+        public async Task<IResult> Get(string roleId)
         {
             var repositoryResult = await _roleServices.GetRole(roleId);
             var result = ResponseHandler.GetResult(repositoryResult);
@@ -51,8 +47,8 @@ namespace Reservation.API.Controllers.Secuirty
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        [HttpPost("Add")]
-        public async Task<IResult> AddRole(GetRoleDto model)
+        [HttpPost]
+        public async Task<IResult> Add(GetRoleDto model)
         {
             var repositoryResult = await _roleServices.AddRole(model);
             var result = ResponseHandler.GetResult(repositoryResult);
@@ -63,8 +59,8 @@ namespace Reservation.API.Controllers.Secuirty
         /// </summary>
         ///<param name="model"></param>
         /// <returns></returns>
-        [HttpPut("Update")]
-        public async Task<IResult> UpdateRole(UpdateRoleDto model)
+        [HttpPut]
+        public async Task<IResult> Update(UpdateRoleDto model)
         {
             var repositoryResult = await _roleServices.UpdateRole(model);
             var result = ResponseHandler.GetResult(repositoryResult);
@@ -75,8 +71,8 @@ namespace Reservation.API.Controllers.Secuirty
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpDelete("RemoveById/{id}")]
-        public async Task<IResult> RemoveRoleById(string id)
+        [HttpDelete("{id}")]
+        public async Task<IResult> Remove(string id)
         {
             var repositoryResult = await _roleServices.RemoveRoleById(id);
             var result = ResponseHandler.GetResult(repositoryResult);
@@ -87,7 +83,7 @@ namespace Reservation.API.Controllers.Secuirty
         /// </summary>
         /// <param name="roleName"></param>
         /// <returns></returns>
-        [HttpGet(nameof(GetRoleByName)+"/{roleName?}")]
+        [HttpGet("{roleName?}")]
         public IActionResult GetRoleByName(string roleName=null)
         {
             var repositoryResult = _roleServices.GetRoleFromStored(roleName);
@@ -99,8 +95,7 @@ namespace Reservation.API.Controllers.Secuirty
         /// <param name="name"></param>
         /// <param name="id"></param>
         /// <returns></returns>
-        [Route("IsNameExists/{name}/{id?}")]
-        [HttpGet]
+        [HttpGet("{name}/{id?}")]
         public async Task<IResult> IsNameExists(string name, string id = null)
         {
             var repositoryResult = await _roleServices.IsNameExists(name,id);

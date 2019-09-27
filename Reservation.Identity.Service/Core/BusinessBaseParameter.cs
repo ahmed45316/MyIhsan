@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
-using Reservation.Common.Core;
-using Reservation.Identity.Service.UnitOfWork;
+using MyIhsan.Identity.Service.UnitOfWork;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using MyIhsan.Common.Core;
 
-namespace Reservation.Identity.Service.Core
+namespace MyIhsan.Identity.Service.Core
 {
     public class BusinessBaseParameter<T> : IBusinessBaseParameter<T> where T : class
     {

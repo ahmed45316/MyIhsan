@@ -1,9 +1,9 @@
-﻿using Reservation.Common.Extensions;
+﻿using MyIhsan.Common.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Reservation.Common.Parameters
+namespace MyIhsan.Common.Parameters
 {
     public class BaseParam
     {

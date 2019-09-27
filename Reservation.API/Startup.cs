@@ -11,9 +11,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Serialization;
-using Reservation.API.Extensions;
+using MyIhsan.API.Extensions;
 
-namespace Reservation.API
+namespace MyIhsan.API
 {
     /// <summary>
     /// 

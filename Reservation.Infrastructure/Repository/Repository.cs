@@ -8,7 +8,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Reservation.Infrastructure.Repository
+namespace Basic.Infrastructure.Repository
 {
     public class Repository<T> : IRepository<T> where T : class
     {

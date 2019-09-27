@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 
-namespace Reservation.Common.Hasher
+namespace MyIhsan.Common.Hasher
 {
     public static class CreptoHasher
     {

@@ -1,15 +1,15 @@
-﻿using Reservation.Identity.Data.Context;
-using Reservation.Infrastructure.Repository;
+﻿using Basic.Infrastructure.Repository;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Reservation.Identity.Service.UnitOfWork
+namespace MyIhsan.Identity.Service.UnitOfWork
 {
     public interface IIdentityUnitOfWork<T> : IDisposable where T : class
     {
-        IdentityContext IdentityDbContext { get; set; }
+       // DbContext IdentityDbContext { get; set; }
         IRepository<T> Repository { get; }
         Task<int> SaveChanges();
         void StartTransaction();

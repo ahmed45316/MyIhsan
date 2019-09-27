@@ -1,38 +1,34 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using Reservation.Common.IdentityInterfaces;
-using Reservation.Identity.Service.Dtos;
+using MyIhsan.Identity.Service.Dtos;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
 
-namespace Reservation.Identity.Service.Core
+namespace MyIhsan.Identity.Service.Core
 {
     public class TokenBusiness : ITokenBusiness
     {
         private readonly IConfiguration _config;
-        private readonly IUserLoginReturn _userLoginReturn;
-        private readonly IDecodingValidToken _decodingValidToken;
+        private readonly UserLoginReturn _userLoginReturn;
+        private readonly DecodingValidToken _decodingValidToken;
 
-        public TokenBusiness(IConfiguration config, IUserLoginReturn userLoginReturn, IDecodingValidToken decodingValidToken)
+        public TokenBusiness(IConfiguration config, UserLoginReturn userLoginReturn, DecodingValidToken decodingValidToken)
         {
             _config = config;
             _userLoginReturn = userLoginReturn;
             _decodingValidToken = decodingValidToken;
         }
 
-        public IUserLoginReturn GenerateJsonWebToken(IUserDto userInfo, string roles, string refreshToken ="")
+        public UserLoginReturn GenerateJsonWebToken(UserDto userInfo, string roles, string refreshToken ="")
         {            
             var claims = new[] {
                 new Claim( JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Sub, userInfo.UserName),
                 new Claim("UserId", userInfo.Id),
-                new Claim("AdminId", userInfo.AdminId??""),
-                new Claim("VendorId", userInfo.VendorId??""),
-                new Claim("ClientId", userInfo.ClientId??""),
                 new Claim("Roles", roles)
             };
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:SigningKey"]));
@@ -58,7 +54,7 @@ namespace Reservation.Identity.Service.Core
         }
 
        
-        public IDecodingValidToken GetUserDataFromToken(ControllerBase controller)
+        public DecodingValidToken GetUserDataFromToken(ControllerBase controller)
         {
             var hasValue = controller.Request.Headers.TryGetValue("Authorization", out var bearerToken);
             if (!hasValue) return null;
@@ -91,7 +87,7 @@ namespace Reservation.Identity.Service.Core
             };
         }
 
-        private IDecodingValidToken ValidateAndDecodeToken(string jwtToken)
+        private DecodingValidToken ValidateAndDecodeToken(string jwtToken)
         {
             var validationParameters = TokenValidationParameters();
             var handler = new JwtSecurityTokenHandler();

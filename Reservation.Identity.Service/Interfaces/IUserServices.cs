@@ -1,20 +1,20 @@
-﻿using Reservation.Common.Core;
-using Reservation.Common.IdentityInterfaces;
-using Reservation.Common.OptionModel;
-using Reservation.Common.Parameters;
+﻿using MyIhsan.Common.Core;
+using MyIhsan.Common.OptionModel;
+using MyIhsan.Common.Parameters;
+using MyIhsan.Identity.Service.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Reservation.Identity.Service.Interfaces
+namespace MyIhsan.Identity.Service.Interfaces
 {
     public interface IUserServices
     {
         Task<IDataPagging> GetUsers(GetAllUserParameters parameters);
-        Task<IResponseResult> AddUser(IUserDto userDto);
+        Task<IResponseResult> AddUser(UserDto userDto);
         Task<IResponseResult> GetUser(string lang, string Id);
-        Task<IResponseResult> UpdateUser(IUserDto userDto);
+        Task<IResponseResult> UpdateUser(UserDto userDto);
         Task<IResponseResult> RemoveUserById(string id);
         Task<IResponseResult> IsUsernameExists(string name, string id);
         Task<IResponseResult> IsEmailExists(string email, string id);

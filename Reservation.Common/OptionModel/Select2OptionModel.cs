@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Reservation.Common.OptionModel
+namespace MyIhsan.Common.OptionModel
 {
     public class Select2OptionModel
     {

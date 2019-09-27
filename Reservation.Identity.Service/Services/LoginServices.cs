@@ -1,40 +1,38 @@
 ﻿using AutoMapper;
-using Reservation.Common.Core;
-using Reservation.Common.Hasher;
-using Reservation.Common.IdentityInterfaces;
-using Reservation.Common.Parameters;
-using Reservation.Identity.Entities.Entities;
-using Reservation.Identity.Service.Core;
-using Reservation.Identity.Service.Dtos;
-using Reservation.Identity.Service.Interfaces;
+using MyIhsan.Identity.Service.Core;
+using MyIhsan.Identity.Service.Dtos;
+using MyIhsan.Identity.Service.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using MyIhsan.Common.Parameters;
+using MyIhsan.Common.Core;
 
-namespace Reservation.Identity.Service.Services
+namespace MyIhsan.Identity.Service.Services
 {
-    public class LoginServices : BaseService<AspNetUser,IUserDto>, ILoginServices
+    public class LoginServices : BaseService<UserDto, UserDto>, ILoginServices
     {
         private readonly ITokenBusiness _tokenBusiness;
-        public LoginServices(IBusinessBaseParameter<AspNetUser> businessBaseParameter, ITokenBusiness tokenBusiness) : base(businessBaseParameter)
+        public LoginServices(IBusinessBaseParameter<UserDto> businessBaseParameter, ITokenBusiness tokenBusiness) : base(businessBaseParameter)
         {
             _tokenBusiness = tokenBusiness;
         }
         public async Task<IResponseResult> Login(LoginParameters parameters)
         {
-            var user = await _unitOfWork.Repository.FirstOrDefault(q => q.UserName == parameters.Username && !q.IsDeleted);
-            if (user == null) return ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.BadRequest,
-                            message: "Wrong Username Or Password");
-            bool rightPass = CreptoHasher.VerifyHashedPassword(user.PasswordHash, parameters.Password);
-            if (!rightPass) return ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.NotFound, message: HttpStatusCode.NotFound.ToString());
-            var refToken = Guid.NewGuid().ToString();
-            var roles = user.AspNetUsersRole.Select(q => q.RoleId).ToList();
-            var userDto = Mapper.Map<AspNetUser, IUserDto>(user);
-            var userLoginReturn = _tokenBusiness.GenerateJsonWebToken(userDto, string.Join(",", roles), refToken);
-            return ResponseResult.GetRepositoryActionResult(userLoginReturn, status: HttpStatusCode.OK, message: HttpStatusCode.OK.ToString()); 
+            //var user = await _unitOfWork.Repository.FirstOrDefault(q => q.UserName == parameters.Username && !q.IsDeleted);
+            //if (user == null) return ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.BadRequest,
+            //                message: "Wrong Username Or Password");
+            //bool rightPass = user.PasswordHash == parameters.Password;
+            //if (!rightPass) return ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.NotFound, message: HttpStatusCode.NotFound.ToString());
+            //var refToken = Guid.NewGuid().ToString();
+            //var roles = user.AspNetUsersRole.Select(q => q.RoleId).ToList();
+            //var userDto = Mapper.Map<UserDto, UserDto>(user);
+            //var userLoginReturn = _tokenBusiness.GenerateJsonWebToken(userDto, string.Join(",", roles), refToken);
+            //return ResponseResult.GetRepositoryActionResult(userLoginReturn, status: HttpStatusCode.OK, message: HttpStatusCode.OK.ToString()); 
+            return null;
         }
     }
 }

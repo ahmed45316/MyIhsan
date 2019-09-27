@@ -1,12 +1,12 @@
-﻿using Reservation.Common.Core;
-using Reservation.Common.OptionModel;
-using Reservation.Common.Parameters;
+﻿using MyIhsan.Common.Core;
+using MyIhsan.Common.OptionModel;
+using MyIhsan.Common.Parameters;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Reservation.Identity.Service.Interfaces
+namespace MyIhsan.Identity.Service.Interfaces
 {
     public interface IMenuServices
     {

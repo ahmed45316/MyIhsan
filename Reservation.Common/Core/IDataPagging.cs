@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Reservation.Common.Core
+namespace MyIhsan.Common.Core
 {
     public interface IDataPagging
     {

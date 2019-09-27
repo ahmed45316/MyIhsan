@@ -1,12 +1,11 @@
-﻿using Reservation.Common.IdentityInterfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Text;
 
-namespace Reservation.Identity.Service.Dtos
+namespace MyIhsan.Identity.Service.Dtos
 {
-    public class DecodingValidToken : IDecodingValidToken
+    public class DecodingValidToken 
     {
         public ClaimsPrincipal ClaimsPrincipal { get; set; }
     }

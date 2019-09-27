@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
-using Reservation.Common.IdentityInterfaces;
-using Reservation.Identity.Entities.Entities;
+using MyIhsan.Identity.Service.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Reservation.Identity.Service.Profiler
+namespace MyIhsan.Identity.Service.Profiler
 {
     public class AutoMapperConfig : Profile
     {
@@ -17,17 +16,17 @@ namespace Reservation.Identity.Service.Profiler
         }
         private void MappUsers()
         {
-            CreateMap<AspNetUser, IUserDto>().ReverseMap();
+           // CreateMap<AspNetUser, UserDto>().ReverseMap();
         }
         private void MappMenu()
         {
-            CreateMap<Menu, IMenuDto>().ReverseMap();
+           // CreateMap<Menu, MenuDto>().ReverseMap();
         }
         private void MappRole()
         {
-            CreateMap<AspNetRole, IRoleDto>().ReverseMap();
-            CreateMap<AspNetRole, IGetRoleDto>().ReverseMap();
-            CreateMap<AspNetRole, IUpdateRoleDto>().ReverseMap();
+           // CreateMap<AspNetRole, RoleDto>().ReverseMap();
+           // CreateMap<AspNetRole, GetRoleDto>().ReverseMap();
+           // CreateMap<AspNetRole, UpdateRoleDto>().ReverseMap();
         }
     }
 }

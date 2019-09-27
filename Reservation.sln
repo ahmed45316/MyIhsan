@@ -3,19 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28803.452
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reservation.API", "Reservation.API\Reservation.API.csproj", "{AE874B17-808B-4128-A552-165FF74AA287}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyIhsan.API", "Reservation.API\MyIhsan.API.csproj", "{AE874B17-808B-4128-A552-165FF74AA287}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reservation.Infrastructure", "Reservation.Infrastructure\Reservation.Infrastructure.csproj", "{D9780426-97E5-45C3-B51F-291516CD5B73}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Basic.Infrastructure", "Reservation.Infrastructure\Basic.Infrastructure.csproj", "{D9780426-97E5-45C3-B51F-291516CD5B73}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reservation.Identity.Data", "Reservation.Identity.Data\Reservation.Identity.Data.csproj", "{CC16F8EF-9C7E-4790-ACF2-936F585B4052}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyIhsan.Identity.Data", "Reservation.Identity.Data\MyIhsan.Identity.Data.csproj", "{CC16F8EF-9C7E-4790-ACF2-936F585B4052}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reservation.Identity.Entities", "Reservation.Identity.Entities\Reservation.Identity.Entities.csproj", "{59F20D74-09E0-417C-A2DF-64456B5A5C4E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyIhsan.Identity.Entities", "Reservation.Identity.Entities\MyIhsan.Identity.Entities.csproj", "{59F20D74-09E0-417C-A2DF-64456B5A5C4E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reservation.Common", "Reservation.Common\Reservation.Common.csproj", "{73B70991-FAD3-4539-965C-A7EBBADDC107}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyIhsan.Common", "Reservation.Common\MyIhsan.Common.csproj", "{73B70991-FAD3-4539-965C-A7EBBADDC107}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reservation.Identity.Service", "Reservation.Identity.Service\Reservation.Identity.Service.csproj", "{3A376FA8-8FF4-411F-A682-0EC538CF431A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyIhsan.Identity.Service", "Reservation.Identity.Service\MyIhsan.Identity.Service.csproj", "{3A376FA8-8FF4-411F-A682-0EC538CF431A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reservation.Entities", "Reservation.Entities\Reservation.Entities.csproj", "{F70B5873-BBE3-4AB4-91F3-0FF5E8D6C788}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyIhsan.Entities", "Reservation.Entities\MyIhsan.Entities.csproj", "{F70B5873-BBE3-4AB4-91F3-0FF5E8D6C788}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

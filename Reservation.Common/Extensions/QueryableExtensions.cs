@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 
-namespace Reservation.Common.Extensions
+namespace MyIhsan.Common.Extensions
 {
 
     public static class QueryableExtensions

@@ -2,16 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Reservation.Common.Core;
-using Reservation.Identity.Service.Core;
+using MyIhsan.Common.Core;
+using MyIhsan.Identity.Service.Core;
 
-namespace Reservation.API.Controllers.Base
+namespace MyIhsan.API.Controllers.Base
 {
     /// <inheritdoc />
-    [Route("[controller]")]
+    [Route("[controller]/[action]")]
     [ApiController]
+    [Authorize]
     public class BaseMainController : ControllerBase
     {
         /// <inheritdoc />

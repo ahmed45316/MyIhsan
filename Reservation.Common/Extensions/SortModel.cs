@@ -1,4 +1,4 @@
-﻿namespace Reservation.Common.Extensions
+﻿namespace MyIhsan.Common.Extensions
 {
     public class SortModel
     {

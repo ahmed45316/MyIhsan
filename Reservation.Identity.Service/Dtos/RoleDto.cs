@@ -1,11 +1,10 @@
-﻿using Reservation.Common.IdentityInterfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Reservation.Identity.Service.Dtos
+namespace MyIhsan.Identity.Service.Dtos
 {
-    public class RoleDto : IRoleDto
+    public class RoleDto
     {
         public string Id { get; set; }
         public string Name { get; set; }
