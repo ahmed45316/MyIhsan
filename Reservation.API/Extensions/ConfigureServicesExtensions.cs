@@ -17,6 +17,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using MyIhsan.Identity.Data.Context;
 
 namespace MyIhsan.API.Extensions
 {
@@ -34,7 +36,8 @@ namespace MyIhsan.API.Extensions
         [Obsolete]
         public static IServiceCollection AddRegisterServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddCors();      
+            services.AddCors();
+            services.DatabaseConfig(configuration);
             services.JWTSettings(configuration);
             services.AddApiDocumentationServices();
             services.RegisterIdentityCores();
@@ -44,7 +47,12 @@ namespace MyIhsan.API.Extensions
             services.RegisterMainCore();
             return services;
         }
-
+        private static void DatabaseConfig(this IServiceCollection services, IConfiguration _configuration)
+        {
+            //var connection = _configuration.GetConnectionString("IdentityContext");
+            //services.AddDbContext<IdentityDbContext>(options => options.UseOracle(connection));
+            services.AddScoped<DbContext, ModelContext>();
+        }
         private static void RegisterMainCore(this IServiceCollection services)
         {
             services.AddTransient<IHandlerResponse, HandlerResponse>();

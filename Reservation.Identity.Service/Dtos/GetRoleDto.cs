@@ -8,6 +8,5 @@ namespace MyIhsan.Identity.Service.Dtos
     {
         public string Name { get; set; }
         public string Id { get; set; }
-        public int AspNetUsersRoleCount { get; set; }
     }
 }

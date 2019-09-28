@@ -16,11 +16,11 @@ namespace MyIhsan.Identity.Service.Core
         private readonly UserLoginReturn _userLoginReturn;
         private readonly DecodingValidToken _decodingValidToken;
 
-        public TokenBusiness(IConfiguration config, UserLoginReturn userLoginReturn, DecodingValidToken decodingValidToken)
-        {
+        public TokenBusiness(IConfiguration config)
+        { 
             _config = config;
-            _userLoginReturn = userLoginReturn;
-            _decodingValidToken = decodingValidToken;
+            _userLoginReturn = new UserLoginReturn();
+            _decodingValidToken = new DecodingValidToken();
         }
 
         public UserLoginReturn GenerateJsonWebToken(UserDto userInfo, string roles, string refreshToken ="")

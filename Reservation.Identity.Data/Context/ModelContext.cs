@@ -1,16 +1,19 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.Extensions.Configuration;
 using MyIhsan.Identity.Entities.Entities;
 
 namespace MyIhsan.Identity.Data.Context
 {
     public partial class ModelContext : DbContext
     {
-        public ModelContext()
+        private readonly IConfiguration _configuration;
+        public ModelContext(IConfiguration configuration)
         {
+            _configuration = configuration;
         }
-
+       
         public ModelContext(DbContextOptions<ModelContext> options)
             : base(options)
         {
@@ -25,7 +28,8 @@ namespace MyIhsan.Identity.Data.Context
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseOracle("Data Source=compassegy.ddns.net:1254/IHS;User Id=IDENTITYDB;Password=WELCOME");
+                var connection = _configuration.GetConnectionString("IdentityContext");
+                optionsBuilder.UseOracle(connection);
             }
         }
 

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MyIhsan.Identity.Entities.Entities;
 using MyIhsan.Identity.Service.Dtos;
 using System;
 using System.Collections.Generic;
@@ -24,9 +25,9 @@ namespace MyIhsan.Identity.Service.Profiler
         }
         private void MappRole()
         {
-           // CreateMap<AspNetRole, RoleDto>().ReverseMap();
-           // CreateMap<AspNetRole, GetRoleDto>().ReverseMap();
-           // CreateMap<AspNetRole, UpdateRoleDto>().ReverseMap();
+            CreateMap<AspNetRoles, RoleDto>().ReverseMap();
+            CreateMap<AspNetRoles, GetRoleDto>().ReverseMap();
+            CreateMap<AspNetRoles, UpdateRoleDto>().ReverseMap();
         }
     }
 }

@@ -11,28 +11,29 @@ using System.Threading.Tasks;
 using MyIhsan.Identity.Service.Dtos;
 using MyIhsan.Common.Parameters;
 using MyIhsan.Common.Core;
+using MyIhsan.Identity.Entities.Entities;
+using MyIhsan.Common.Extensions;
 
 namespace MyIhsan.Identity.Service.Services
 {
-    public class RoleServices : BaseService<RoleDto, RoleDto>, IRoleServices
+    public class RoleServices : BaseService<AspNetRoles, RoleDto>, IRoleServices
     {
-        public RoleServices(IBusinessBaseParameter<RoleDto> businessBaseParameter) : base(businessBaseParameter)
+        public RoleServices(IBusinessBaseParameter<AspNetRoles> businessBaseParameter) : base(businessBaseParameter)
         {
 
         }
         public async Task<IDataPagging> GetRoles(GetAllRoleParameters parameters)
         {
-            //    var roles = string.IsNullOrEmpty(parameters.RoleName) ?await _unitOfWork.Repository.Find(q => !q.IsDeleted && q.Id != AdmistratorRoleId, q => q.AspNetUsersRole) :await _unitOfWork.Repository.Find(q => !q.IsDeleted && q.Id != AdmistratorRoleId && q.Name.Contains(parameters.RoleName), q => q.AspNetUsersRole);
-            //var rolesPagging = roles.AsQueryable().ToList();//.OrderBy(parameters.OrderByValue).Skip(parameters.PageNumber).Take(parameters.PageSize).ToList();
-            //    if (!rolesPagging.Any())
-            //    {
-            //        var res = ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.NoContent, message: HttpStatusCode.NoContent.ToString());
-            //        return new DataPagging(0,0,0,res);
-            //    };
-            //    var RolesDto = Mapper.Map<IEnumerable<GetRoleDto>>(rolesPagging);
-            //    var repoResult = ResponseResult.GetRepositoryActionResult(RolesDto,status: HttpStatusCode.OK, message: HttpStatusCode.OK.ToString());
-            //    return new DataPagging(parameters.PageNumber, parameters.PageSize, roles.Count(), repoResult);         
-            return null;
+            var roles = string.IsNullOrEmpty(parameters.RoleName) ? await _unitOfWork.Repository.Find(q => !(q.IsDeleted ?? false) && q.Id != AdmistratorRoleId) : await _unitOfWork.Repository.Find(q => !!(q.IsDeleted ?? false) && q.Id != AdmistratorRoleId && q.Name.Contains(parameters.RoleName));
+            var rolesPagging = roles.AsQueryable().OrderBy(parameters.OrderByValue).Skip(parameters.PageNumber).Take(parameters.PageSize).ToList();
+            if (!rolesPagging.Any())
+            {
+                var res = ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.NoContent, message: HttpStatusCode.NoContent.ToString());
+                return new DataPagging(0, 0, 0, res);
+            };
+            var RolesDto = Mapper.Map<IEnumerable<GetRoleDto>>(rolesPagging);
+            var repoResult = ResponseResult.GetRepositoryActionResult(RolesDto, status: HttpStatusCode.OK, message: HttpStatusCode.OK.ToString());
+            return new DataPagging(parameters.PageNumber, parameters.PageSize, roles.Count(), repoResult);
         }
         public async Task<IResponseResult> GetRole(string Id)
         {
@@ -45,8 +46,8 @@ namespace MyIhsan.Identity.Service.Services
         public async Task<IResponseResult> AddRole(GetRoleDto model)
         {
                 if (model == null) return ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.NoContent, message: HttpStatusCode.NoContent.ToString());
-                var role = Mapper.Map<RoleDto>(model);
-                var isExist = await _unitOfWork.Repository.FirstOrDefault(q => q.Name == model.Name && !q.IsDeleted) != null;
+                var role = Mapper.Map<AspNetRoles>(model);
+                var isExist = await _unitOfWork.Repository.FirstOrDefault(q => q.Name == model.Name && !(q.IsDeleted?? false)) != null;
                 if (isExist) return ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.BadRequest, message: HttpStatusCode.BadRequest.ToString());
                 role.Id = Guid.NewGuid().ToString();
                 var roleAdded = _unitOfWork.Repository.Add(role);
@@ -57,8 +58,8 @@ namespace MyIhsan.Identity.Service.Services
         public async Task<IResponseResult> UpdateRole(UpdateRoleDto model)
         {
                 if (model == null) return ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.NoContent, message: HttpStatusCode.NoContent.ToString());
-                var role = Mapper.Map<RoleDto>(model);
-                var isExist = await _unitOfWork.Repository.FirstOrDefault(q => q.Name == model.Name && q.Id != model.Id && !q.IsDeleted) != null;
+                var role = Mapper.Map<AspNetRoles>(model);
+                var isExist = await _unitOfWork.Repository.FirstOrDefault(q => q.Name == model.Name && q.Id != model.Id && !(q.IsDeleted?? false)) != null;
                 if (isExist) return ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.BadRequest, message: HttpStatusCode.BadRequest.ToString());
                 _unitOfWork.Repository.Update(role, role.Id);
                 await _unitOfWork.SaveChanges();
@@ -67,20 +68,17 @@ namespace MyIhsan.Identity.Service.Services
         }
         public async Task<IResponseResult> RemoveRoleById(string id)
         {
-            //if (id == null) return ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.NoContent, message: HttpStatusCode.NoContent.ToString());
-            //var role = await _unitOfWork.Repository.FirstOrDefault(q => q.Id == id, q => q.AspNetUsersRole, q => q.Menu);
-            //if (role.AspNetUsersRole.Count > 0 || role.Menu.Count > 0)
-            //    return ResponseResult.GetRepositoryActionResult(false,status: HttpStatusCode.Forbidden, message: HttpStatusCode.Forbidden.ToString());
-            //role.IsDeleted = true;
-            //_unitOfWork.Repository.Update(role, role.Id);
-            //await _unitOfWork.SaveChanges();
-            //return ResponseResult.GetRepositoryActionResult(true, status: HttpStatusCode.Accepted, message: HttpStatusCode.Accepted.ToString());
-            return null;
+            if (id == null) return ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.NoContent, message: HttpStatusCode.NoContent.ToString());
+            var role = await _unitOfWork.Repository.FirstOrDefault(q => q.Id == id);
+            role.IsDeleted = true;
+            _unitOfWork.Repository.Update(role, role.Id);
+            await _unitOfWork.SaveChanges();
+            return ResponseResult.GetRepositoryActionResult(true, status: HttpStatusCode.Accepted, message: HttpStatusCode.Accepted.ToString());
         }
         // Check IsExists
         public async Task<IResponseResult> IsNameExists(string name, string id)
         {
-            var res = await _unitOfWork.Repository.FirstOrDefault(q => q.Name == name && q.Id != id && !q.IsDeleted);
+            var res = await _unitOfWork.Repository.FirstOrDefault(q => q.Name == name && q.Id != id && !(q.IsDeleted?? false));
             return ResponseResult.GetRepositoryActionResult(res != null, status: HttpStatusCode.Accepted, message: HttpStatusCode.Accepted.ToString());
         }
         //for test using stored procedure
