@@ -30,8 +30,8 @@ namespace MyIhsan.API.Extensions
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Reservation API V1");
-                c.DocumentTitle = "Reservation Api Documentation";
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "MyIhsan API V1");
+                c.DocumentTitle = "MyIhsan Api Documentation";
                 c.DocExpansion(DocExpansion.None);
             });
 
