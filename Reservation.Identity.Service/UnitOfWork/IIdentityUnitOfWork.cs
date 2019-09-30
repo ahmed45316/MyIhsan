@@ -9,7 +9,7 @@ namespace MyIhsan.Identity.Service.UnitOfWork
 {
     public interface IIdentityUnitOfWork<T> : IDisposable where T : class
     {
-       // DbContext IdentityDbContext { get; set; }
+        DbContext IdentityDbContext { get; set; }
         IRepository<T> Repository { get; }
         Task<int> SaveChanges();
         void StartTransaction();

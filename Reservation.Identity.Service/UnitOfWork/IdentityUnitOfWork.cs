@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Configuration;
+using MyIhsan.Identity.Data.Context;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,22 +15,25 @@ namespace MyIhsan.Identity.Service.UnitOfWork
         private IDbContextTransaction _transaction;
 
         public IRepository<T> Repository { get; }
-        private DbContext _context;
+        public DbContext IdentityDbContext { get; set; }
 
-        public IdentityUnitOfWork(IConfiguration config , DbContext context)
+        public IdentityUnitOfWork(IConfiguration config )//, DbContext context)
         {
-            _context = context;
-             Repository = new Repository<T>(_context);
+            var connection = config.GetConnectionString("IdentityContext");
+            var optionsBuilder = new DbContextOptionsBuilder<ModelContext>();
+            optionsBuilder.UseOracle(connection);
+            IdentityDbContext = new ModelContext(optionsBuilder.Options);
+            Repository = new Repository<T>(IdentityDbContext);
         }
 
         public async Task<int> SaveChanges()
         {
-            return await _context.SaveChangesAsync();
+            return await IdentityDbContext.SaveChangesAsync();
         }
 
         public void StartTransaction()
         {
-            _transaction = _context.Database.BeginTransaction();
+            _transaction = IdentityDbContext.Database.BeginTransaction();
         }
 
         public void CommitTransaction()
@@ -57,13 +61,13 @@ namespace MyIhsan.Identity.Service.UnitOfWork
                 return;
             }
 
-            if (_context == null)
+            if (IdentityDbContext == null)
             {
                 return;
             }
 
-            _context.Dispose();
-            _context = null;
+            IdentityDbContext.Dispose();
+            IdentityDbContext = null;
         }
     }
 }

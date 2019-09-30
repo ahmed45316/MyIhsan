@@ -24,15 +24,6 @@ namespace MyIhsan.Identity.Data.Context
         public virtual DbSet<MenuRoles> MenuRoles { get; set; }
         public virtual DbSet<Menus> Menus { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                var connection = _configuration.GetConnectionString("IdentityContext");
-                optionsBuilder.UseOracle(connection);
-            }
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
