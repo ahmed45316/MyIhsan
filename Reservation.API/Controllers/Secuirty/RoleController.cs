@@ -38,7 +38,7 @@ namespace MyIhsan.API.Controllers.Secuirty
         [HttpGet("{roleId}")]
         public async Task<IResult> Get(string roleId)
         {
-            var repositoryResult = await _roleServices.GetRole(roleId);
+            var repositoryResult = await _roleServices.GetByIdAsync(roleId);
             var result = ResponseHandler.GetResult(repositoryResult);
             return result;
         }
@@ -48,9 +48,9 @@ namespace MyIhsan.API.Controllers.Secuirty
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IResult> Add(GetRoleDto model)
+        public async Task<IResult> Add(RoleDto model)
         {
-            var repositoryResult = await _roleServices.AddRole(model);
+            var repositoryResult = await _roleServices.AddAsync(model);
             var result = ResponseHandler.GetResult(repositoryResult);
             return result;
         }
@@ -60,9 +60,9 @@ namespace MyIhsan.API.Controllers.Secuirty
         ///<param name="model"></param>
         /// <returns></returns>
         [HttpPut]
-        public async Task<IResult> Update(UpdateRoleDto model)
+        public async Task<IResult> Update(RoleDto model)
         {
-            var repositoryResult = await _roleServices.UpdateRole(model);
+            var repositoryResult = await _roleServices.UpdateAsync(model);
             var result = ResponseHandler.GetResult(repositoryResult);
             return result;
         }
@@ -74,7 +74,7 @@ namespace MyIhsan.API.Controllers.Secuirty
         [HttpDelete("{id}")]
         public async Task<IResult> Remove(string id)
         {
-            var repositoryResult = await _roleServices.RemoveRoleById(id);
+            var repositoryResult = await _roleServices.DeleteAsync(id);
             var result = ResponseHandler.GetResult(repositoryResult);
             return result;
         }

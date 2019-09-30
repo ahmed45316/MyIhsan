@@ -109,14 +109,14 @@
             <param name="roleId"></param>
             <returns></returns>
         </member>
-        <member name="M:MyIhsan.API.Controllers.Secuirty.RoleController.Add(MyIhsan.Identity.Service.Dtos.GetRoleDto)">
+        <member name="M:MyIhsan.API.Controllers.Secuirty.RoleController.Add(MyIhsan.Identity.Service.Dtos.RoleDto)">
             <summary>
             Add new Role
             </summary>
             <param name="model"></param>
             <returns></returns>
         </member>
-        <member name="M:MyIhsan.API.Controllers.Secuirty.RoleController.Update(MyIhsan.Identity.Service.Dtos.UpdateRoleDto)">
+        <member name="M:MyIhsan.API.Controllers.Secuirty.RoleController.Update(MyIhsan.Identity.Service.Dtos.RoleDto)">
              <summary>
              Update Role
              </summary>

@@ -70,7 +70,7 @@ namespace MyIhsan.Identity.Service.Core
             try
             {
                 T entityToUpdate = await _unitOfWork.Repository.GetAsync(model.Id);
-                _unitOfWork.Repository.Update(Mapper.Map(model, entityToUpdate));
+                Mapper.Map(model, entityToUpdate);
                 int affectedRows = await _unitOfWork.SaveChanges();
                 if (affectedRows > 0)
                 {

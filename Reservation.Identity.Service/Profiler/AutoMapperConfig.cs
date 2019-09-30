@@ -21,13 +21,11 @@ namespace MyIhsan.Identity.Service.Profiler
         }
         private void MappMenu()
         {
-           // CreateMap<Menu, MenuDto>().ReverseMap();
+           CreateMap<Menus, MenuDto>().ReverseMap();
         }
         private void MappRole()
         {
             CreateMap<AspNetRoles, RoleDto>().ReverseMap();
-            CreateMap<AspNetRoles, GetRoleDto>().ReverseMap();
-            CreateMap<AspNetRoles, UpdateRoleDto>().ReverseMap();
         }
     }
 }
