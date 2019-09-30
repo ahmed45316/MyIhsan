@@ -7,10 +7,10 @@ using MyIhsan.Common.Core;
 
 namespace MyIhsan.Identity.Service.Core
 {
-    public class BusinessBaseParameter<T> : IBusinessBaseParameter<T> where T : class
+    public class ServiceBaseParameter<T> : IServiceBaseParameter<T> where T : class
     {
 
-        public BusinessBaseParameter(IMapper mapper, IIdentityUnitOfWork<T> unitOfWork, IResponseResult responseResult)
+        public ServiceBaseParameter(IMapper mapper, IIdentityUnitOfWork<T> unitOfWork, IResponseResult responseResult)
         {
             Mapper = mapper;
             UnitOfWork = unitOfWork;

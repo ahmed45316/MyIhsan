@@ -56,7 +56,7 @@ namespace MyIhsan.API.Extensions
         private static void RegisterIdentityCores(this IServiceCollection services)
         {
             services.AddTransient(typeof(IBaseService<,>), typeof(BaseService<,>));            
-            services.AddTransient(typeof(IBusinessBaseParameter<>), typeof(BusinessBaseParameter<>));
+            services.AddTransient(typeof(IServiceBaseParameter<>), typeof(ServiceBaseParameter<>));
             services.AddTransient<ITokenBusiness, TokenBusiness>();     
         }
         private static void AddApiDocumentationServices(this IServiceCollection services)

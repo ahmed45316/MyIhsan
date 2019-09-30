@@ -1,10 +1,11 @@
-﻿using System;
+﻿using MyIhsan.Common.Core;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace MyIhsan.Identity.Service.Dtos
 {
-    public class MenuDto 
+    public class MenuDto : IPrimaryKeyField<string>
     {
         public string Id { get; set; }
         public string ScreenNameAr { get; set; }

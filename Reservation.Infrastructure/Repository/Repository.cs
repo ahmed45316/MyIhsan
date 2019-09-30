@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -9,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Basic.Infrastructure.Repository
-{
+{ 
     public class Repository<T> : IRepository<T> where T : class
     {
         private const bool TrueExpression = true;
@@ -20,41 +21,63 @@ namespace Basic.Infrastructure.Repository
             Context = context;
             DbSet = Context.Set<T>();
         }
-        public async Task<T> Get(params object[] keys)
+        public async Task<T> GetAsync(params object[] keys)
         {
             return await DbSet.FindAsync(keys);
         }
-        public async Task<T> FirstOrDefault(Expression<Func<T, bool>> predicate)
+        public async Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> predicate,Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null,bool disableTracking = true)
         {
-            return await DbSet.FirstOrDefaultAsync(predicate);
+            IQueryable<T> query = DbSet;
+            if (disableTracking)
+            {
+                query = query.AsNoTracking();
+            }
+
+            if (include != null)
+            {
+                query = include(query);
+            }
+
+            if (predicate != null)
+            {
+                query = query.Where(predicate);
+            }
+            return await query.FirstOrDefaultAsync();
+            
         }
-        public async Task<IEnumerable<T>> Find(Expression<Func<T, bool>> predicate)
+        public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate, Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null, bool disableTracking = true)
         {
-            return await DbSet.Where(predicate).ToListAsync();
+            IQueryable<T> query = DbSet;
+            if (disableTracking)
+            {
+                query = query.AsNoTracking();
+            }
+
+            if (include != null)
+            {
+                query = include(query);
+            }
+
+            if (predicate != null)
+            {
+                query = query.Where(predicate);
+            }
+            return await query.ToListAsync();
         }
-        public async Task<IEnumerable<T>> Find(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes)
+
+        public async Task<IEnumerable<T>> GetAllAsync(Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null, bool disableTracking = true)
         {
-            var query = DbSet.OfType<T>();
-            query = includes.Aggregate(query, (current, property) => current.Include(property));
-            return await query.Where(predicate).ToListAsync();
-        }
-        public async Task<T> SingleOrDefault(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes)
-        {
-            var result = await Find(predicate, includes);
-            return result.SingleOrDefault();
-        }
-        public async Task<T> FirstOrDefault(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes)
-        {
-            var result = await Find(predicate, includes);
-            return result.FirstOrDefault();
-        }
-        public async Task<IEnumerable<T>> GetAll()
-        {
-            return await DbSet.ToListAsync();
-        }
-        public async Task<IEnumerable<T>> GetAll(params Expression<Func<T, object>>[] includes)
-        {
-            return await Find(x => TrueExpression, includes);
+            IQueryable<T> query = DbSet;
+            if (disableTracking)
+            {
+                query = query.AsNoTracking();
+            }
+
+            if (include != null)
+            {
+                query = include(query);
+            }
+            return await query.ToListAsync();
         }
         public T Add(T newEntity)
         {
@@ -90,7 +113,7 @@ namespace Basic.Infrastructure.Repository
         }
         public void Remove(Expression<Func<T, bool>> predicate)
         {
-            var objects = Find(predicate);
+            var objects = FindAsync(predicate);
             foreach (var obj in objects.Result)
             {
                 DbSet.Remove(obj);

@@ -16,7 +16,7 @@ namespace MyIhsan.Identity.Service.Services
     public class LoginServices : BaseService<UserDto, UserDto>, ILoginServices
     {
         private readonly ITokenBusiness _tokenBusiness;
-        public LoginServices(IBusinessBaseParameter<UserDto> businessBaseParameter, ITokenBusiness tokenBusiness) : base(businessBaseParameter)
+        public LoginServices(IServiceBaseParameter<UserDto> businessBaseParameter, ITokenBusiness tokenBusiness) : base(businessBaseParameter)
         {
             _tokenBusiness = tokenBusiness;
         }

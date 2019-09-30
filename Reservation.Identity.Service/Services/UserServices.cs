@@ -18,7 +18,7 @@ namespace MyIhsan.Identity.Service.Services
     {
         private readonly IIdentityUnitOfWork<RoleDto> _roleUnitOfWork; //role
         private readonly IIdentityUnitOfWork<UserDto> _usersRoleUnitOfWork; //userrole
-        public UserServices(IBusinessBaseParameter<UserDto> businessBaseParameter, IIdentityUnitOfWork<RoleDto> roleUnitOfWork, IIdentityUnitOfWork<UserDto> usersRoleUnitOfWork) : base(businessBaseParameter)
+        public UserServices(IServiceBaseParameter<UserDto> businessBaseParameter, IIdentityUnitOfWork<RoleDto> roleUnitOfWork, IIdentityUnitOfWork<UserDto> usersRoleUnitOfWork) : base(businessBaseParameter)
         {
             _roleUnitOfWork = roleUnitOfWork;
             _usersRoleUnitOfWork = usersRoleUnitOfWork;
@@ -51,7 +51,7 @@ namespace MyIhsan.Identity.Service.Services
         }
         public async Task<IResponseResult> GetUser(string lang, string Id)
         {
-                var user =await _unitOfWork.Repository.FirstOrDefault(q => q.Id == Id);
+                var user =await _unitOfWork.Repository.FirstOrDefaultAsync(q => q.Id == Id);
                 if (user == null) return ResponseResult.GetRepositoryActionResult(status:HttpStatusCode.NoContent, message: HttpStatusCode.NoContent.ToString());
                 var userDto = Mapper.Map<UserDto>(user);
                 return ResponseResult.GetRepositoryActionResult(userDto,status: HttpStatusCode.OK, message: HttpStatusCode.OK.ToString());           
@@ -59,7 +59,7 @@ namespace MyIhsan.Identity.Service.Services
         public async Task<IResponseResult> AddUser(UserDto userDto)
         {
                 if (userDto == null) return ResponseResult.GetRepositoryActionResult(status:HttpStatusCode.NoContent, message: HttpStatusCode.NoContent.ToString());
-                var isExist =await _unitOfWork.Repository.FirstOrDefault(q => (q.UserName == userDto.UserName || q.Email == userDto.Email || (q.PhoneNumber == userDto.PhoneNumber && (userDto.PhoneNumber != "" && userDto.PhoneNumber != null))) && !q.IsDeleted) != null;
+                var isExist =await _unitOfWork.Repository.FirstOrDefaultAsync(q => (q.UserName == userDto.UserName || q.Email == userDto.Email || (q.PhoneNumber == userDto.PhoneNumber && (userDto.PhoneNumber != "" && userDto.PhoneNumber != null))) && !q.IsDeleted) != null;
                 if (isExist) return ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.NotAcceptable, message: HttpStatusCode.NotAcceptable.ToString());
                 var user = Mapper.Map<UserDto>(userDto);
                 user.Id = Guid.NewGuid().ToString();
@@ -72,9 +72,9 @@ namespace MyIhsan.Identity.Service.Services
         public async Task<IResponseResult> UpdateUser(UserDto userDto)
         {
                 if (userDto == null) return ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.NoContent, message: HttpStatusCode.NoContent.ToString());
-                var isExist = await _unitOfWork.Repository.FirstOrDefault(q => (q.UserName == userDto.UserName || q.Email == userDto.Email || (q.PhoneNumber == userDto.PhoneNumber && (userDto.PhoneNumber != "" && userDto.PhoneNumber != null))) && q.Id != userDto.Id && !q.IsDeleted) != null;
+                var isExist = await _unitOfWork.Repository.FirstOrDefaultAsync(q => (q.UserName == userDto.UserName || q.Email == userDto.Email || (q.PhoneNumber == userDto.PhoneNumber && (userDto.PhoneNumber != "" && userDto.PhoneNumber != null))) && q.Id != userDto.Id && !q.IsDeleted) != null;
                 if (isExist) return ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.NotAcceptable, message: HttpStatusCode.NotAcceptable.ToString());
-                var original = await _unitOfWork.Repository.Get(userDto.Id);
+                var original = await _unitOfWork.Repository.GetAsync(userDto.Id);
                 var user = Mapper.Map<UserDto>(userDto);
                 user.SecurityStamp = Guid.NewGuid().ToString();
                 _unitOfWork.Repository.Update(original, user);
@@ -85,7 +85,7 @@ namespace MyIhsan.Identity.Service.Services
         public async Task<IResponseResult> RemoveUserById(string id)
         {
                 if (id == null) return ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.NoContent, message: HttpStatusCode.NoContent.ToString());
-                var user = await _unitOfWork.Repository.FirstOrDefault(q => q.Id == id);
+                var user = await _unitOfWork.Repository.FirstOrDefaultAsync(q => q.Id == id);
                 user.IsDeleted = true;
                 _unitOfWork.Repository.Update(user, user.Id);
                 await _unitOfWork.SaveChanges();
@@ -93,23 +93,23 @@ namespace MyIhsan.Identity.Service.Services
         }
         public async Task<IResponseResult> IsUsernameExists(string name, string id)
         {
-            var res =await _unitOfWork.Repository.FirstOrDefault(q => q.UserName == name && q.Id != id && !q.IsDeleted);
+            var res =await _unitOfWork.Repository.FirstOrDefaultAsync(q => q.UserName == name && q.Id != id && !q.IsDeleted);
             return ResponseResult.GetRepositoryActionResult(res != null, status:HttpStatusCode.OK, message: HttpStatusCode.OK.ToString());
         }
         public async Task<IResponseResult> IsEmailExists(string email, string id)
         {
-            var res = await _unitOfWork.Repository.FirstOrDefault(q => q.Email == email && q.Id != id && !q.IsDeleted);
+            var res = await _unitOfWork.Repository.FirstOrDefaultAsync(q => q.Email == email && q.Id != id && !q.IsDeleted);
             return ResponseResult.GetRepositoryActionResult(res != null, status: HttpStatusCode.OK, message: HttpStatusCode.OK.ToString());
         }
         public async Task<IResponseResult> IsPhoneExists(string phone, string id)
         {
-            var res = await _unitOfWork.Repository.FirstOrDefault(q => q.PhoneNumber == phone && q.Id != id && !q.IsDeleted);
+            var res = await _unitOfWork.Repository.FirstOrDefaultAsync(q => q.PhoneNumber == phone && q.Id != id && !q.IsDeleted);
             return ResponseResult.GetRepositoryActionResult(res != null, status: HttpStatusCode.OK, message: HttpStatusCode.OK.ToString());
         }
         //=======================================
         public async Task<Select2PagedResult> GetUsersSelect2(string searchTerm, int pageSize, int pageNumber)
         {
-            var users = !string.IsNullOrEmpty(searchTerm) ? await _unitOfWork.Repository.Find(n => !n.IsDeleted && n.Id != AdmistratorId && n.UserName.ToLower().Contains(searchTerm.ToLower())) : await _unitOfWork.Repository.Find(q => !q.IsDeleted && q.Id != AdmistratorId);
+            var users = !string.IsNullOrEmpty(searchTerm) ? await _unitOfWork.Repository.FindAsync(n => !n.IsDeleted && n.Id != AdmistratorId && n.UserName.ToLower().Contains(searchTerm.ToLower())) : await _unitOfWork.Repository.FindAsync(q => !q.IsDeleted && q.Id != AdmistratorId);
             var result = users.OrderBy(q => q.Id).Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(q => new Select2OptionModel { id = q.Id, text = q.UserName }).ToList();
             var select2pagedResult = new Select2PagedResult();
             select2pagedResult.Total = users.Count();

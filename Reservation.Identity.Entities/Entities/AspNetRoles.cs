@@ -9,5 +9,7 @@ namespace MyIhsan.Identity.Entities.Entities
         public string Name { get; set; }
         public bool? IsDeleted { get; set; }
         public bool? IsBlock { get; set; }
+        public virtual ICollection<AspNetUsersRoles> AspNetUsersRoles { get; set; }
+        public virtual ICollection<MenuRoles> Menu { get; set; }
     }
 }

@@ -1,10 +1,11 @@
-﻿using System;
+﻿using MyIhsan.Common.Core;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace MyIhsan.Identity.Service.Dtos
 {
-    public class UserDto
+    public class UserDto : IPrimaryKeyField<string>
     {
         public string Id { get; set; }
         public string Email { get; set; }

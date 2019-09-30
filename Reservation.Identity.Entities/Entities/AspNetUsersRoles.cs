@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MyIhsan.Identity.Entities.Entities
 {
@@ -10,5 +11,7 @@ namespace MyIhsan.Identity.Entities.Entities
         public string UserId { get; set; }
         public bool? IsDeleted { get; set; }
         public bool? IsBlock { get; set; }
+        [ForeignKey("RoleId")]
+        public virtual AspNetRoles AspNetRoles { get; set; }
     }
 }
