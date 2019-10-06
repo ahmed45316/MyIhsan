@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Configuration;
+using MyIhsan.Identity.Entities.Views;
 using MyIhsan.Identity.Entities.Entities;
 
 namespace MyIhsan.Identity.Data.Context
@@ -23,7 +24,7 @@ namespace MyIhsan.Identity.Data.Context
         public virtual DbSet<AspNetUsersRoles> AspNetUsersRoles { get; set; }
         public virtual DbSet<MenuRoles> MenuRoles { get; set; }
         public virtual DbSet<Menus> Menus { get; set; }
-
+        public virtual DbSet<AspNetUsers> ASPNETUSERS { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
@@ -98,6 +99,7 @@ namespace MyIhsan.Identity.Data.Context
 
                 entity.Property(e => e.ScreenNameEn).HasColumnType("NVARCHAR2(256)");
             });
+            
         }
     }
 }

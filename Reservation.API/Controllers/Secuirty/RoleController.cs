@@ -78,17 +78,7 @@ namespace MyIhsan.API.Controllers.Secuirty
             var result = ResponseHandler.GetResult(repositoryResult);
             return result;
         }
-        /// <summary>
-        /// Get  Role by Name from stored
-        /// </summary>
-        /// <param name="roleName"></param>
-        /// <returns></returns>
-        [HttpGet("{roleName?}")]
-        public IActionResult GetRoleByName(string roleName=null)
-        {
-            var repositoryResult = _roleServices.GetRoleFromStored(roleName);
-            return Ok(repositoryResult);
-        }
+       
         /// <summary>
         /// check Name is Exists
         /// </summary>

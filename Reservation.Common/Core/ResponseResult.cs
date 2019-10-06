@@ -5,12 +5,12 @@ using System.Text;
 
 namespace MyIhsan.Common.Core
 {
-   
+
     public class ResponseResult : Result, IResponseResult
     {
         public Exception Exception { get; }
 
-        public new HttpStatusCode Status { get; }
+        public new HttpStatusCode Status { get; set; }
 
         public ResponseResult(object result = null, HttpStatusCode status = HttpStatusCode.BadRequest, Exception exception = null, string message = null)
         {

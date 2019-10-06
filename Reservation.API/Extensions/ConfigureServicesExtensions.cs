@@ -19,6 +19,7 @@ using System.Reflection;
 using System.Text;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using MyIhsan.Identity.Data.Context;
+using MyIhsan.Identity.Service.Profiler;
 
 namespace MyIhsan.API.Extensions
 {
@@ -42,6 +43,7 @@ namespace MyIhsan.API.Extensions
             services.RegisterIdentityCores();
             services.AddIdentiyUnitOfWork();
             services.RegisterIdentityAssemply();
+            Mapper.Initialize(cfd => cfd.AddProfile<AutoMapperConfig>());
             services.AddAutoMapper();
             services.RegisterMainCore();
             return services;

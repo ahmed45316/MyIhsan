@@ -28,7 +28,7 @@ namespace MyIhsan.Identity.Service.Core
             var claims = new[] {
                 new Claim( JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Sub, userInfo.UserName),
-                new Claim("UserId", userInfo.Id),
+                new Claim("UserId", userInfo.Id.ToString()),
                 new Claim("Roles", roles)
             };
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:SigningKey"]));
@@ -41,11 +41,7 @@ namespace MyIhsan.Identity.Service.Core
                 expires: expiryInHours,
                 signingCredentials: credentials,
                 claims: claims);
-
-            _userLoginReturn.AdminId = userInfo.AdminId;
-            _userLoginReturn.VendorId = userInfo.VendorId;
-            _userLoginReturn.ClientId = userInfo.ClientId;
-            _userLoginReturn.UserId = userInfo.Id;           
+            _userLoginReturn.UserId = userInfo.Id.ToString();           
             _userLoginReturn.RefreshToken = refreshToken;
             _userLoginReturn.TokenValidTo = token.ValidTo;
 

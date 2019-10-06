@@ -13,7 +13,6 @@ namespace MyIhsan.Identity.Service.Interfaces
     public interface IRoleServices : IBaseService<AspNetRoles, RoleDto>
     {
         Task<IDataPagging> GetRoles(GetAllRoleParameters parameters);
-        IEnumerable<RoleDto> GetRoleFromStored(string Name);
         Task<IResponseResult> IsNameExists(string name, string id);
     }
 }

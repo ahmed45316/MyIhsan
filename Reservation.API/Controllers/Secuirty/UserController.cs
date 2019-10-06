@@ -36,13 +36,12 @@ namespace MyIhsan.API.Controllers.Secuirty
         /// <summary>
         /// Get User by Id
         /// </summary>
-        /// <param name="lang"></param>
         /// <param name="Id"></param>
         /// <returns></returns>
-        [HttpGet("{lang}/{Id}")]
-        public async Task<IResult> Get(string lang, string Id)
+        [HttpGet("{Id}")]
+        public async Task<IResult> Get(long Id)
         {
-            var repositoryResult = await _userServices.GetUser(lang, Id);
+            var repositoryResult = await _userServices.GetUser(Id);
             var result = ResponseHandler.GetResult(repositoryResult);
             return result;
         }
@@ -76,7 +75,7 @@ namespace MyIhsan.API.Controllers.Secuirty
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
-        public async Task<IResult> Remove(string id)
+        public async Task<IResult> Remove(long id)
         {
             var repositoryResult = await _userServices.RemoveUserById(id);
             var result = ResponseHandler.GetResult(repositoryResult);
@@ -89,46 +88,13 @@ namespace MyIhsan.API.Controllers.Secuirty
         /// <param name="type"></param>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet("{name}/{type}/{id?}")]
-        public async Task<IResult> IsExists(string name, byte type, string id = null)
-        {
-            var repositoryResult = type == 3 ? await _userServices.IsPhoneExists(name, id) : type == 2 ? await _userServices.IsEmailExists(name, id) : await _userServices.IsUsernameExists(name, id);
-            var result = ResponseHandler.GetResult(repositoryResult);
-            return result;
-        }
-        /// <summary>
-        /// Get Users Select2
-        /// </summary>
-        /// <param name="pageSize"></param>
-        /// <param name="pageNumber"></param>
-        /// <param name="searchTerm"></param>
-        /// <returns></returns>
-        [HttpGet]
-        public async Task<IActionResult> GetUsersSelect2(int pageSize, int pageNumber, string searchTerm = null)
-        {
-            return  Ok(await _userServices.GetUsersSelect2(searchTerm, pageSize, pageNumber));
-        }
-        /// <summary>
-        /// Get users to assigned to Role 
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetUserAssigned(string id)
-        {
-            return Ok(await _userServices.GetUserAssignedSelect2(id));
-        }
-        /// <summary>
-        /// Save User assigned
-        /// </summary>
-        /// <param name="parameters"></param>
-        /// <returns></returns>
-        [HttpPost]
-        public async Task<IResult> SaveUserAssigned([FromForm]AssignUserOnRoleParameters parameters)
-        {
-            var repositoryResult = await _userServices.SaveUserAssigned(parameters);
-            var result = ResponseHandler.GetResult(repositoryResult);
-            return result;
-        }
+        //[HttpGet("{name}/{type}/{id?}")]
+        //public async Task<IResult> IsExists(string name, byte type, string id = null)
+        //{
+        //    var repositoryResult = type == 3 ? await _userServices.IsPhoneExists(name, id) : type == 2 ? await _userServices.IsEmailExists(name, id) : await _userServices.IsUsernameExists(name, id);
+        //    var result = ResponseHandler.GetResult(repositoryResult);
+        //    return result;
+        //}
+
     }
 }
