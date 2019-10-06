@@ -91,37 +91,66 @@ namespace MyIhsan.Identity.Service.Services
             return _serviceBaseParameter.ResponseResult.GetRepositoryActionResult(true, status: HttpStatusCode.OK, message: HttpStatusCode.OK.ToString());
         }
 
-        public Task<IResponseResult> IsUsernameExists(string name, long id)
+        public async Task<IResponseResult> IsUsernameExists(string name, long id)
         {
-            throw new NotImplementedException();
+            var res = await _serviceBaseParameter.UnitOfWork.Repository.FirstOrDefaultAsync(q => q.USERNAME == name && q.ID != id && q.ISDELETED!=1);
+            return _serviceBaseParameter.ResponseResult.GetRepositoryActionResult(res != null, status: HttpStatusCode.OK, message: HttpStatusCode.OK.ToString());
         }
 
-        public Task<IResponseResult> IsEmailExists(string email, long id)
+        public async Task<IResponseResult> IsEmailExists(string email, long id)
         {
-            throw new NotImplementedException();
+            var res = await _serviceBaseParameter.UnitOfWork.Repository.FirstOrDefaultAsync(q => q.EMAIL == email && q.ID != id && q.ISDELETED!=1);
+            return _serviceBaseParameter.ResponseResult.GetRepositoryActionResult(res != null, status: HttpStatusCode.OK, message: HttpStatusCode.OK.ToString());
         }
 
-        public Task<IResponseResult> IsPhoneExists(string phone, long id)
+        public async Task<IResponseResult> IsPhoneExists(string phone, long id)
         {
-            throw new NotImplementedException();
+            var res = await _serviceBaseParameter.UnitOfWork.Repository.FirstOrDefaultAsync(q => q.PHONENUMBER == phone && q.ID != id && q.ISDELETED!=1);
+            return _serviceBaseParameter.ResponseResult.GetRepositoryActionResult(res != null, status: HttpStatusCode.OK, message: HttpStatusCode.OK.ToString());
         }
 
-        public Task<Select2PagedResult> GetUsersSelect2(string searchTerm, int pageSize, int pageNumber)
+        public async Task<Select2PagedResult> GetUsersSelect2(string searchTerm, int pageSize, int pageNumber)
         {
-            throw new NotImplementedException();
+            var users = !string.IsNullOrEmpty(searchTerm) ? await _serviceBaseParameter.UnitOfWork.Repository.FindAsync(n => n.ISDELETED!=1 && n.USERNAME.ToLower().Contains(searchTerm.ToLower())) : await _serviceBaseParameter.UnitOfWork.Repository.FindAsync(q => q.ISDELETED!=1);
+            var result = users.OrderBy(q => q.ID).Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(q => new Select2OptionModel { id = q.ID.ToString(), text = q.USERNAME }).ToList();
+            var select2pagedResult = new Select2PagedResult();
+            select2pagedResult.Total = users.Count();
+            select2pagedResult.Results = result;
+            return select2pagedResult;
+        }
+        public async Task<IEnumerable<Select2OptionModel>> GetUserAssignedSelect2(long id)
+        {
+            //var role = await _roleUnitOfWork.Repository.FirstOrDefaultAsync(q => q.Id == id, include: source => source.Include(a => a.AspNetUsersRole).Include(b => b.AspNetUsersRole), disableTracking: false);
+            //var userIdList = role.AspNetUsersRole.Select(q => q.UserId).ToList();
+            //var userassignQuery = await _unitOfWork.Repository.FindAsync(q => userIdList.Contains(q.Id) && !q.IsDeleted);
+            //var userassign = userassignQuery.Select(q => new Select2OptionModel { id = q.Id, text = q.UserName }).ToList();
+            //return userassign;
+            throw new Exception();
+        }
+        public async Task<IResponseResult> SaveUserAssigned(AssignUserOnRoleParameters parameters)
+        {
+            //var role = await _roleUnitOfWork.Repository.FirstOrDefaultAsync(q => q.Id == parameters.RoleId, include: source => source.Include(a => a.AspNetUsersRole), disableTracking: false);
+            //if (parameters.AssignedUser != null)
+            //{
+            //    foreach (var item in parameters.AssignedUser)
+            //    {
+            //        var isExist = await _usersRoleUnitOfWork.Repository.FirstOrDefaultAsync(q => q.UserId == item && q.RoleId == parameters.RoleId) != null;
+            //        if (!isExist)
+            //        {
+            //            var userRole = new AspNetUsersRole() { Id = Guid.NewGuid().ToString(), UserId = item, RoleId = parameters.RoleId };
+            //            _usersRoleUnitOfWork.Repository.Add(userRole);
+            //        }
+            //    }
+            //}
+
+            //var userRemove = parameters.AssignedUser is null ? role.AspNetUsersRole : role.AspNetUsersRole.Where(q => !parameters.AssignedUser.Contains(q.UserId));
+            //_usersRoleUnitOfWork.Repository.RemoveRange(userRemove);
+            //await _usersRoleUnitOfWork.SaveChanges();
+            //return ResponseResult.GetRepositoryActionResult(true, status: HttpStatusCode.Created, message: HttpStatusCode.Created.ToString());
+            throw new Exception();
         }
 
-        public Task<IEnumerable<Select2OptionModel>> GetUserAssignedSelect2(long id)
-        {
-            throw new NotImplementedException();
-        }
 
-        public Task<IResponseResult> SaveUserAssigned(AssignUserOnRoleParameters parameters)
-        {
-            throw new NotImplementedException();
-        }
-
-        
 
     }
 }
