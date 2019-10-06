@@ -13,7 +13,7 @@ namespace MyIhsan.API.Controllers.Base
     /// <inheritdoc />
     [Route("[controller]/[action]")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class BaseMainController : ControllerBase
     {
         /// <inheritdoc />

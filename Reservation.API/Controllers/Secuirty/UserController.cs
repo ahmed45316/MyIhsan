@@ -88,7 +88,7 @@ namespace MyIhsan.API.Controllers.Secuirty
         /// <param name="type"></param>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet("IsExists/{name}/{type}/{id?}")]
+        [HttpGet("{name}/{type}/{id?}")]
         public async Task<IResult> IsUsernameExists(string name, byte type, long? id = null)
         {
             var repositoryResult = type == 3 ? await _userServices.IsPhoneExists(name, id??0) : type == 2 ? await _userServices.IsEmailExists(name, id??0) : await _userServices.IsUsernameExists(name, id??0);
@@ -102,7 +102,7 @@ namespace MyIhsan.API.Controllers.Secuirty
         /// <param name="pageNumber"></param>
         /// <param name="searchTerm"></param>
         /// <returns></returns>
-        [HttpGet("GetUsersSelect2")]
+        [HttpGet]
         public async Task<IActionResult> GetUsersSelect2(int pageSize, int pageNumber, string searchTerm = null)
         {
             return Ok(await _userServices.GetUsersSelect2(searchTerm, pageSize, pageNumber));
@@ -112,7 +112,7 @@ namespace MyIhsan.API.Controllers.Secuirty
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet("GetUserAssigned/{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetUserAssigned(long id)
         {
             return Ok(await _userServices.GetUserAssignedSelect2(id));
@@ -122,7 +122,7 @@ namespace MyIhsan.API.Controllers.Secuirty
         /// </summary>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        [HttpPost("SaveUserAssigned")]
+        [HttpPost]
         public async Task<IResult> SaveUserAssigned([FromForm]AssignUserOnRoleParameters parameters)
         {
             var repositoryResult = await _userServices.SaveUserAssigned(parameters);

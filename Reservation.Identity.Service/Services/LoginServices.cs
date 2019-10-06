@@ -10,29 +10,29 @@ using System.Text;
 using System.Threading.Tasks;
 using MyIhsan.Common.Parameters;
 using MyIhsan.Common.Core;
+using MyIhsan.Identity.Entities.Views;
 
 namespace MyIhsan.Identity.Service.Services
 {
     public class LoginServices : ILoginServices
     {
         private readonly ITokenBusiness _tokenBusiness;
-        public LoginServices(ITokenBusiness tokenBusiness)
+        private readonly IServiceBaseParameter<AspNetUsers> _serviceBaseParameter;
+        public LoginServices(IServiceBaseParameter<AspNetUsers> serviceBaseParameter,ITokenBusiness tokenBusiness)
         {
             _tokenBusiness = tokenBusiness;
+            _serviceBaseParameter = serviceBaseParameter;
         }
         public async Task<IResponseResult> Login(LoginParameters parameters)
         {
-            //var user = await _unitOfWork.Repository.FirstOrDefault(q => q.UserName == parameters.Username && !q.IsDeleted);
-            //if (user == null) return ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.BadRequest,
-            //                message: "Wrong Username Or Password");
-            //bool rightPass = user.PasswordHash == parameters.Password;
-            //if (!rightPass) return ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.NotFound, message: HttpStatusCode.NotFound.ToString());
-            //var refToken = Guid.NewGuid().ToString();
-            //var roles = user.AspNetUsersRole.Select(q => q.RoleId).ToList();
-            //var userDto = Mapper.Map<UserDto, UserDto>(user);
-            //var userLoginReturn = _tokenBusiness.GenerateJsonWebToken(userDto, string.Join(",", roles), refToken);
-            //return ResponseResult.GetRepositoryActionResult(userLoginReturn, status: HttpStatusCode.OK, message: HttpStatusCode.OK.ToString()); 
-            return null;
+            var user = await _serviceBaseParameter.UnitOfWork.Repository.FirstOrDefaultAsync(q => q.USERNAME == parameters.Username &&q.PASSWORDHASH == parameters.Password && q.ISDELETED!=1);
+            if (user == null) return _serviceBaseParameter.ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.BadRequest,message: "Wrong Username Or Password");
+           
+            var refToken = Guid.NewGuid().ToString();
+            var roles ="";
+            var userDto = Mapper.Map<UserDto>(user);
+            var userLoginReturn = _tokenBusiness.GenerateJsonWebToken(userDto, string.Join(",", roles), refToken);
+            return _serviceBaseParameter.ResponseResult.GetRepositoryActionResult(userLoginReturn, status: HttpStatusCode.OK, message: HttpStatusCode.OK.ToString()); 
         }
     }
 }
