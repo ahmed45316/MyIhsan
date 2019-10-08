@@ -31,8 +31,8 @@ namespace MyIhsan.Identity.Service.Services
 
         public async Task<IDataPagging> GetUsers(GetAllUserParameters parameters)
         {
-            var users = await _serviceBaseParameter.UnitOfWork.Repository.FindAsync(q =>q!=null && q.ISDELETED !=1);
-            users = !string.IsNullOrEmpty(parameters.UserName) ? users.Where(q => q.USERNAME.Contains(parameters.UserName)) : users;
+            var users = await _serviceBaseParameter.UnitOfWork.Repository.FindAsync(q =>q!=null && q.IsDeleted !=1);
+            users = !string.IsNullOrEmpty(parameters.UserName) ? users.Where(q => q.UserName.Contains(parameters.UserName)) : users;
            
             var usesrPagging = users.AsQueryable().OrderBy(parameters.OrderByValue).Skip(parameters.PageNumber).Take(parameters.PageSize).ToList();
 
@@ -49,7 +49,7 @@ namespace MyIhsan.Identity.Service.Services
         }
         public async Task<IResponseResult> GetUser(long Id)
         {
-            var user = await _serviceBaseParameter.UnitOfWork.Repository.FirstOrDefaultAsync(q => q.ID == Id);
+            var user = await _serviceBaseParameter.UnitOfWork.Repository.FirstOrDefaultAsync(q => q.Id == Id);
             if (user == null) return _serviceBaseParameter.ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.NoContent, message: HttpStatusCode.NoContent.ToString());
             var userDto = Mapper.Map<UserDto>(user);
             return _serviceBaseParameter.ResponseResult.GetRepositoryActionResult(userDto, status: HttpStatusCode.OK, message: HttpStatusCode.OK.ToString());
@@ -57,7 +57,7 @@ namespace MyIhsan.Identity.Service.Services
         public async Task<IResponseResult> AddUser(UserDto userDto)
         {
             if (userDto == null) return _serviceBaseParameter.ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.NoContent, message: HttpStatusCode.NoContent.ToString());
-            var isExist = await _serviceBaseParameter.UnitOfWork.Repository.FirstOrDefaultAsync(q => (q.USERNAME == userDto.UserName || q.EMAIL == userDto.Email || (q.PHONENUMBER == userDto.PhoneNumber && (userDto.PhoneNumber != "" && userDto.PhoneNumber != null))) && q.ISDELETED!=1) != null;
+            var isExist = await _serviceBaseParameter.UnitOfWork.Repository.FirstOrDefaultAsync(q => (q.UserName == userDto.UserName || q.Email == userDto.Email || (q.PhoneNumber == userDto.PhoneNumber && (userDto.PhoneNumber != "" && userDto.PhoneNumber != null))) && q.IsDeleted!=1) != null;
             if (isExist) return _serviceBaseParameter.ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.NotAcceptable, message: HttpStatusCode.NotAcceptable.ToString());
             var data = await _serviceBaseParameter.UnitOfWork.Repository.FindAsync(q=>q!=null);
             userDto.Id = data ==null?1000:(1000+data.Count());
@@ -71,12 +71,12 @@ namespace MyIhsan.Identity.Service.Services
         public async Task<IResponseResult> UpdateUser(UserDto userDto)
         {
             if (userDto == null) return _serviceBaseParameter.ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.NoContent, message: HttpStatusCode.NoContent.ToString());
-            var isExist = await _serviceBaseParameter.UnitOfWork.Repository.FirstOrDefaultAsync(q => (q.USERNAME == userDto.UserName || q.EMAIL == userDto.Email || (q.PHONENUMBER == userDto.PhoneNumber && (userDto.PhoneNumber != "" && userDto.PhoneNumber != null))) && q.ID != userDto.Id && q.ISDELETED!=1) != null;
+            var isExist = await _serviceBaseParameter.UnitOfWork.Repository.FirstOrDefaultAsync(q => (q.UserName == userDto.UserName || q.Email == userDto.Email || (q.PhoneNumber == userDto.PhoneNumber && (userDto.PhoneNumber != "" && userDto.PhoneNumber != null))) && q.Id != userDto.Id && q.IsDeleted!=1) != null;
             if (isExist) return _serviceBaseParameter.ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.NotAcceptable, message: HttpStatusCode.NotAcceptable.ToString());
-            var original = await _serviceBaseParameter.UnitOfWork.Repository.FirstOrDefaultAsync(q => q.ID == userDto.Id);
+            var original = await _serviceBaseParameter.UnitOfWork.Repository.FirstOrDefaultAsync(q => q.Id == userDto.Id);
             userDto.SecurityStamp = Guid.NewGuid().ToString();         
             var user = Mapper.Map(userDto,original);
-            _serviceBaseParameter.UnitOfWork.Repository.Update(user,user.ID);
+            _serviceBaseParameter.UnitOfWork.Repository.Update(user,user.Id);
             await _serviceBaseParameter.UnitOfWork.SaveChanges();
             return _serviceBaseParameter.ResponseResult.GetRepositoryActionResult(userDto, status: HttpStatusCode.Accepted, message: HttpStatusCode.Accepted.ToString());
         }
@@ -84,35 +84,35 @@ namespace MyIhsan.Identity.Service.Services
         public async Task<IResponseResult> RemoveUserById(long id)
         {
             if (id == null) return _serviceBaseParameter.ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.NoContent, message: HttpStatusCode.NoContent.ToString());
-            var user = await _serviceBaseParameter.UnitOfWork.Repository.FirstOrDefaultAsync(q => q.ID == id);
-            user.ISDELETED = 1;
-            _serviceBaseParameter.UnitOfWork.Repository.Update(user, user.ID);
+            var user = await _serviceBaseParameter.UnitOfWork.Repository.FirstOrDefaultAsync(q => q.Id == id);
+            user.IsDeleted = 1;
+            _serviceBaseParameter.UnitOfWork.Repository.Update(user, user.Id);
             await _serviceBaseParameter.UnitOfWork.SaveChanges();
             return _serviceBaseParameter.ResponseResult.GetRepositoryActionResult(true, status: HttpStatusCode.OK, message: HttpStatusCode.OK.ToString());
         }
 
         public async Task<IResponseResult> IsUsernameExists(string name, long id)
         {
-            var res = await _serviceBaseParameter.UnitOfWork.Repository.FirstOrDefaultAsync(q => q.USERNAME == name && q.ID != id && q.ISDELETED!=1);
+            var res = await _serviceBaseParameter.UnitOfWork.Repository.FirstOrDefaultAsync(q => q.UserName == name && q.Id != id && q.IsDeleted!=1);
             return _serviceBaseParameter.ResponseResult.GetRepositoryActionResult(res != null, status: HttpStatusCode.OK, message: HttpStatusCode.OK.ToString());
         }
 
         public async Task<IResponseResult> IsEmailExists(string email, long id)
         {
-            var res = await _serviceBaseParameter.UnitOfWork.Repository.FirstOrDefaultAsync(q => q.EMAIL == email && q.ID != id && q.ISDELETED!=1);
+            var res = await _serviceBaseParameter.UnitOfWork.Repository.FirstOrDefaultAsync(q => q.Email == email && q.Id != id && q.IsDeleted!=1);
             return _serviceBaseParameter.ResponseResult.GetRepositoryActionResult(res != null, status: HttpStatusCode.OK, message: HttpStatusCode.OK.ToString());
         }
 
         public async Task<IResponseResult> IsPhoneExists(string phone, long id)
         {
-            var res = await _serviceBaseParameter.UnitOfWork.Repository.FirstOrDefaultAsync(q => q.PHONENUMBER == phone && q.ID != id && q.ISDELETED!=1);
+            var res = await _serviceBaseParameter.UnitOfWork.Repository.FirstOrDefaultAsync(q => q.PhoneNumber == phone && q.Id != id && q.IsDeleted!=1);
             return _serviceBaseParameter.ResponseResult.GetRepositoryActionResult(res != null, status: HttpStatusCode.OK, message: HttpStatusCode.OK.ToString());
         }
 
         public async Task<Select2PagedResult> GetUsersSelect2(string searchTerm, int pageSize, int pageNumber)
         {
-            var users = !string.IsNullOrEmpty(searchTerm) ? await _serviceBaseParameter.UnitOfWork.Repository.FindAsync(n => n.ISDELETED!=1 && n.USERNAME.ToLower().Contains(searchTerm.ToLower())) : await _serviceBaseParameter.UnitOfWork.Repository.FindAsync(q => q.ISDELETED!=1);
-            var result = users.OrderBy(q => q.ID).Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(q => new Select2OptionModel { id = q.ID.ToString(), text = q.USERNAME }).ToList();
+            var users = !string.IsNullOrEmpty(searchTerm) ? await _serviceBaseParameter.UnitOfWork.Repository.FindAsync(n => n.IsDeleted!=1 && n.UserName.ToLower().Contains(searchTerm.ToLower())) : await _serviceBaseParameter.UnitOfWork.Repository.FindAsync(q => q.IsDeleted!=1);
+            var result = users.OrderBy(q => q.Id).Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(q => new Select2OptionModel { id = q.Id.ToString(), text = q.UserName }).ToList();
             var select2pagedResult = new Select2PagedResult();
             select2pagedResult.Total = users.Count();
             select2pagedResult.Results = result;

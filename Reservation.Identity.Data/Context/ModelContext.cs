@@ -24,7 +24,7 @@ namespace MyIhsan.Identity.Data.Context
         public virtual DbSet<AspNetUsersRoles> AspNetUsersRoles { get; set; }
         public virtual DbSet<MenuRoles> MenuRoles { get; set; }
         public virtual DbSet<Menus> Menus { get; set; }
-        public virtual DbSet<AspNetUsers> ASPNETUSERS { get; set; }
+        public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("ProductVersion", "2.2.6-servicing-10079")

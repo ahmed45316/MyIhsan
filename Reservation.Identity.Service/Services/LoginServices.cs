@@ -25,7 +25,7 @@ namespace MyIhsan.Identity.Service.Services
         }
         public async Task<IResponseResult> Login(LoginParameters parameters)
         {
-            var user = await _serviceBaseParameter.UnitOfWork.Repository.FirstOrDefaultAsync(q => q.USERNAME == parameters.Username &&q.PASSWORDHASH == parameters.Password && q.ISDELETED!=1);
+            var user = await _serviceBaseParameter.UnitOfWork.Repository.FirstOrDefaultAsync(q => q.UserName == parameters.Username &&q.PasswordHash == parameters.Password && q.IsDeleted!=1);
             if (user == null) return _serviceBaseParameter.ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.BadRequest,message: "Wrong Username Or Password");
            
             var refToken = Guid.NewGuid().ToString();

@@ -19,7 +19,7 @@ namespace MyIhsan.Identity.Service.Dtos
         public short? IsDeleted { get; set; }
         public string UserName { get; set; }
         public long? AccessFailedCount { get; set; }
-        public short? LockOutEnabled { get; set; }
+        public short? LockoutEnabled { get; set; }
         public DateTime? LockoutEndDateUtc { get; set; }
         public short? TwoFactorEnabled { get; set; }
         public short? PhoneNumberConfirmed { get; set; }

@@ -6,27 +6,27 @@ namespace MyIhsan.Identity.Entities.Views
 {
     public class AspNetUsers
     {
-        public string NAMEEN { get; set; }
-        public string ENTITYIDINFO { get; set; }
-        public string NAME { get; set; }
-        public string CITYID { get; set; }
-        public string COUNTRYID { get; set; }
-        public short? GENDER { get; set; }
-        public string ADDRESS { get; set; }
-        public string TELNUMBER { get; set; }
-        public short? ISBLOCK { get; set; }
-        public short? ISDELETED { get; set; }
-        public string USERNAME { get; set; }
-        public long? ACCESSFAILEDCOUNT { get; set; }
-        public short? LOCKOUTENABLED { get; set; }
-        public DateTime? LOCKOUTENDDATEUTC { get; set; }
-        public short? TWOFACTORENABLED { get; set; }
-        public short? PHONENUMBERCONFIRMED { get; set; }
-        public string PHONENUMBER { get; set; }
-        public string SECURITYSTAMP { get; set; }
-        public string PASSWORDHASH { get; set; }
-        public short? EMAILCONFIRMED { get; set; }
-        public string EMAIL { get; set; }
-        public long? ID { get; set; }
+        public string NameEn { get; set; }
+        public string EntityIdInfo { get; set; }
+        public string Name { get; set; }
+        public string CityId { get; set; }
+        public string CountryId { get; set; }
+        public short? Gender { get; set; }
+        public string Address { get; set; }
+        public string TelNumber { get; set; }
+        public short? IsBlock { get; set; }
+        public short? IsDeleted { get; set; }
+        public string UserName { get; set; }
+        public long? AccessFailedCount { get; set; }
+        public short? LockoutEnabled { get; set; }
+        public DateTime? LockoutEndDateUtc { get; set; }
+        public short? TwoFactorEnabled { get; set; }
+        public short? PhoneNumberConfirmed { get; set; }
+        public string PhoneNumber { get; set; }
+        public string SecurityStamp { get; set; }
+        public string PasswordHash { get; set; }
+        public short? EmailConfirmed { get; set; }
+        public string Email { get; set; }
+        public long? Id { get; set; }
     }
 }
