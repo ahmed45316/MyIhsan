@@ -14,8 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Reservation.Common\MyIhsan.Common.csproj" />
-    <ProjectReference Include="..\Reservation.Identity.Entities\MyIhsan.Identity.Entities.csproj" />
+    <ProjectReference Include="..\MyIhsan.Common\MyIhsan.Common.csproj" />
+    <ProjectReference Include="..\MyIhsan.Identity.Entities\MyIhsan.Identity.Entities.csproj" />
   </ItemGroup>
 
 </Project>

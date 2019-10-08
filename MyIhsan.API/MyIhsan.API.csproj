@@ -22,9 +22,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Reservation.Identity.Data\MyIhsan.Identity.Data.csproj" />
-    <ProjectReference Include="..\Reservation.Identity.Entities\MyIhsan.Identity.Entities.csproj" />
-    <ProjectReference Include="..\Reservation.Identity.Service\MyIhsan.Identity.Service.csproj" />
+    <ProjectReference Include="..\MyIhsan.Identity.Data\MyIhsan.Identity.Data.csproj" />
+    <ProjectReference Include="..\MyIhsan.Identity.Entities\MyIhsan.Identity.Entities.csproj" />
+    <ProjectReference Include="..\MyIhsan.Identity.Service\MyIhsan.Identity.Service.csproj" />
   </ItemGroup>
 
 </Project>

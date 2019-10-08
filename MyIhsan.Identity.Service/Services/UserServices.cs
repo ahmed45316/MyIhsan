@@ -5,7 +5,6 @@ using MyIhsan.Common.Parameters;
 using MyIhsan.Identity.Entities.Views;
 using MyIhsan.Identity.Service.Core;
 using MyIhsan.Identity.Service.Dtos;
-using MyIhsan.Identity.Service.Extensions;
 using MyIhsan.Identity.Service.Interfaces;
 using MyIhsan.Identity.Service.UnitOfWork;
 using Oracle.ManagedDataAccess.Client;
