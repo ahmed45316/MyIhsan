@@ -1,0 +1,41 @@
+﻿@model MyIhsan.Web.Models.ViewModels.RoleViewModel
+
+<div class="modal fade" id="model" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@MyIhsan.LanguageResources.Authentication.Auth.role</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @using (Html.BeginForm("Save", "Security", FormMethod.Post, new { id = "popupForm" }))
+            {
+                <div class="modal-body">
+
+                    @if (Model != null && !string.IsNullOrEmpty(Model.Id))
+                    {
+                        @Html.HiddenFor(a => a.Id)
+                    }
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Name, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-12">
+                            <div class="input-group">
+                                @Html.TextBoxFor(a => a.Name, new { @class = "form-control form-control-sm", @id = "nametxt" })
+                            </div>
+                        </div>
+                        <center> @Html.ValidationMessageFor(a => a.Name, "", new { @class = "text-danger", @Style = "font-size:15px;" })</center>
+                    </div>
+
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">@MyIhsan.LanguageResources.Translate.buttonSave</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">@MyIhsan.LanguageResources.Translate.Close</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+ @Scripts.Render("~/bundles/jqueryval")

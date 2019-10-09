@@ -1,0 +1,236 @@
+﻿@font-face {
+    font-family: 'IACAD-Medium';
+    src: url('../Fonts/GESSTwoMedium.eot');
+    /* IE9 Compat Modes */
+    src: url('../Fonts/GESSTwoMedium.eot?#iefix') format('embedded-opentype'),
+    /* IE6-IE8 */
+    url('../Fonts/GESSTwoMedium.woff') format('woff'),
+    /* Pretty Modern Browsers */
+    url('../Fonts/GESSTwoMedium.ttf') format('truetype'),
+    /* Safari, Android, iOS */
+    url('../Fonts/GESSTwoBold.svg#svgFontName') format('svg');
+    /* Legacy iOS */
+}
+
+/* Font Light */
+@font-face {
+    font-family: 'IACAD-Light';
+    src: url('../Fonts/GESSTwoLight.eot');
+    /* IE9 Compat Modes */
+    src: url('../Fonts/GESSTwoLight.eot?#iefix') format('embedded-opentype'),
+    /* IE6-IE8 */
+    url('../Fonts/GESSTwoLight.woff') format('woff'),
+    /* Pretty Modern Browsers */
+    url('../Fonts/GESSTwoLight.ttf') format('truetype'),
+    /* Safari, Android, iOS */
+    url('../Fonts/GESSTwoBold.svg#svgFontName') format('svg');
+    /* Legacy iOS */
+}
+
+/* Font Bold */
+@font-face {
+    font-family: 'IACAD-Bold';
+    src: url('../Fonts/GESSTwoBold.eot');
+    /* IE9 Compat Modes */
+    src: url('../Fonts/GESSTwoBold.eot?#iefix') format('embedded-opentype'),
+    /* IE6-IE8 */
+    url('../Fonts/GESSTwoBold.woff') format('woff'),
+    /* Pretty Modern Browsers */
+    url('../Fonts/GESSTwoBold.ttf') format('truetype'),
+    /* Safari, Android, iOS */
+    url('../Fonts/GESSTwoBold.svg#svgFontName') format('svg');
+    /* Legacy iOS */
+}
+
+html,
+body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+body {
+    font-family: tahoma;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: IACAD-Light, tahoma;
+}
+
+body.login {
+    position: relative;
+}
+
+    body.login .newslider {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 2;
+    }
+
+.newslider,
+.newslider .bg {
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+    .newslider .bg {
+        height: 100vh;
+        animation: panimage 20s infinite;
+    }
+
+    .newslider .bg--1 {
+        background-image: url(../img/slides/slide-1.jpg);
+    }
+
+    .newslider .bg--2 {
+        background-image: url(../img/slides/slide-2.jpg);
+    }
+
+    .newslider .bg--3 {
+        background-image: url(../img/slides/slide-3.jpg);
+    }
+
+    .newslider .bg--4 {
+        background-image: url(../img/slides/slide-4-1.jpg);
+    }
+
+@keyframes panimage {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.6);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.loginBoxContainer {
+    z-index: 3;
+    position: relative;
+}
+
+.loginBox {
+    background: rgba(255, 255, 255, .9);
+    min-height: 440px;
+    padding: 44px;
+    box-shadow: 0 0 10px 2px rgba(0, 0, 0, .2)
+}
+
+.seperator {
+    border-top: 1px solid #eee;
+    margin-top: 15px;
+    padding-bottom: 15px;
+    width: 100%;
+}
+
+.pace .pace-progress {
+    background: #cdad5f;
+    position: fixed;
+    z-index: 2000;
+    right: 100%;
+    width: 100%;
+    height: 8px;
+    top: 0;
+    border-bottom: 0px solid #fff;
+    box-shadow: 0 2px 5px rgba(255,255,255,.2);
+}
+
+.pattern {
+    background: url(../img/oriental-grayscale.png) repeat;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.newslider {
+    opacity: .75;
+}
+
+.container {
+    padding: 0;
+}
+
+.responsive-height-fix {
+    height: 100%;
+}
+
+.loginBox {
+    height: 100%;
+}
+
+.border-screens {
+    border-bottom: 1px solid rgba(0,0,0,.1);
+}
+
+@media (min-width: 576px) {
+
+    .border-screens {
+        border-left: 1px solid rgba(0,0,0,.1);
+        border-bottom: none;
+    }
+}
+
+@media (min-width: 768px) {
+}
+
+@media (min-width: 992px) {
+    .responsive-height-fix {
+        height: auto;
+    }
+
+    .loginBox {
+        height: auto;
+        max-width: 700px;
+        padding: 25px;
+    }
+
+    .logosContainer {
+        border-left: 1px solid rgba(0, 0, 0, .1);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .formContainer {
+        padding-right: 35px;
+    }
+
+
+
+    .form-control-lg-limit {
+        max-width: 60%;
+    }
+
+    .border-screens {
+        border-bottom: 1px solid rgba(0,0,0,.1);
+        border-left: none;
+    }
+
+    .login-logo {
+        max-width:100% !important;
+    }
+}
+
+@media (min-width: 1200px) {
+}

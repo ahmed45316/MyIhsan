@@ -1,0 +1,76 @@
+﻿@model MyIhsan.Web.Models.Select2ViewModel
+<div class="modal fade" id="myScreenModal" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg  modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@MyIhsan.LanguageResources.Authentication.Auth.screens</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="col-12">
+
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <div class="row">
+                                <div class="col-12">
+                                    <label for="ddl_BasicScreen">@MyIhsan.LanguageResources.Authentication.Auth.page1</label>
+                                </div>
+                                <div class="col-12 form-group">
+                                    <div class=" input-control select2-bootstrap-prepend ">
+                                        @Html.DropDownListFor(n => n.OptionId, Enumerable.Empty<SelectListItem>(), new { @id = "ddl_BasicScreen", @style = "width:100%;" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <label class="badge badge-success">@MyIhsan.LanguageResources.Authentication.Auth.page2</label>
+
+                            </div>
+                            <div class="col-12">
+                                <div class="test1">
+                                    <div id="drawmyDataTable">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="row">
+                                <div class="col-12">
+                                    <label for="ddl_SecondScreen">@MyIhsan.LanguageResources.Authentication.Auth.page3</label>
+                                </div>
+                                <div class="col-12 form-group">
+                                    <div class=" input-control select2-bootstrap-prepend ">
+                                        @Html.DropDownListFor(n => n.OptionId, Enumerable.Empty<SelectListItem>(), new { @id = "ddl_SecondScreen", @style = "width:100%;" })
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <label class="badge badge-info">@MyIhsan.LanguageResources.Authentication.Auth.page4</label>
+
+                                </div>
+                                <div class="col-12">
+                                    <div class="test2">
+                                        <div id="drawmyDataTable1">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+
+          
+
+            </div>
+            <div class="modal-footer">
+                <button id="saveScreenBtn" type="button" class="btn btn-success">@MyIhsan.LanguageResources.Translate.buttonSave</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">@MyIhsan.LanguageResources.Translate.Close</button>
+            </div>
+        </div>
+    </div>
+</div>

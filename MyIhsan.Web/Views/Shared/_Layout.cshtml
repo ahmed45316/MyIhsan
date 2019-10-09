@@ -1,0 +1,207 @@
+﻿<!DOCTYPE html>
+<html dir="@MyIhsan.LanguageResources.Styles.dir">
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+<head>
+    <meta charset="utf-8" />
+    <title>@Session["PageName"]</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <meta content="" name="description" />
+    <meta content="" name="author" />
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.css">
+    <link href="~/assets/global/plugins/bootstrap-4.1.3-dist/css/@MyIhsan.LanguageResources.Styles.bootstrap" rel="stylesheet" type="text/css" />
+    <link href="~/Content/@MyIhsan.LanguageResources.Styles.bootstrapDatepiker" rel="stylesheet" />
+    <link href="~/assets/global/plugins/select2/css/@MyIhsan.LanguageResources.Styles.select2" rel="stylesheet" type="text/css" />
+    <link href="~/Content/@MyIhsan.LanguageResources.Styles.bootstraptoggle" rel="stylesheet" />
+    <link href="~/Content/@MyIhsan.LanguageResources.Styles.toastr" rel="stylesheet" />
+    <link href="~/assets/layouts/layout/css/@MyIhsan.LanguageResources.Styles.layout" rel="stylesheet" type="text/css" />
+    <link href="~/assets/layouts/layout/css/themes/@MyIhsan.LanguageResources.Styles.darkblue" rel="stylesheet" type="text/css" id="style_color" />
+    <link rel="stylesheet" type="text/css" href="~/Scripts/DataTables/@MyIhsan.LanguageResources.Styles.datatable" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <link href="~/assets/global/css/@MyIhsan.LanguageResources.Styles.perfectscrollbar" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="~/assets/slick/slick/@MyIhsan.LanguageResources.Styles.slick" />
+    <link rel="stylesheet" type="text/css" href="~/assets/slick/slick/@MyIhsan.LanguageResources.Styles.slickThem" />
+    <link href="~/assets/global/css/@MyIhsan.LanguageResources.Styles.fixes" rel="stylesheet" type="text/css" />
+    <!-- END THEME LAYOUT STYLES -->
+    <link rel="shortcut icon" href="~/favicon.ico" />
+
+    <script src="~/assets/global/plugins/jquery-3.3.1.min.js" type="text/javascript"></script>
+    <script src="~/assets/global/plugins/bootstrap-4.1.3-dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+    @*<script src="~/Scripts/googlechartsAPI.js"></script>*@
+    <script type="text/javascript" src="~/Scripts/DataTables/datatables.min.js"></script>
+    <script src="~/assets/pages/scripts/jquery.cookie.js"></script>
+    <script src="~/Scripts/toastr.js"></script>
+    <script src="~/Scripts/select2.js"></script>
+    <script src="~/Scripts/Select2Lang.js"></script>
+    @*<script src="~/Scripts/jquery.signalR-2.4.1.min.js"></script>
+    <script src="http://localhost:5050/services.api/signalr/hubs"></script>*@
+    <style>
+        .orginal{
+            border:1px solid var(--secondary-color)
+        }
+        .lightGray {
+            background: lightgray !important
+        }
+        .wrapperd {
+            overflow: auto;
+            width: 100%;
+            border: 1px solid var(--secondary-color);
+        }
+        .contentd {
+            overflow-y: auto;
+        }
+        .hideEntity{
+            display:none
+        }
+    </style>
+    <script>
+        var userId='@Session["userId"]';
+        @{var language = Request.Cookies["LangR"] == null ? "en-US" : Request.Cookies["LangR"].Value.ToString();}
+        var lang = '@language';
+        var sessionExpireUrl = '@Url.Action("CheckUserSession", "Login")';
+        var pageSize = 20;
+        var baseUrl = '@System.Configuration.ConfigurationManager.AppSettings["ApiUrl"].ToString()';
+        var ServicesUrl = '';
+        function isNullOrEmpty(s)
+        {
+           return (s == null || s === "");
+        }
+        //
+        var select2Lang = (lang == "ar-EG") ? select2ArabicLang : select2EnglishLang;
+        var select2Placeholder = '@MyIhsan.LanguageResources.Translate.select2Placholder';
+        var savedSuccessfully = '@MyIhsan.LanguageResources.Translate.save';
+        var Retry = '@MyIhsan.LanguageResources.Translate.retry';
+        var cannotRemove = '@MyIhsan.LanguageResources.Translate.cannotRemove';
+        var selectEntity = '@MyIhsan.LanguageResources.Translate.selectEntity';
+        var noData = '@MyIhsan.LanguageResources.Translate.noData';
+        var add = '@MyIhsan.LanguageResources.Translate.add';
+        var edit = '@MyIhsan.LanguageResources.Translate.update';
+        var remove = '@MyIhsan.LanguageResources.Translate.remove';
+        var toContinue = '@MyIhsan.LanguageResources.Translate.toContinue';
+      
+    </script>
+
+</head>
+<!-- END HEAD -->
+<body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white">
+    <!-- BEGIN HEADER -->
+    <div class="page-header navbar navbar-fixed-top">
+        <!-- BEGIN HEADER INNER -->
+        <div class="page-header-inner ">
+            <!-- BEGIN LOGO -->
+            <div class="page-logo">
+                <a href="@Url.Action("index", "Home")" class="loadme">
+                    <img src="~/assets/global/img/logos/GovernmentOfAjman.png" style="height:45px" alt="logo1" class="logo-default" />
+                    @*<img src="~/assets/global/img/logos/logo.png" style="height:45px" alt="logo2" class="logo-default" />*@
+                </a>
+                <div class="menu-toggler sidebar-toggler">
+                    <span></span>
+                </div>
+            </div>
+            <!-- END LOGO -->
+            <!-- BEGIN RESPONSIVE MENU TOGGLER -->
+            <a href="javascript:void(0);" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse">
+                <span></span>
+            </a>
+            <!-- END RESPONSIVE MENU TOGGLER -->
+            <!-- BEGIN TOP NAVIGATION MENU -->
+            <div class="top-menu">
+                <ul class="nav navbar-nav pull-right">
+                    <!-- BEGIN NOTIFICATION DROPDOWN -->
+                    @*<li class="dropdown">
+                        <a class="btn btn-link dropdown-toggle noti" href="javascript:void(0);" id="notificationsdropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="icon-bell"></i>
+                            <span class="badge badge-default count"></span>
+                        </a>
+                        <div id="notiContent1" class="dropdown-menu dropdown-menu-right position-absolute" aria-labelledby="notificationsdropdown">
+                            <div id="notiContent" class="wrapperd">
+                                <center><img id="loader" src="~/assets/global/img/loading.gif" /></center>
+                            </div>
+                            <div>
+                                <a class="dropdown-item text-center" style="color:darkblue;height:25px;" href="@Url.Action("Index", "Notification")">@MyIhsan.LanguageResources.Translate.seeAll</a>
+                            </div>                            
+                        </div>
+                    </li>*@
+
+                    <li class="dropdown">
+                        <a class="btn btn-link dropdown-toggle" href="javascript:void(0);" id="usersdropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            @*<img alt="" class="img-fluid rounded-circle border-1 mx-2" src="~/assets/layouts/layout/img/avatar3_small.jpg" />*@
+                            <span class="fas fa-user"</span>
+                            <span class="username username-hide-on-mobile"> @Session["userName"] </span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right position-absolute" aria-labelledby="usersdropdown">
+                            @*<a class="dropdown-item" href="page_user_profile_1.html">
+                                    <i class="icon-user"></i> صفحتي الشخصية
+                                </a>*@
+                            @*<a class="dropdown-item" href="page_user_profile_1.html">عرض الكل</a>*@
+                            <a class="dropdown-item" href="@Url.Action("LogOut", "Login")">
+                                <i class="icon-key"></i> @MyIhsan.LanguageResources.Translate.signout
+                            </a>
+                        </div>
+                    </li>
+                    <li class="dropdown hidearrow">
+                        <a href="@Url.Action("ChangeLanguage", "Login")" class="btn btn-link dropdown-toggle loadme">
+                            @MyIhsan.LanguageResources.Translate.language
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <!-- END TOP NAVIGATION MENU -->
+        </div>
+        <!-- END HEADER INNER -->
+    </div>
+
+    <div class="page-container">
+        <!-- BEGIN SIDEBAR -->
+        @if (Session["MyMenu"] == null)
+        {
+            Session["MyMenu"] = @Html.Partial("_menu");
+        }
+        @Session["MyMenu"]
+
+        @RenderBody()
+
+        @Scripts.Render("~/bundles/jqueryval")
+        @RenderSection("scripts", required: false)
+    </div>
+    <div class="overlay d-none">
+        <div class="loading">
+            <i class="fas fa-spinner fa-3x fa-spin"></i>
+        </div>
+    </div>
+    <script src="~/Scripts/datepicker1.8.0.js"></script>
+    <script src="~/Scripts/bootstrap-toggle.min.js"></script>
+    <script src="~/assets/global/scripts/app.min.js" type="text/javascript"></script>
+    <script src="~/assets/layouts/layout/scripts/layout.min.js" type="text/javascript"></script>
+    <script src="~/assets/layouts/global/scripts/quick-sidebar.min.js" type="text/javascript"></script>
+    <script src="~/assets/global/scripts/perfect-scrollbar.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="~/assets/slick/slick/slick.min.js"></script>
+    <script src="~/assets/global/scripts/@MyIhsan.LanguageResources.Styles.scriptscustom" type="text/javascript"></script>
+    <script src="~/Scripts/dataTableLang.js"></script>
+    @*<script src="~/Scripts/ServicesAction/Notification.js"></script>*@
+    <script>
+
+        var dataTableLang = (lang == "ar-EG") ? dataTableArabicLang : dataTableEnglishLang;
+        //Plugin For Sum
+        jQuery.fn.dataTable.Api.register('sum()', function () {
+            return this.flatten().reduce(function (a, b) {
+                if (typeof a === 'string') {
+                    a = a.replace(/[^\d.-]/g, '') * 1;
+                }
+                if (typeof b === 'string') {
+                    b = b.replace(/[^\d.-]/g, '') * 1;
+                }
+
+                return a + b;
+            }, 0);
+        });
+        //Loader
+        $('.loadme').on('click', function () { $('.overlay').removeClass('d-none').addClass('opacity'); });
+        function hideLoad() { $('.overlay').removeClass('opacity').addClass('d-none'); }
+        function loadLoader() { $('.overlay').removeClass('d-none').addClass('opacity'); }
+    </script>
+</body>
+</html>
+

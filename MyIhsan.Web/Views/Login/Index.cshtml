@@ -1,0 +1,157 @@
+﻿@model MyIhsan.Repositories.Parameters.LoginParameters
+@{
+    Layout = null;
+}
+@{
+    var language = Request.Cookies["LangR"] == null ? "ar-EG" : Request.Cookies["LangR"].Value.ToString();
+    var loginTitle = language == "ar-EG" ? "شاشة الدخول" : "Login Page";
+}
+<!DOCTYPE html>
+<html dir="@MyIhsan.LanguageResources.Styles.dir">
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+<head>
+    <meta charset="utf-8" />
+    <title>@loginTitle</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <meta content="" name="description" />
+    <meta content="" name="author" />
+
+    <script src="~/assets/global/plugins/pace-1.0.2/pace.min.js"></script>
+    <link href="~/assets/global/plugins/pace-1.0.2/themes/black/@MyIhsan.LanguageResources.Styles.pace" rel="stylesheet" />
+    <link href="~/assets/global/plugins/animate.css/@MyIhsan.LanguageResources.Styles.animate" rel="stylesheet" />
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+    <link href="~/assets/global/plugins/bootstrap-4.1.3-dist/css/@MyIhsan.LanguageResources.Styles.bootstrap" rel="stylesheet" type="text/css" />
+    <link href="~/assets/global/plugins/slick/@MyIhsan.LanguageResources.Styles.slick" rel="stylesheet" type="text/css" />
+    <link href="~/assets/global/plugins/slick/@MyIhsan.LanguageResources.Styles.slickThem" rel="stylesheet" type="text/css" />
+    <link href="~/assets/global/css/@MyIhsan.LanguageResources.Styles.loginStyle" rel="stylesheet" type="text/css" />
+    <link rel="shortcut icon" href="~/favicon.ico" />
+</head>
+<!-- END HEAD -->
+<body class="login">
+    <div class="pattern"></div>
+    <div class="newslider slick">
+        <div class="bg bg--1"></div>
+        <div class="bg bg--2"></div>
+        <div class="bg bg--3"></div>
+        <div class="bg bg--4"></div>
+    </div>
+
+    <!-- BEGIN : LOGIN PAGE 5-2 -->
+    <div class="container w-100 h-100 d-flex align-items-center justify-content-center loginBoxContainer fadeInDown " style="display:none !important;">
+        <div class="row responsive-height-fix">
+            <div class="col-12">
+                <div class="loginBox d-flex">
+                    <div class="row">
+                        <div class="col-12 col-lg-4 logosContainer text-center">
+                            <div class="row h-100">
+                                <div class="col-12 col-sm-4 col-lg-12 d-flex align-items-center justify-content-center border-screens">
+                                    <img class="login-logo login-6 img-fluid" src="~/assets/global/img/logos/GovernmentOfAjman.png" style="max-width:200px;" />
+                                </div>
+                                <div class="col-12 col-sm-4 col-lg-12 d-flex align-items-center justify-content-center">
+                                    <img class="login-logo login-6 img-fluid" src="~/assets/global/img/logos/logo.png" style="max-width:200px;" />
+                                </div>
+                                <div class="col-12 col-sm-4 col-lg-12 d-flex align-items-center justify-content-center">
+                                    @Html.ActionLink(MyIhsan.LanguageResources.Translate.language, "ChangeLanguage", "Login", new { @class = "btn btn-outline-primary display-1" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-8 formContainer">
+                            <div class="login-content">
+                                <h1>@MyIhsan.LanguageResources.Translate.Login_Caption1</h1>
+                                <p>@MyIhsan.LanguageResources.Translate.Login_Caption2</p>
+
+                                @using (Html.BeginForm("Index", "Login", FormMethod.Post, new { id = "myForm", @class = "login-form" }))
+                                {
+                                    <div class="row">
+                                        <div class="col-12 form-group">
+                                            @Html.TextBoxFor(m => m.Username, new { @class = "form-control ", @placeholder = @MyIhsan.LanguageResources.Translate.Login_UserName })
+                                            @Html.ValidationMessageFor(m => m.Username, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-12 form-group">
+                                            @Html.PasswordFor(m => m.Password, new { @class = "form-control ", @placeholder = @MyIhsan.LanguageResources.Translate.Login_Password })
+                                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-12 form-group">
+
+
+                                            <div class="custom-control custom-checkbox">
+                                                @Html.CheckBoxFor(m => m.IsSavedPassword, new { @class = "custom-control-input" })
+                                                @Html.LabelFor(m => m.IsSavedPassword, new { @class = "custom-control-label" })
+                                            </div>
+
+                                        </div>
+                                        <div class="col-12  ">
+                                            <div class="row">
+                                                <div class="col-12 form-group d-flex justify-content-center">
+                                                    <button id="signIn" class="btn btn-success d-flex" type="submit">
+                                                        @MyIhsan.LanguageResources.Translate.Login_SignIn
+                                                    </button>
+                                                </div>
+                                                <div class="col-12 form-group d-flex justify-content-center">
+                                                    <center><img id="loader" style="display:none" src="~/assets/global/img/loading.gif" /></center>
+                                                </div>
+                                                @if (Model != null && !Model.Status)
+                                                {
+
+                                                    <div id="alertDiv" class="col-12 form-group col-md-auto">
+
+                                                        <div class="alert alert-danger alert-dismissible fade show py-2 m-0 ml-auto" role="alert">
+                                                            <span>
+                                                                @MyIhsan.LanguageResources.Translate.Login_Span
+                                                            </span>
+                                                            <button type="button" class="close p-2" data-dismiss="alert" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+
+                                                    </div>
+
+                                                }
+
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="login-footer">
+                        <div class="row bs-reset">
+                            <div class="col-xs-5 bs-reset">
+
+                            </div>
+                            <div class="col-xs-7 bs-reset">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/assets/global/plugins/jquery-3.3.1.min.js" type="text/javascript"></script>
+    <script src="~/assets/global/plugins/bootstrap-4.1.3-dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+    <script src="~/assets/pages/scripts/login-new.js?v205"></script>
+    <script src="~/assets/global/plugins/slick/slick.min.js"></script>
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        if ($('#alertDiv').length > 0) {
+            $('#alertDiv').delay(5000).fadeOut('slow');
+        }
+        $('#signIn').on('click', function () { if ($("#myForm").valid()) { $('#loader').show(); } });
+
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,300 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="addNew" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="employer" xml:space="preserve">
+    <value>Employer</value>
+  </data>
+  <data name="gridUsername" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="role" xml:space="preserve">
+    <value>Role</value>
+  </data>
+  <data name="search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="username" xml:space="preserve">
+    <value>User Name</value>
+  </data>
+  <data name="userSearchCaption" xml:space="preserve">
+    <value>Users Search</value>
+  </data>
+  <data name="userTitleCaption" xml:space="preserve">
+    <value>Users</value>
+  </data>
+  <data name="address" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="city" xml:space="preserve">
+    <value>City</value>
+  </data>
+  <data name="confirmPass" xml:space="preserve">
+    <value>Confirm Password</value>
+  </data>
+  <data name="confirmPassRegx" xml:space="preserve">
+    <value>Password Not Confirmed</value>
+  </data>
+  <data name="country" xml:space="preserve">
+    <value>Country</value>
+  </data>
+  <data name="countryRegx" xml:space="preserve">
+    <value>Enter Country</value>
+  </data>
+  <data name="departmentPopupTitle" xml:space="preserve">
+    <value>Add Departments</value>
+  </data>
+  <data name="departments" xml:space="preserve">
+    <value>Departments</value>
+  </data>
+  <data name="email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="emailRegx" xml:space="preserve">
+    <value>Email Incorrect</value>
+  </data>
+  <data name="emailVal" xml:space="preserve">
+    <value>Enter Email</value>
+  </data>
+  <data name="employeerRegx" xml:space="preserve">
+    <value>Enter Employeer</value>
+  </data>
+  <data name="entitiesPopupTitle" xml:space="preserve">
+    <value>Add Entities</value>
+  </data>
+  <data name="entity" xml:space="preserve">
+    <value>Entity</value>
+  </data>
+  <data name="gender" xml:space="preserve">
+    <value>Gender</value>
+  </data>
+  <data name="genderRegx" xml:space="preserve">
+    <value>Enter Gender</value>
+  </data>
+  <data name="mailExist" xml:space="preserve">
+    <value>Email Exists</value>
+  </data>
+  <data name="mobile" xml:space="preserve">
+    <value>Mobile </value>
+  </data>
+  <data name="mobileExist" xml:space="preserve">
+    <value>Mobile Exists</value>
+  </data>
+  <data name="nameEn" xml:space="preserve">
+    <value>Name(en)</value>
+  </data>
+  <data name="nameEnRegx" xml:space="preserve">
+    <value>Enter Name (en)</value>
+  </data>
+  <data name="nameRegx" xml:space="preserve">
+    <value>Enter Name</value>
+  </data>
+  <data name="nameTranslate" xml:space="preserve">
+    <value>NameEn</value>
+  </data>
+  <data name="pass" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="passRegx" xml:space="preserve">
+    <value>Choose password greater than 5 to 20 numbers only.</value>
+  </data>
+  <data name="passVal" xml:space="preserve">
+    <value>Enter Password</value>
+  </data>
+  <data name="tel" xml:space="preserve">
+    <value>Phone</value>
+  </data>
+  <data name="telExist" xml:space="preserve">
+    <value>Phone Exists</value>
+  </data>
+  <data name="usernameExist" xml:space="preserve">
+    <value>Username Exists</value>
+  </data>
+  <data name="usernameVal" xml:space="preserve">
+    <value>Enter Username</value>
+  </data>
+  <data name="usersPopupTitle" xml:space="preserve">
+    <value>Users</value>
+  </data>
+  <data name="addDepartment" xml:space="preserve">
+    <value>Add Department</value>
+  </data>
+  <data name="addEntity" xml:space="preserve">
+    <value>Add Entity</value>
+  </data>
+  <data name="addUsers" xml:space="preserve">
+    <value>Add Users</value>
+  </data>
+  <data name="choose" xml:space="preserve">
+    <value>Please Choose</value>
+  </data>
+  <data name="page1" xml:space="preserve">
+    <value>Main Pages</value>
+  </data>
+  <data name="page2" xml:space="preserve">
+    <value>Unselected Pages</value>
+  </data>
+  <data name="page3" xml:space="preserve">
+    <value>Sub Pages</value>
+  </data>
+  <data name="page4" xml:space="preserve">
+    <value>Selected Pages</value>
+  </data>
+  <data name="roleExist" xml:space="preserve">
+    <value>Role Exists</value>
+  </data>
+  <data name="roleSearch" xml:space="preserve">
+    <value>Search Role</value>
+  </data>
+  <data name="screenName" xml:space="preserve">
+    <value>Page Name</value>
+  </data>
+  <data name="screens" xml:space="preserve">
+    <value>Pages Authentication</value>
+  </data>
+  <data name="usersNo" xml:space="preserve">
+    <value>Numbers of Users</value>
+  </data>
+  <data name="screenNameCol" xml:space="preserve">
+    <value>screenNameEn</value>
+  </data>
+  <data name="endTime" xml:space="preserve">
+    <value>End Time</value>
+  </data>
+  <data name="period" xml:space="preserve">
+    <value>Period</value>
+  </data>
+  <data name="pullOutDate" xml:space="preserve">
+    <value>Operation Date</value>
+  </data>
+  <data name="pullOutTitle" xml:space="preserve">
+    <value>Review Pull Outs Operations</value>
+  </data>
+  <data name="startTime" xml:space="preserve">
+    <value>Satrt Time</value>
+  </data>
+  <data name="status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+</root>

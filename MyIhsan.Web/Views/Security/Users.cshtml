@@ -1,0 +1,123 @@
+﻿@model MyIhsan.Web.Models.ViewModels.UserViewModel
+@{
+    /**/
+
+    ViewBag.Title = "Users";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using MyIhsan.LanguageResources.Authentication;
+<div class="page-content-wrapper">
+    <!-- BEGIN CONTENT BODY -->
+    <div class="page-content">
+
+        <div class="accordion" id="accordionExample">
+            <div class="card">
+
+                <div class="card-header cursor-pointer" id="headingOne" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link" type="button">
+                            <i class="fas fa-search px-2"></i>
+                            @Auth.userSearchCaption
+                        </button>
+                    </h2>
+                </div>
+                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12 col-md-2"> <label class="control-label">@Auth.username</label></div>
+                            <div class="col-12 col-md-4 form-group">
+                                <input type="text" id="userNametxt" value="" class="form-control" />
+                            </div>
+                            <div class="col-12 col-md-2 form-group">
+                                <button type="button" id="search" class="btn btn-success px-5" form="popupForm" onclick="$('#collapseTwo').collapse()"><i class="fas fa-save"></i> @Auth.search</button>
+                            </div>
+                        </div>
+
+                        
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+
+                <div class="card-header collapsed cursor-pointer" id="headingTwo" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    <div class="row">
+                        <div class="col-12">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link collapsed" type="button">
+                                    <i class="fas fa-file px-2"></i>
+                                    @Auth.userTitleCaption
+                                </button>
+                            </h2>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo">
+                    <div class="card-body">
+                        <div class="col-12 text-right">
+                            <a class="popup btn btn-success text-light" id="addbtn" title="@Auth.addNew">
+                                <i class="fas fa-plus-circle"></i>
+                                @Auth.addNew
+                            </a>
+                        </div>
+                        <div id="drawTable" class=" ">
+                            <table id="myDatatable" class="table table-striped table-bordered table-advance table-hover" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>@MyIhsan.LanguageResources.Translate.gridNo</th>
+                                        @*<th>@Auth.name</th>*@
+                                        <th>@Auth.gridUsername</th>
+                                        <th>@Auth.email</th>
+                                        <th>@Auth.role</th>
+                                        <th class="all">
+                                            @MyIhsan.LanguageResources.Translate.gridActions
+                                        </th>
+
+                                        @*<th class="all">الجمعية</th>
+                                            <th class="all">تعديل</th>
+                                            <th class="all">حذف</th>*@
+
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+@*data-backdrop="static"*@
+@Html.Partial("~/Views/Security/SaveUser.cshtml", Model)
+@*<div id="partialView">
+
+    </div>*@
+@Html.Partial("_deleteModal")
+<script>
+    var gridHeader = ["@MyIhsan.LanguageResources.Translate.gridNo", "@Auth.name", "@Auth.gridUsername", "@Auth.email", "@Auth.role", "@MyIhsan.LanguageResources.Translate.gridActions"];
+    var gridcolumns = { name: "@Auth.nameTranslate"};
+     $(document).ready(function () {
+        var alertDiv = '@TempData["AlertMessages"]'
+        if (!isNullOrEmpty(alertDiv)) {
+            toastr.success(alertDiv);
+        }
+    });
+    var uri = baseUrl + "User/GetAll";
+    var saveUri = '@Url.Action("SaveUser", "Security")';
+    var getUser ='@Url.Action("GetUser", "Security")';
+    var deleteUri = '@Url.Action("DeleteUser", "Security")';
+    var serverUri = '@Url.Action("LoadUserData", "Security")';
+    var optionListUrl1 = baseUrl + "Role/GetEntities";
+    var optionListUrl2 = baseUrl + "Reports/GetCountrySelect2";
+    var optionListUrl100 = baseUrl + "General/GetStatusSelect2";
+    var saveUserEntity = baseUrl + "User/SaveUserEntityAssigned";
+    var getUserEntity = baseUrl + "User/GetEntityAssigned";
+    var saveUserDept = baseUrl + "User/SaveUserDepartmentAssigned";
+    var getUserDept = baseUrl + "User/GetDepartmentAssigned";
+    var addDept = '@MyIhsan.LanguageResources.Authentication.Auth.addDepartment';
+    var addEntity = '@MyIhsan.LanguageResources.Authentication.Auth.addEntity';
+</script>
+<script src="~/Scripts/Actions/User.js?v1"></script>

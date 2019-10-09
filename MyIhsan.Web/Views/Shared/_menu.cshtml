@@ -1,0 +1,223 @@
+﻿@using MyIhsan.Repositories.Core;
+@using MyIhsan.Web.Models.ViewModels;
+@{
+    var menu = Session["Menu"] as IEnumerable<MenuViewModel>;
+    var lang = Request.Cookies["LangR"]==null?"ar-EG" : Request.Cookies["LangR"].Value.ToString();
+}
+<div class="page-sidebar-wrapper">
+    <div class="page-sidebar navbar-collapse collapse">
+        <ul class="page-sidebar-menu  page-header-fixed " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
+            <li class="app-logo">
+                <a href="javascript:void(0);" >
+                    <img class="img-fluid" src="~/assets/global/img/logo.png" alt="App Logo" />
+                </a>
+            </li>
+
+            @foreach (var item in menu.OrderBy(q => q.ItsOrder))
+            {
+                <li class="nav-item">
+                    @if (item.HaveChildren)
+                    {
+                        <a href="javascript:void(0);" class="nav-link nav-toggle">
+                            <i class="@item.Icon"></i>
+                            <span class="title">@(lang=="ar-EG"?item.ScreenNameAr:item.ScreenNameEn)</span>
+                            <span class="nav-item"></span>
+                        </a>
+                        <ul class="sub-menu">
+                            @foreach (var child1 in item.Children.OrderBy(q => q.ItsOrder))
+                            {
+                                if (child1.HaveChildren)
+                                {
+                                    <li class="nav-item">
+                                        <a href="javascript:void(0);" class="nav-link nav-toggle">
+                                            <i class="@child1.Icon"></i>
+                                            <span class="title">@(lang == "ar-EG" ? child1.ScreenNameAr : child1.ScreenNameEn)</span>
+                                            <span class="nav-item"></span>
+                                        </a>
+
+                                        <ul class="sub-menu">
+                                            @foreach (var child2 in child1.Children.OrderBy(q => q.ItsOrder))
+                                            {
+                                                if (child2.HaveChildren)
+                                                {
+                                                    <li class="nav-item">
+                                                        <a href="javascript:void(0);" class="nav-link nav-toggle">
+                                                            <i class="@child2.Icon"></i>
+                                                            <span class="title">@(lang == "ar-EG" ? child2.ScreenNameAr : child2.ScreenNameEn)</span>
+                                                            <span class="nav-item"></span>
+                                                        </a>
+
+                                                        <ul class="sub-menu">
+                                                            @foreach (var child3 in child2.Children.OrderBy(q => q.ItsOrder))
+                                                            {
+                                                                if (child3.HaveChildren)
+                                                                {
+                                                                    <li class="nav-item">
+                                                                        <a href="javascript:void(0);" class="nav-link nav-toggle">
+                                                                            <i class="@child3.Icon"></i>
+                                                                            <span class="title">@(lang == "ar-EG" ? child3.ScreenNameAr : child3.ScreenNameEn)</span>
+                                                                            <span class="nav-item"></span>
+                                                                        </a>
+
+                                                                        <ul class="sub-menu">
+                                                                            @foreach (var child4 in child3.Children.OrderBy(q => q.ItsOrder))
+                                                                            {
+                                                                                if (child4.HaveChildren)
+                                                                                {
+                                                                                    <li class="nav-item">
+                                                                                        <a href="javascript:void(0);" class="nav-link nav-toggle">
+                                                                                            <i class="@child4.Icon"></i>
+                                                                                            <span class="title">@(lang == "ar-EG" ? child4.ScreenNameAr : child4.ScreenNameEn)</span>
+                                                                                            <span class="nav-item"></span>
+                                                                                        </a>
+
+                                                                                        <ul class="sub-menu">
+                                                                                            @foreach (var child5 in child4.Children.OrderBy(q => q.ItsOrder))
+                                                                                            {
+                                                                                                if (child5.HaveChildren)
+                                                                                                {
+                                                                                                    <li class="nav-item">
+                                                                                                        <a href="javascript:void(0);" class="nav-link nav-toggle">
+                                                                                                            <i class="@child5.Icon"></i>
+                                                                                                            <span class="title">@(lang == "ar-EG" ? child5.ScreenNameAr : child5.ScreenNameEn)</span>
+                                                                                                            <span class="nav-item"></span>
+                                                                                                        </a>
+
+                                                                                                        <ul class="sub-menu"></ul>
+
+                                                                                                    </li>
+                                                                                                }
+                                                                                                else
+                                                                                                {
+                                                                                                    if (child5.HaveParameters)
+                                                                                                    {
+                                                                                                        <li class="nav-item  ">
+                                                                                                            <a href="@Url.Action(child5.Action, @child5.Controller,new { screentype = Decoder.Encode(child5.Parameters) })" class="nav-link loadme">
+                                                                                                                <span class="title">@(lang == "ar-EG" ? child5.ScreenNameAr : child5.ScreenNameEn)</span>
+                                                                                                            </a>
+                                                                                                        </li>
+                                                                                                    }
+                                                                                                    else
+                                                                                                    {
+                                                                                                        <li class="nav-item  ">
+                                                                                                            <a href="@Url.Action(child5.Action, @child5.Controller)" class="nav-link loadme">
+                                                                                                                <span class="title">@(lang == "ar-EG" ? child5.ScreenNameAr : child5.ScreenNameEn)</span>
+                                                                                                            </a>
+                                                                                                        </li>
+                                                                                                    }
+
+                                                                                                }
+                                                                                            }
+                                                                                        </ul>
+
+                                                                                    </li>
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    if (child4.HaveParameters)
+                                                                                    {
+                                                                                        <li class="nav-item  ">
+                                                                                            <a href="@Url.Action(child4.Action, @child4.Controller,new { screentype = Decoder.Encode(child4.Parameters) })" class="nav-link loadme">
+                                                                                                <span class="title">@(lang == "ar-EG" ? child4.ScreenNameAr : child4.ScreenNameEn)</span>
+                                                                                            </a>
+                                                                                        </li>
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        <li class="nav-item  ">
+                                                                                            <a href="@Url.Action(child4.Action, @child4.Controller)" class="nav-link loadme">
+                                                                                                <span class="title">@(lang == "ar-EG" ? child4.ScreenNameAr : child4.ScreenNameEn)</span>
+                                                                                            </a>
+                                                                                        </li>
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        </ul>
+
+                                                                    </li>
+                                                                }
+                                                                else
+                                                                {
+                                                                    if (child3.HaveParameters)
+                                                                    {
+                                                                        <li class="nav-item  ">
+                                                                            <a href="@Url.Action(child3.Action, @child3.Controller,new { screentype = Decoder.Encode(child3.Parameters) })" class="nav-link loadme">
+                                                                                <span class="title">@(lang == "ar-EG" ? child3.ScreenNameAr : child3.ScreenNameEn)</span>
+                                                                            </a>
+                                                                        </li>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <li class="nav-item  ">
+                                                                            <a href="@Url.Action(child3.Action, @child3.Controller)" class="nav-link loadme">
+                                                                                <span class="title">@(lang == "ar-EG" ? child3.ScreenNameAr : child3.ScreenNameEn)</span>
+                                                                            </a>
+                                                                        </li>
+                                                                    }
+                                                                }
+                                                            }
+                                                        </ul>
+
+                                                    </li>
+                                                }
+                                                else
+                                                {
+                                                    if (child2.HaveParameters)
+                                                    {
+                                                        <li class="nav-item  ">
+                                                            <a href="@Url.Action(child2.Action, @child2.Controller,new { screentype = Decoder.Encode(child2.Parameters) })" class="nav-link loadme">
+                                                                <span class="title">@(lang == "ar-EG" ? child2.ScreenNameAr : child2.ScreenNameEn)</span>
+                                                            </a>
+                                                        </li>
+                                                    }
+                                                    else
+                                                    {
+                                                        <li class="nav-item  ">
+                                                            <a href="@Url.Action(child2.Action, @child2.Controller)" class="nav-link loadme">
+                                                                <span class="title">@(lang == "ar-EG" ? child2.ScreenNameAr : child2.ScreenNameEn)</span>
+                                                            </a>
+                                                        </li>
+                                                    }
+                                                }
+                                            }
+                                        </ul>
+                                    </li>
+                                }
+                                else
+                                {
+                                    if (child1.HaveParameters)
+                                    {
+                                        <li class="nav-item  ">
+                                            <a href="@Url.Action(child1.Action, @child1.Controller,new { screentype = Decoder.Encode(child1.Parameters) })" class="nav-link loadme">
+                                                <span class="title">@(lang == "ar-EG" ? child1.ScreenNameAr : child1.ScreenNameEn)</span>
+                                            </a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="nav-item  ">
+                                            <a href="@Url.Action(child1.Action, @child1.Controller)" class="nav-link loadme">
+                                                <span class="title">@(lang == "ar-EG" ? child1.ScreenNameAr : child1.ScreenNameEn)</span>
+                                            </a>
+                                        </li>
+                                    }
+                                }
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action(item.Action, item.Controller)" class="nav-link nav-toggle loadme">
+                            <i class="@item.Icon"></i>
+                            <span class="title">@(lang == "ar-EG" ? item.ScreenNameAr : item.ScreenNameEn)</span>
+                            <span class="nav-item"></span>
+                        </a>
+                    }
+                </li>
+            }
+
+        </ul>
+
+
+    </div>
+</div>

@@ -1,0 +1,300 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="addNew" xml:space="preserve">
+    <value>اضافة جديد</value>
+  </data>
+  <data name="address" xml:space="preserve">
+    <value>العنوان</value>
+  </data>
+  <data name="city" xml:space="preserve">
+    <value>المدينة</value>
+  </data>
+  <data name="confirmPass" xml:space="preserve">
+    <value>تاكيد كلمة المرور</value>
+  </data>
+  <data name="confirmPassRegx" xml:space="preserve">
+    <value>الرقم السري غير متطابق</value>
+  </data>
+  <data name="country" xml:space="preserve">
+    <value>الدولة</value>
+  </data>
+  <data name="countryRegx" xml:space="preserve">
+    <value>ادخل الدولة</value>
+  </data>
+  <data name="departmentPopupTitle" xml:space="preserve">
+    <value>اضافة اقسام</value>
+  </data>
+  <data name="departments" xml:space="preserve">
+    <value>الاقسام</value>
+  </data>
+  <data name="email" xml:space="preserve">
+    <value>البريد الالكتروني</value>
+  </data>
+  <data name="emailRegx" xml:space="preserve">
+    <value>صيغة البريد غير صحيحة</value>
+  </data>
+  <data name="emailVal" xml:space="preserve">
+    <value>ادخل البريد الالكتروني</value>
+  </data>
+  <data name="employeerRegx" xml:space="preserve">
+    <value>ادخل جهة العمل</value>
+  </data>
+  <data name="employer" xml:space="preserve">
+    <value>جهة العمل</value>
+  </data>
+  <data name="entitiesPopupTitle" xml:space="preserve">
+    <value>اضافة جمعيات</value>
+  </data>
+  <data name="entity" xml:space="preserve">
+    <value>الجمعية</value>
+  </data>
+  <data name="gender" xml:space="preserve">
+    <value>النوع</value>
+  </data>
+  <data name="genderRegx" xml:space="preserve">
+    <value>ادخل النوع</value>
+  </data>
+  <data name="gridUsername" xml:space="preserve">
+    <value>مستخدم</value>
+  </data>
+  <data name="mailExist" xml:space="preserve">
+    <value>البريد الالكتروني موجود من قبل</value>
+  </data>
+  <data name="mobile" xml:space="preserve">
+    <value>رقم الموبايل</value>
+  </data>
+  <data name="mobileExist" xml:space="preserve">
+    <value>رقم الموبيل موجود من قبل</value>
+  </data>
+  <data name="name" xml:space="preserve">
+    <value>الاســم</value>
+  </data>
+  <data name="nameEn" xml:space="preserve">
+    <value>الاسم لاتيني</value>
+  </data>
+  <data name="nameEnRegx" xml:space="preserve">
+    <value>ادخل الاسم لاتيني</value>
+  </data>
+  <data name="nameRegx" xml:space="preserve">
+    <value>ادخل الاسم</value>
+  </data>
+  <data name="nameTranslate" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="pass" xml:space="preserve">
+    <value>كلمة المرور</value>
+  </data>
+  <data name="passRegx" xml:space="preserve">
+    <value>اختر كلمة مرور اكبر من 5 واقل من 20 رقم </value>
+  </data>
+  <data name="passVal" xml:space="preserve">
+    <value>ادخل كلمة المرور</value>
+  </data>
+  <data name="role" xml:space="preserve">
+    <value>الدور الوظيفي</value>
+  </data>
+  <data name="search" xml:space="preserve">
+    <value>بحث</value>
+  </data>
+  <data name="tel" xml:space="preserve">
+    <value>رقم الهاتف</value>
+  </data>
+  <data name="telExist" xml:space="preserve">
+    <value>رقم الهاتف موجود من قبل</value>
+  </data>
+  <data name="username" xml:space="preserve">
+    <value>اسم المستخدم</value>
+  </data>
+  <data name="usernameExist" xml:space="preserve">
+    <value>اسم المسخدم موجود من قبل</value>
+  </data>
+  <data name="usernameVal" xml:space="preserve">
+    <value>ادخل اسم المستخدم</value>
+  </data>
+  <data name="userSearchCaption" xml:space="preserve">
+    <value>بحث المستخدمين</value>
+  </data>
+  <data name="usersPopupTitle" xml:space="preserve">
+    <value>المستخدمين</value>
+  </data>
+  <data name="userTitleCaption" xml:space="preserve">
+    <value>مستخدمين</value>
+  </data>
+  <data name="addDepartment" xml:space="preserve">
+    <value>اضافة اقسام</value>
+  </data>
+  <data name="addEntity" xml:space="preserve">
+    <value>اضافة جمعية</value>
+  </data>
+  <data name="addUsers" xml:space="preserve">
+    <value>اضافة مستخدمين</value>
+  </data>
+  <data name="choose" xml:space="preserve">
+    <value>برجاء الاختيار</value>
+  </data>
+  <data name="page1" xml:space="preserve">
+    <value>الشاشات الرئيسية</value>
+  </data>
+  <data name="page2" xml:space="preserve">
+    <value>الشاشات الغير مختارة</value>
+  </data>
+  <data name="page3" xml:space="preserve">
+    <value>الشاشات الفرعية</value>
+  </data>
+  <data name="page4" xml:space="preserve">
+    <value>الشاشات المختارة</value>
+  </data>
+  <data name="roleExist" xml:space="preserve">
+    <value>الدور الوظيفي موجود بالفعل</value>
+  </data>
+  <data name="roleSearch" xml:space="preserve">
+    <value>بحث الدور الوظيفي</value>
+  </data>
+  <data name="screenName" xml:space="preserve">
+    <value>اسم الشاشة</value>
+  </data>
+  <data name="screens" xml:space="preserve">
+    <value>صلاحيات الشاشات</value>
+  </data>
+  <data name="usersNo" xml:space="preserve">
+    <value>عدد المستخدمين</value>
+  </data>
+  <data name="screenNameCol" xml:space="preserve">
+    <value>screenNameAr</value>
+  </data>
+  <data name="endTime" xml:space="preserve">
+    <value>وقت النهايه</value>
+  </data>
+  <data name="period" xml:space="preserve">
+    <value>المده</value>
+  </data>
+  <data name="pullOutDate" xml:space="preserve">
+    <value>تاريخ العمليه</value>
+  </data>
+  <data name="pullOutTitle" xml:space="preserve">
+    <value>عرض عمليات سحب البيانات</value>
+  </data>
+  <data name="startTime" xml:space="preserve">
+    <value>وقت البدايه</value>
+  </data>
+  <data name="status" xml:space="preserve">
+    <value>الحاله</value>
+  </data>
+</root>
