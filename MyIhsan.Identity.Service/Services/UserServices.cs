@@ -31,7 +31,7 @@ namespace MyIhsan.Identity.Service.Services
         public async Task<IDataPagging> GetUsers(GetAllUserParameters parameters)
         {
             var users = await _serviceBaseParameter.UnitOfWork.Repository.FindAsync(q =>q!=null && q.IsDeleted !=1);
-            users = !string.IsNullOrEmpty(parameters.UserName) ? users.Where(q => q.UserName.Contains(parameters.UserName)) : users;
+            users = !string.IsNullOrWhiteSpace(parameters.UserName) ? users.Where(q => q.UserName.ToLower().Contains(parameters.UserName.ToLower())) : users;
            
             var usesrPagging = users.AsQueryable().OrderBy(parameters.OrderByValue).Skip(parameters.PageNumber).Take(parameters.PageSize).ToList();
 

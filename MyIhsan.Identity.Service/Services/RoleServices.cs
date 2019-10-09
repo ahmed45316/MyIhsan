@@ -24,7 +24,7 @@ namespace MyIhsan.Identity.Service.Services
         }
         public async Task<IDataPagging> GetRoles(GetAllRoleParameters parameters)
         {
-            var roles = string.IsNullOrEmpty(parameters.RoleName) ? await _unitOfWork.Repository.FindAsync(q => !(q.IsDeleted??false)&& q.Id != AdmistratorRoleId, include: source => source.Include(a => a.AspNetUsersRoles), disableTracking: false) : await _unitOfWork.Repository.FindAsync(q => !(q.IsDeleted??false) && q.Id != AdmistratorRoleId && q.Name.Contains(parameters.RoleName), include: source => source.Include(a => a.AspNetUsersRoles), disableTracking: false);
+            var roles = string.IsNullOrWhiteSpace(parameters.RoleName) ? await _unitOfWork.Repository.FindAsync(q => !(q.IsDeleted??false), include: source => source.Include(a => a.AspNetUsersRoles), disableTracking: false) : await _unitOfWork.Repository.FindAsync(q => !(q.IsDeleted??false) && q.Name.ToLower().Contains(parameters.RoleName.ToLower()), include: source => source.Include(a => a.AspNetUsersRoles), disableTracking: false);
             var rolesPagging = roles.AsQueryable().OrderBy(parameters.OrderByValue).Skip(parameters.PageNumber).Take(parameters.PageSize).ToList();
             if (!rolesPagging.Any())
             {
