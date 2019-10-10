@@ -36,12 +36,12 @@ namespace MyIhsan.API.Controllers.Secuirty
         /// <summary>
         /// Get User by Id
         /// </summary>
-        /// <param name="Id"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet("{Id}")]
-        public async Task<IResult> Get(long Id)
+        [HttpGet("{id}")]
+        public async Task<IResult> Get(long id)
         {
-            var repositoryResult = await _userServices.GetUser(Id);
+            var repositoryResult = await _userServices.GetByIdAsync(id);
             var result = ResponseHandler.GetResult(repositoryResult);
             return result;
         }
@@ -53,7 +53,7 @@ namespace MyIhsan.API.Controllers.Secuirty
         [HttpPost]
         public async Task<IResult> Add(UserDto userDto)
         {
-            var repositoryResult = await _userServices.AddUser(userDto);
+            var repositoryResult = await _userServices.AddAsync(userDto);
             var result = ResponseHandler.GetResult(repositoryResult);
             return result;
         }
@@ -65,7 +65,7 @@ namespace MyIhsan.API.Controllers.Secuirty
         [HttpPut]
         public async Task<IResult> Update(UserDto userDto)
         {
-            var repositoryResult = await _userServices.UpdateUser(userDto);
+            var repositoryResult = await _userServices.UpdateAsync(userDto);
             var result = ResponseHandler.GetResult(repositoryResult);
             return result;
         }
@@ -77,7 +77,7 @@ namespace MyIhsan.API.Controllers.Secuirty
         [HttpDelete("{id}")]
         public async Task<IResult> Remove(long id)
         {
-            var repositoryResult = await _userServices.RemoveUserById(id);
+            var repositoryResult = await _userServices.DeleteAsync(id);
             var result = ResponseHandler.GetResult(repositoryResult);
             return result;
         }

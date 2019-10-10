@@ -17,100 +17,102 @@ using System.Text;
 using System.Threading.Tasks;
 using MyIhsan.Common.Extensions;
 using AutoMapper;
+using System.Linq.Expressions;
+using LinqKit;
 
 namespace MyIhsan.Identity.Service.Services
 {
-    public class UserServices : IUserServices
+    public class UserServices : BaseService<AspNetUsers, UserDto>,IUserServices
     {
-        private readonly IServiceBaseParameter<AspNetUsers> _serviceBaseParameter;
-        public UserServices(IServiceBaseParameter<AspNetUsers> serviceBaseParameter)
+        protected internal UserServices(IServiceBaseParameter<AspNetUsers> businessBaseParameter) : base(businessBaseParameter)
         {
-            _serviceBaseParameter = serviceBaseParameter;
+
         }
 
         public async Task<IDataPagging> GetUsers(GetAllUserParameters parameters)
         {
-            var users = await _serviceBaseParameter.UnitOfWork.Repository.FindAsync(q =>q!=null && q.IsDeleted !=1);
-            users = !string.IsNullOrWhiteSpace(parameters.UserName) ? users.Where(q => q.UserName.ToLower().Contains(parameters.UserName.ToLower())) : users;
-           
-            var usesrPagging = users.AsQueryable().OrderBy(parameters.OrderByValue).Skip(parameters.PageNumber).Take(parameters.PageSize).ToList();
+            int limit = parameters.PageSize;
+            int offset = (parameters.PageNumber * parameters.PageSize);
+            var users = await _unitOfWork.Repository.FindPaggedAsync(predicate: PredicateBuilderFunction(parameters), skip: offset, take: limit, parameters.OrderByValue);
+
+            var usesrPagging = users.Item2;
 
             if (!usesrPagging.Any())
             {
-                var res = _serviceBaseParameter.ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.NoContent, message: HttpStatusCode.NoContent.ToString());
+                var res = ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.NoContent, message: HttpStatusCode.NoContent.ToString());
                 return new DataPagging(0, 0, 0, res);
             }
 
-            var usersDto = _serviceBaseParameter.Mapper.Map<IEnumerable<UserDto>>(usesrPagging);
+            var usersDto = Mapper.Map<IEnumerable<UserDto>>(usesrPagging);
             
-            var repoResult = _serviceBaseParameter.ResponseResult.GetRepositoryActionResult(usersDto, status: HttpStatusCode.OK, message: HttpStatusCode.OK.ToString());
-            return new DataPagging(parameters.PageNumber, parameters.PageSize, users.Count(), repoResult);
+            var repoResult = ResponseResult.GetRepositoryActionResult(usersDto, status: HttpStatusCode.OK, message: HttpStatusCode.OK.ToString());
+            return new DataPagging(parameters.PageNumber, parameters.PageSize, users.Item1, repoResult);
         }
-        public async Task<IResponseResult> GetUser(long Id)
+        public async override Task<IResponseResult> GetByIdAsync(object id)
         {
-            var user = await _serviceBaseParameter.UnitOfWork.Repository.FirstOrDefaultAsync(q => q.Id == Id);
-            if (user == null) return _serviceBaseParameter.ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.NoContent, message: HttpStatusCode.NoContent.ToString());
+            var user = await _unitOfWork.Repository.FirstOrDefaultAsync(q => q.Id ==(long) id);
+            if (user == null) return ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.NoContent, message: HttpStatusCode.NoContent.ToString());
             var userDto = Mapper.Map<UserDto>(user);
-            return _serviceBaseParameter.ResponseResult.GetRepositoryActionResult(userDto, status: HttpStatusCode.OK, message: HttpStatusCode.OK.ToString());
+            return ResponseResult.GetRepositoryActionResult(userDto, status: HttpStatusCode.OK, message: HttpStatusCode.OK.ToString());
         }
-        public async Task<IResponseResult> AddUser(UserDto userDto)
+        public async override Task<IResponseResult> AddAsync(UserDto model)
         {
-            if (userDto == null) return _serviceBaseParameter.ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.NoContent, message: HttpStatusCode.NoContent.ToString());
-            var isExist = await _serviceBaseParameter.UnitOfWork.Repository.FirstOrDefaultAsync(q => (q.UserName == userDto.UserName || q.Email == userDto.Email || (q.PhoneNumber == userDto.PhoneNumber && (userDto.PhoneNumber != "" && userDto.PhoneNumber != null))) && q.IsDeleted!=1) != null;
-            if (isExist) return _serviceBaseParameter.ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.NotAcceptable, message: HttpStatusCode.NotAcceptable.ToString());
-            var data = await _serviceBaseParameter.UnitOfWork.Repository.FindAsync(q=>q!=null);
-            userDto.Id = data ==null?1000:(1000+data.Count());
-            userDto.SecurityStamp = Guid.NewGuid().ToString();        
-            var user = Mapper.Map<AspNetUsers>(userDto);
-             _serviceBaseParameter.UnitOfWork.Repository.Add(user);
-            await _serviceBaseParameter.UnitOfWork.SaveChanges();
-            return _serviceBaseParameter.ResponseResult.GetRepositoryActionResult(userDto, status: HttpStatusCode.Created, message: HttpStatusCode.Created.ToString());
-        }
-
-        public async Task<IResponseResult> UpdateUser(UserDto userDto)
-        {
-            if (userDto == null) return _serviceBaseParameter.ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.NoContent, message: HttpStatusCode.NoContent.ToString());
-            var isExist = await _serviceBaseParameter.UnitOfWork.Repository.FirstOrDefaultAsync(q => (q.UserName == userDto.UserName || q.Email == userDto.Email || (q.PhoneNumber == userDto.PhoneNumber && (userDto.PhoneNumber != "" && userDto.PhoneNumber != null))) && q.Id != userDto.Id && q.IsDeleted!=1) != null;
-            if (isExist) return _serviceBaseParameter.ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.NotAcceptable, message: HttpStatusCode.NotAcceptable.ToString());
-            var original = await _serviceBaseParameter.UnitOfWork.Repository.FirstOrDefaultAsync(q => q.Id == userDto.Id);
-            userDto.SecurityStamp = Guid.NewGuid().ToString();         
-            var user = Mapper.Map(userDto,original);
-            _serviceBaseParameter.UnitOfWork.Repository.Update(user,user.Id);
-            await _serviceBaseParameter.UnitOfWork.SaveChanges();
-            return _serviceBaseParameter.ResponseResult.GetRepositoryActionResult(userDto, status: HttpStatusCode.Accepted, message: HttpStatusCode.Accepted.ToString());
+            if (model == null) return ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.NoContent, message: HttpStatusCode.NoContent.ToString());
+            var isExist = await _unitOfWork.Repository.IsExists(q => (q.UserName == model.UserName || q.Email == model.Email || (q.PhoneNumber == model.PhoneNumber && (model.PhoneNumber != "" && model.PhoneNumber != null))) && q.IsDeleted != 1);
+            if (isExist) return ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.NotAcceptable, message: HttpStatusCode.NotAcceptable.ToString());
+            var data = await _unitOfWork.Repository.FindAsync(q => q != null);
+            model.Id = data == null ? 1000 : (1000 + data.Count());
+            model.SecurityStamp = Guid.NewGuid().ToString();
+            var user = Mapper.Map<AspNetUsers>(model);
+            _unitOfWork.Repository.Add(user);
+            await _unitOfWork.SaveChanges();
+            return ResponseResult.GetRepositoryActionResult(model, status: HttpStatusCode.Created, message: HttpStatusCode.Created.ToString());
         }
 
-        public async Task<IResponseResult> RemoveUserById(long id)
+        public async override Task<IResponseResult> UpdateAsync(UserDto model)
         {
-            if (id == null) return _serviceBaseParameter.ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.NoContent, message: HttpStatusCode.NoContent.ToString());
-            var user = await _serviceBaseParameter.UnitOfWork.Repository.FirstOrDefaultAsync(q => q.Id == id);
+            if (model == null) return ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.NoContent, message: HttpStatusCode.NoContent.ToString());
+            var isExist = await _unitOfWork.Repository.FirstOrDefaultAsync(q => (q.UserName == model.UserName || q.Email == model.Email || (q.PhoneNumber == model.PhoneNumber && (model.PhoneNumber != "" && model.PhoneNumber != null))) && q.Id != model.Id && q.IsDeleted != 1) != null;
+            if (isExist) return ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.NotAcceptable, message: HttpStatusCode.NotAcceptable.ToString());
+            var original = await _unitOfWork.Repository.FirstOrDefaultAsync(q => q.Id == model.Id);
+            model.SecurityStamp = Guid.NewGuid().ToString();
+            var user = Mapper.Map(model, original);
+            _unitOfWork.Repository.Update(user, user.Id);
+            await _unitOfWork.SaveChanges();
+            return ResponseResult.GetRepositoryActionResult(model, status: HttpStatusCode.Accepted, message: HttpStatusCode.Accepted.ToString());
+        }
+        public async override Task<IResponseResult> DeleteAsync(object id)
+        {
+            if (id == null) return ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.NoContent, message: HttpStatusCode.NoContent.ToString());
+            var user = await _unitOfWork.Repository.FirstOrDefaultAsync(q => q.Id ==(long) id);
             user.IsDeleted = 1;
-            _serviceBaseParameter.UnitOfWork.Repository.Update(user, user.Id);
-            await _serviceBaseParameter.UnitOfWork.SaveChanges();
-            return _serviceBaseParameter.ResponseResult.GetRepositoryActionResult(true, status: HttpStatusCode.OK, message: HttpStatusCode.OK.ToString());
+            _unitOfWork.Repository.Update(user, user.Id);
+            await _unitOfWork.SaveChanges();
+            return ResponseResult.GetRepositoryActionResult(true, status: HttpStatusCode.OK, message: HttpStatusCode.OK.ToString());
         }
+        
 
         public async Task<IResponseResult> IsUsernameExists(string name, long id)
         {
-            var res = await _serviceBaseParameter.UnitOfWork.Repository.FirstOrDefaultAsync(q => q.UserName == name && q.Id != id && q.IsDeleted!=1);
-            return _serviceBaseParameter.ResponseResult.GetRepositoryActionResult(res != null, status: HttpStatusCode.OK, message: HttpStatusCode.OK.ToString());
+            var res = await _unitOfWork.Repository.FirstOrDefaultAsync(q => q.UserName == name && q.Id != id && q.IsDeleted!=1);
+            return ResponseResult.GetRepositoryActionResult(res != null, status: HttpStatusCode.OK, message: HttpStatusCode.OK.ToString());
         }
 
         public async Task<IResponseResult> IsEmailExists(string email, long id)
         {
-            var res = await _serviceBaseParameter.UnitOfWork.Repository.FirstOrDefaultAsync(q => q.Email == email && q.Id != id && q.IsDeleted!=1);
-            return _serviceBaseParameter.ResponseResult.GetRepositoryActionResult(res != null, status: HttpStatusCode.OK, message: HttpStatusCode.OK.ToString());
+            var res = await _unitOfWork.Repository.FirstOrDefaultAsync(q => q.Email == email && q.Id != id && q.IsDeleted!=1);
+            return ResponseResult.GetRepositoryActionResult(res != null, status: HttpStatusCode.OK, message: HttpStatusCode.OK.ToString());
         }
 
         public async Task<IResponseResult> IsPhoneExists(string phone, long id)
         {
-            var res = await _serviceBaseParameter.UnitOfWork.Repository.FirstOrDefaultAsync(q => q.PhoneNumber == phone && q.Id != id && q.IsDeleted!=1);
-            return _serviceBaseParameter.ResponseResult.GetRepositoryActionResult(res != null, status: HttpStatusCode.OK, message: HttpStatusCode.OK.ToString());
+            var res = await _unitOfWork.Repository.FirstOrDefaultAsync(q => q.PhoneNumber == phone && q.Id != id && q.IsDeleted!=1);
+            return ResponseResult.GetRepositoryActionResult(res != null, status: HttpStatusCode.OK, message: HttpStatusCode.OK.ToString());
         }
 
         public async Task<Select2PagedResult> GetUsersSelect2(string searchTerm, int pageSize, int pageNumber)
         {
-            var users = !string.IsNullOrEmpty(searchTerm) ? await _serviceBaseParameter.UnitOfWork.Repository.FindAsync(n => n.IsDeleted!=1 && n.UserName.ToLower().Contains(searchTerm.ToLower())) : await _serviceBaseParameter.UnitOfWork.Repository.FindAsync(q => q.IsDeleted!=1);
+            var users = !string.IsNullOrEmpty(searchTerm) ? await _unitOfWork.Repository.FindAsync(n => n.IsDeleted!=1 && n.UserName.ToLower().Contains(searchTerm.ToLower())) : await _unitOfWork.Repository.FindAsync(q => q.IsDeleted!=1);
             var result = users.OrderBy(q => q.Id).Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(q => new Select2OptionModel { id = q.Id.ToString(), text = q.UserName }).ToList();
             var select2pagedResult = new Select2PagedResult();
             select2pagedResult.Total = users.Count();
@@ -119,36 +121,44 @@ namespace MyIhsan.Identity.Service.Services
         }
         public async Task<IEnumerable<Select2OptionModel>> GetUserAssignedSelect2(long id)
         {
-            //var role = await _roleUnitOfWork.Repository.FirstOrDefaultAsync(q => q.Id == id, include: source => source.Include(a => a.AspNetUsersRole).Include(b => b.AspNetUsersRole), disableTracking: false);
+            //var role = await _role_unitOfWork.Repository.FirstOrDefaultAsync(q => q.Id == id, include: source => source.Include(a => a.AspNetUsersRole).Include(b => b.AspNetUsersRole), disableTracking: false);
             //var userIdList = role.AspNetUsersRole.Select(q => q.UserId).ToList();
-            //var userassignQuery = await _unitOfWork.Repository.FindAsync(q => userIdList.Contains(q.Id) && !q.IsDeleted);
+            //var userassignQuery = await __unitOfWork.Repository.FindAsync(q => userIdList.Contains(q.Id) && !q.IsDeleted);
             //var userassign = userassignQuery.Select(q => new Select2OptionModel { id = q.Id, text = q.UserName }).ToList();
             //return userassign;
             throw new Exception();
         }
         public async Task<IResponseResult> SaveUserAssigned(AssignUserOnRoleParameters parameters)
         {
-            //var role = await _roleUnitOfWork.Repository.FirstOrDefaultAsync(q => q.Id == parameters.RoleId, include: source => source.Include(a => a.AspNetUsersRole), disableTracking: false);
+            //var role = await _role_unitOfWork.Repository.FirstOrDefaultAsync(q => q.Id == parameters.RoleId, include: source => source.Include(a => a.AspNetUsersRole), disableTracking: false);
             //if (parameters.AssignedUser != null)
             //{
             //    foreach (var item in parameters.AssignedUser)
             //    {
-            //        var isExist = await _usersRoleUnitOfWork.Repository.FirstOrDefaultAsync(q => q.UserId == item && q.RoleId == parameters.RoleId) != null;
+            //        var isExist = await _usersRole_unitOfWork.Repository.FirstOrDefaultAsync(q => q.UserId == item && q.RoleId == parameters.RoleId) != null;
             //        if (!isExist)
             //        {
             //            var userRole = new AspNetUsersRole() { Id = Guid.NewGuid().ToString(), UserId = item, RoleId = parameters.RoleId };
-            //            _usersRoleUnitOfWork.Repository.Add(userRole);
+            //            _usersRole_unitOfWork.Repository.Add(userRole);
             //        }
             //    }
             //}
 
             //var userRemove = parameters.AssignedUser is null ? role.AspNetUsersRole : role.AspNetUsersRole.Where(q => !parameters.AssignedUser.Contains(q.UserId));
-            //_usersRoleUnitOfWork.Repository.RemoveRange(userRemove);
-            //await _usersRoleUnitOfWork.SaveChanges();
+            //_usersRole_unitOfWork.Repository.RemoveRange(userRemove);
+            //await _usersRole_unitOfWork.SaveChanges();
             //return ResponseResult.GetRepositoryActionResult(true, status: HttpStatusCode.Created, message: HttpStatusCode.Created.ToString());
             throw new Exception();
         }
-
+        static Expression<Func<AspNetUsers, bool>> PredicateBuilderFunction(GetAllUserParameters filter)
+        {
+            var predicate = PredicateBuilder.New<AspNetUsers>(true);
+            if (!string.IsNullOrWhiteSpace(filter.UserName))
+            {
+                predicate = predicate.And(b => b.UserName.ToLower().StartsWith(filter.UserName));
+            }
+            return predicate;
+        }
 
 
     }

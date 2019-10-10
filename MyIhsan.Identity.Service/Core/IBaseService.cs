@@ -11,7 +11,7 @@ namespace MyIhsan.Identity.Service.Core
         Task<IResponseResult> GetAllAsync();
         Task<IResponseResult> AddAsync(TDto model);
         Task<IResponseResult> UpdateAsync(TDto model);
-        Task<IResponseResult> DeleteAsync(string id);
-        Task<IResponseResult> GetByIdAsync(string id);
+        Task<IResponseResult> DeleteAsync(object id);
+        Task<IResponseResult> GetByIdAsync(object id);
     }
 }

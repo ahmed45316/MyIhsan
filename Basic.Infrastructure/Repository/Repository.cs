@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
+using MyIhsan.Common.Extensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -13,7 +14,6 @@ namespace Basic.Infrastructure.Repository
 { 
     public class Repository<T> : IRepository<T> where T : class
     {
-        private const bool TrueExpression = true;
         protected readonly DbContext Context;
         protected DbSet<T> DbSet;
         public Repository(DbContext context)
@@ -25,57 +25,85 @@ namespace Basic.Infrastructure.Repository
         {
             return await DbSet.FindAsync(keys);
         }
-        public async Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> predicate,Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null,bool disableTracking = true)
+        public async Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> predicate, Func<IQueryable<T>, IOrderedQueryable<T>> orderby = null, Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null, bool disableTracking = true)
         {
             IQueryable<T> query = DbSet;
             if (disableTracking)
             {
                 query = query.AsNoTracking();
             }
-
-            if (include != null)
+            if (orderby != null)
             {
-                query = include(query);
+                query = orderby(query);
             }
-
             if (predicate != null)
             {
                 query = query.Where(predicate);
+            }
+            if (include != null)
+            {
+                query = include(query);
             }
             return await query.FirstOrDefaultAsync();
-            
+
         }
-        public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate, Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null, bool disableTracking = true)
+        public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate = null, IEnumerable<SortModel> orderByCriteria = null, Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null, bool disableTracking = true)
         {
             IQueryable<T> query = DbSet;
             if (disableTracking)
             {
                 query = query.AsNoTracking();
             }
-
-            if (include != null)
-            {
-                query = include(query);
-            }
-
             if (predicate != null)
             {
                 query = query.Where(predicate);
+            }
+            if (orderByCriteria != null)
+            {
+                query = query.OrderBy(orderByCriteria);
+            }
+            if (include != null)
+            {
+                query = include(query);
             }
             return await query.ToListAsync();
         }
-
-        public async Task<IEnumerable<T>> GetAllAsync(Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null, bool disableTracking = true)
+        public async Task<(int, IEnumerable<T>)> FindPaggedAsync(Expression<Func<T, bool>> predicate = null, int skip = 0, int take = 0, IEnumerable<SortModel> orderByCriteria = null, Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null, bool disableTracking = true)
         {
             IQueryable<T> query = DbSet;
             if (disableTracking)
             {
                 query = query.AsNoTracking();
             }
-
+            if (predicate != null)
+            {
+                query = query.Where(predicate);
+            }
+            int count = query.Count();
+            if (orderByCriteria != null)
+            {
+                query = query.OrderBy(orderByCriteria).Skip(skip).Take(take);
+            }
             if (include != null)
             {
                 query = include(query);
+            }
+            return (count, await query.ToListAsync());
+        }
+        public async Task<IEnumerable<T>> GetAllAsync(IEnumerable<SortModel> orderByCriteria = null, Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null, bool disableTracking = true)
+        {
+            IQueryable<T> query = DbSet;
+            if (disableTracking)
+            {
+                query = query.AsNoTracking();
+            }
+            if (include != null)
+            {
+                query = include(query);
+            }
+            if (orderByCriteria != null)
+            {
+                query = query.OrderBy(orderByCriteria);
             }
             return await query.ToListAsync();
         }
@@ -86,12 +114,6 @@ namespace Basic.Infrastructure.Repository
         public void AddRange(IEnumerable<T> entities)
         {
             DbSet.AddRange(entities);
-        }
-        public void Update(T entity)
-        {
-            var key = GetKeyValue(entity);
-
-            Update(entity, key);
         }
         public void Update(T entity, object key)
         {
@@ -111,53 +133,19 @@ namespace Basic.Infrastructure.Repository
         {
             DbSet.Remove(entity);
         }
-        public void Remove(Expression<Func<T, bool>> predicate)
+        public async void Remove(Expression<Func<T, bool>> predicate)
         {
-            var objects = FindAsync(predicate);
-            foreach (var obj in objects.Result)
-            {
-                DbSet.Remove(obj);
-            }
+            var objects = await FindAsync(predicate);
+            DbSet.RemoveRange(objects);
         }
         public void RemoveRange(IEnumerable<T> entities)
         {
             DbSet.RemoveRange(entities);
         }
-        public string GetKeyField(Type type)
+        public async Task<bool> IsExists(Expression<Func<T, bool>> predicate)
         {
-            var allProperties = type.GetProperties();
+            return DbSet.Any(predicate);
+        }
 
-            var keyProperty = allProperties.SingleOrDefault(p => p.IsDefined(typeof(KeyAttribute)));
-
-            return keyProperty?.Name;
-        }
-        public int GetNextKeySequence()
-        {
-            var query = DbSet.OfType<T>();
-            var theLast = query.LastOrDefault();
-            if (theLast == null) return 1;
-            var key = theLast.GetType().GetProperties().FirstOrDefault(
-                    p => p.GetCustomAttributes(typeof(KeyAttribute), true).Length != 0);
-            if (key != null)
-            {
-                var keyValue = key.GetValue(theLast, null).ToString();
-                int.TryParse(keyValue, out int valueResult);
-                return valueResult;
-            }
-
-            return 0;
-        }
-        public object GetKeyValue(T t)
-        {
-            var key =
-                typeof(T).GetProperties().FirstOrDefault(
-                    p => p.GetCustomAttributes(typeof(KeyAttribute), true).Length != 0);
-            return key?.GetValue(t, null);
-        }
-        public async Task<bool> Contains(Expression<Func<T, bool>> predicate)
-        {
-            return await DbSet.AnyAsync(predicate);
-        }
-        
     }
 }

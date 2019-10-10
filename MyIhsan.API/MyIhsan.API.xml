@@ -154,7 +154,7 @@
             <summary>
             Get User by Id
             </summary>
-            <param name="Id"></param>
+            <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:MyIhsan.API.Controllers.Secuirty.UserController.Add(MyIhsan.Identity.Service.Dtos.UserDto)">

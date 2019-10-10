@@ -1,25 +1,25 @@
 ﻿using AutoMapper;
+using MyIhsan.Common;
 using MyIhsan.Common.Core;
 using MyIhsan.Identity.Service.UnitOfWork;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace MyIhsan.Identity.Service.Core
 {
 
-    public class BaseService<T, TDto> : IBaseService<T,TDto>
+    public class BaseService<T, TDto> : IBaseService<T, TDto>
        where T : class
-       where TDto : IPrimaryKeyField<string>
+       where TDto : class
     {
         protected readonly IIdentityUnitOfWork<T> _unitOfWork;
         protected readonly IMapper Mapper;
         protected readonly IResponseResult ResponseResult;
         protected TDto currentModel { get; set; }
-        protected const string AdmistratorId = "c21c91c0-5c2f-45cc-ab6d-1d256538a4ee";
-        protected const string AdmistratorRoleId = "c21c91c0-5c2f-45cc-ab6d-1d256538a5ee";
         protected IResponseResult result;
         protected internal BaseService(IServiceBaseParameter<T> businessBaseParameter)
         {
@@ -27,7 +27,7 @@ namespace MyIhsan.Identity.Service.Core
             ResponseResult = businessBaseParameter.ResponseResult;
             Mapper = businessBaseParameter.Mapper;
         }
-        public async Task<IResponseResult> GetAllAsync()
+        public virtual async Task<IResponseResult> GetAllAsync()
         {
             try
             {
@@ -42,11 +42,16 @@ namespace MyIhsan.Identity.Service.Core
                 return result;
             }
         }
-        public async Task<IResponseResult> AddAsync(TDto model)
+        public virtual async Task<IResponseResult> AddAsync(TDto model)
         {
             try
             {
-                model.Id = Guid.NewGuid().ToString();
+                PropertyInfo propertyInfo = model.GetType().GetProperty("Id");
+                if (propertyInfo.PropertyType == typeof(string))
+                {
+                    propertyInfo.SetValue(model, Convert.ChangeType(Guid.NewGuid().ToString(), propertyInfo.PropertyType), null);
+                }
+
                 T entity = Mapper.Map<TDto, T>(model);
                 _unitOfWork.Repository.Add(entity);
                 int affectedRows = await _unitOfWork.SaveChanges();
@@ -65,11 +70,12 @@ namespace MyIhsan.Identity.Service.Core
                 return result;
             }
         }
-        public async Task<IResponseResult> UpdateAsync(TDto model)
+        public virtual async Task<IResponseResult> UpdateAsync(TDto model)
         {
             try
             {
-                T entityToUpdate = await _unitOfWork.Repository.GetAsync(model.Id);
+                var id = Helper.GetPropValue(model, "Id");
+                T entityToUpdate = await _unitOfWork.Repository.GetAsync(id);
                 Mapper.Map(model, entityToUpdate);
                 int affectedRows = await _unitOfWork.SaveChanges();
                 if (affectedRows > 0)
@@ -86,7 +92,7 @@ namespace MyIhsan.Identity.Service.Core
                 return result;
             }
         }
-        public async Task<IResponseResult> DeleteAsync(string id)
+        public virtual async Task<IResponseResult> DeleteAsync(object id)
         {
             try
             {
@@ -106,7 +112,7 @@ namespace MyIhsan.Identity.Service.Core
                 return result;
             }
         }
-        public async Task<IResponseResult> GetByIdAsync(string id)
+        public virtual async Task<IResponseResult> GetByIdAsync(object id)
         {
             try
             {
