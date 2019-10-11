@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using MyIhsan.Common;
 using MyIhsan.Common.Core;
-using MyIhsan.Identity.Service.UnitOfWork;
+using MyIhsan.Service.UnitOfWork;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -9,7 +9,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyIhsan.Identity.Service.Core
+namespace MyIhsan.Service.Core
 {
 
     public class BaseService<T, TDto> : IBaseService<T, TDto>

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MyIhsan.Identity.Entities.Views
+namespace MyIhsan.Entities.Views
 {
     public class AspNetUsers
     {

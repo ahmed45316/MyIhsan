@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MyIhsan.Identity.Service.Dtos;
+using MyIhsan.Service.Dtos;
 
-namespace MyIhsan.Identity.Service.Core
+namespace MyIhsan.Service.Core
 {
     public interface ITokenBusiness
     {

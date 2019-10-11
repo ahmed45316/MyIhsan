@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyIhsan.Identity.Service.UnitOfWork
+namespace MyIhsan.Service.UnitOfWork
 {
     public interface IIdentityUnitOfWork<T> : IDisposable where T : class
     {

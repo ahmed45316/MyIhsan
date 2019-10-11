@@ -16,13 +16,13 @@
         <member name="M:MyIhsan.API.Controllers.Base.BaseMainController.#ctor(MyIhsan.Common.Core.IHandlerResponse)">
             <inheritdoc />
         </member>
-        <member name="M:MyIhsan.API.Controllers.Base.BaseMainController.#ctor(MyIhsan.Common.Core.IHandlerResponse,MyIhsan.Identity.Service.Core.ITokenBusiness)">
+        <member name="M:MyIhsan.API.Controllers.Base.BaseMainController.#ctor(MyIhsan.Common.Core.IHandlerResponse,MyIhsan.Service.Core.ITokenBusiness)">
             <inheritdoc />
         </member>
         <member name="T:MyIhsan.API.Controllers.Secuirty.AccountsController">
             <inheritdoc />
         </member>
-        <member name="M:MyIhsan.API.Controllers.Secuirty.AccountsController.#ctor(MyIhsan.Common.Core.IHandlerResponse,MyIhsan.Identity.Service.Interfaces.ILoginServices,MyIhsan.Identity.Service.Core.ITokenBusiness,MyIhsan.Identity.Service.Interfaces.IMenuServices)">
+        <member name="M:MyIhsan.API.Controllers.Secuirty.AccountsController.#ctor(MyIhsan.Common.Core.IHandlerResponse,MyIhsan.Service.Interfaces.ILoginServices,MyIhsan.Service.Core.ITokenBusiness,MyIhsan.Service.Interfaces.IMenuServices)">
             <inheritdoc />
         </member>
         <member name="M:MyIhsan.API.Controllers.Secuirty.AccountsController.Login(MyIhsan.Common.Parameters.LoginParameters)">
@@ -41,7 +41,7 @@
         <member name="T:MyIhsan.API.Controllers.Secuirty.PageController">
             <inheritdoc />
         </member>
-        <member name="M:MyIhsan.API.Controllers.Secuirty.PageController.#ctor(MyIhsan.Common.Core.IHandlerResponse,MyIhsan.Identity.Service.Core.ITokenBusiness,MyIhsan.Identity.Service.Interfaces.IMenuServices)">
+        <member name="M:MyIhsan.API.Controllers.Secuirty.PageController.#ctor(MyIhsan.Common.Core.IHandlerResponse,MyIhsan.Service.Core.ITokenBusiness,MyIhsan.Service.Interfaces.IMenuServices)">
             <inheritdoc />
         </member>
         <member name="M:MyIhsan.API.Controllers.Secuirty.PageController.GetScreensSelect2(System.Int32,System.Int32,System.String,System.String)">
@@ -93,7 +93,7 @@
         <member name="T:MyIhsan.API.Controllers.Secuirty.RoleController">
             <inheritdoc />
         </member>
-        <member name="M:MyIhsan.API.Controllers.Secuirty.RoleController.#ctor(MyIhsan.Common.Core.IHandlerResponse,MyIhsan.Identity.Service.Core.ITokenBusiness,MyIhsan.Identity.Service.Interfaces.IRoleServices)">
+        <member name="M:MyIhsan.API.Controllers.Secuirty.RoleController.#ctor(MyIhsan.Common.Core.IHandlerResponse,MyIhsan.Service.Core.ITokenBusiness,MyIhsan.Service.Interfaces.IRoleServices)">
             <inheritdoc />
         </member>
         <member name="M:MyIhsan.API.Controllers.Secuirty.RoleController.GetAll(MyIhsan.Common.Parameters.GetAllRoleParameters)">
@@ -109,14 +109,14 @@
             <param name="roleId"></param>
             <returns></returns>
         </member>
-        <member name="M:MyIhsan.API.Controllers.Secuirty.RoleController.Add(MyIhsan.Identity.Service.Dtos.RoleDto)">
+        <member name="M:MyIhsan.API.Controllers.Secuirty.RoleController.Add(MyIhsan.Service.Dtos.RoleDto)">
             <summary>
             Add new Role
             </summary>
             <param name="model"></param>
             <returns></returns>
         </member>
-        <member name="M:MyIhsan.API.Controllers.Secuirty.RoleController.Update(MyIhsan.Identity.Service.Dtos.RoleDto)">
+        <member name="M:MyIhsan.API.Controllers.Secuirty.RoleController.Update(MyIhsan.Service.Dtos.RoleDto)">
              <summary>
              Update Role
              </summary>
@@ -141,7 +141,7 @@
         <member name="T:MyIhsan.API.Controllers.Secuirty.UserController">
             <inheritdoc />    
         </member>
-        <member name="M:MyIhsan.API.Controllers.Secuirty.UserController.#ctor(MyIhsan.Common.Core.IHandlerResponse,MyIhsan.Identity.Service.Core.ITokenBusiness,MyIhsan.Identity.Service.Interfaces.IUserServices)">
+        <member name="M:MyIhsan.API.Controllers.Secuirty.UserController.#ctor(MyIhsan.Common.Core.IHandlerResponse,MyIhsan.Service.Core.ITokenBusiness,MyIhsan.Service.Interfaces.IUserServices)">
             <inheritdoc />
         </member>
         <member name="M:MyIhsan.API.Controllers.Secuirty.UserController.GetAll(MyIhsan.Common.Parameters.GetAllUserParameters)">
@@ -157,14 +157,14 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:MyIhsan.API.Controllers.Secuirty.UserController.Add(MyIhsan.Identity.Service.Dtos.UserDto)">
+        <member name="M:MyIhsan.API.Controllers.Secuirty.UserController.Add(MyIhsan.Service.Dtos.UserDto)">
             <summary>
             Add User
             </summary>
             <param name="userDto"></param>
             <returns></returns>
         </member>
-        <member name="M:MyIhsan.API.Controllers.Secuirty.UserController.Update(MyIhsan.Identity.Service.Dtos.UserDto)">
+        <member name="M:MyIhsan.API.Controllers.Secuirty.UserController.Update(MyIhsan.Service.Dtos.UserDto)">
             <summary>
             Update User
             </summary>

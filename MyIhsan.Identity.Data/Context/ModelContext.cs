@@ -2,10 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Configuration;
-using MyIhsan.Identity.Entities.Views;
-using MyIhsan.Identity.Entities.Entities;
+using MyIhsan.Entities.Views;
+using MyIhsan.Entities.Entities;
 
-namespace MyIhsan.Identity.Data.Context
+namespace MyIhsan.Data.Context
 {
     public partial class ModelContext : DbContext
     {

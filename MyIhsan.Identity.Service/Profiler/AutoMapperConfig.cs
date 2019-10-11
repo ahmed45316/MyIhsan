@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
-using MyIhsan.Identity.Entities.Entities;
-using MyIhsan.Identity.Entities.Views;
-using MyIhsan.Identity.Service.Dtos;
+using MyIhsan.Entities.Entities;
+using MyIhsan.Entities.Views;
+using MyIhsan.Service.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MyIhsan.Identity.Service.Profiler
+namespace MyIhsan.Service.Profiler
 {
     public class AutoMapperConfig : Profile
     {

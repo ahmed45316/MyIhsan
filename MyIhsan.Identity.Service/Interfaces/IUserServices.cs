@@ -1,15 +1,15 @@
 ﻿using MyIhsan.Common.Core;
 using MyIhsan.Common.OptionModel;
 using MyIhsan.Common.Parameters;
-using MyIhsan.Identity.Entities.Views;
-using MyIhsan.Identity.Service.Core;
-using MyIhsan.Identity.Service.Dtos;
+using MyIhsan.Entities.Views;
+using MyIhsan.Service.Core;
+using MyIhsan.Service.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyIhsan.Identity.Service.Interfaces
+namespace MyIhsan.Service.Interfaces
 {
     public interface IUserServices : IBaseService<AspNetUsers, UserDto>
     {

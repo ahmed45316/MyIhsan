@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using MyIhsan.Identity.Service.Core;
-using MyIhsan.Identity.Service.Dtos;
-using MyIhsan.Identity.Service.Interfaces;
+using MyIhsan.Service.Core;
+using MyIhsan.Service.Dtos;
+using MyIhsan.Service.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +10,9 @@ using System.Text;
 using System.Threading.Tasks;
 using MyIhsan.Common.Parameters;
 using MyIhsan.Common.Core;
-using MyIhsan.Identity.Entities.Views;
+using MyIhsan.Entities.Views;
 
-namespace MyIhsan.Identity.Service.Services
+namespace MyIhsan.Service.Services
 {
     public class LoginServices : ILoginServices
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MyIhsan.Identity.Entities.Entities
+namespace MyIhsan.Entities.Entities
 {
     public partial class AspNetRoles
     {

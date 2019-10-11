@@ -8,9 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 using MyIhsan.API.Controllers.Base;
 using MyIhsan.Common.Core;
 using MyIhsan.Common.Parameters;
-using MyIhsan.Identity.Service.Core;
-using MyIhsan.Identity.Service.Dtos;
-using MyIhsan.Identity.Service.Interfaces;
+using MyIhsan.Service.Core;
+using MyIhsan.Service.Dtos;
+using MyIhsan.Service.Interfaces;
 
 namespace MyIhsan.API.Controllers.Secuirty
 {

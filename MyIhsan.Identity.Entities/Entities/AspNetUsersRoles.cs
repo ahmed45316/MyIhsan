@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace MyIhsan.Identity.Entities.Entities
+namespace MyIhsan.Entities.Entities
 {
     public partial class AspNetUsersRoles
     {

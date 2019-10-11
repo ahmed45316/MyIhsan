@@ -2,11 +2,11 @@
 using MyIhsan.Common.Core;
 using MyIhsan.Common.OptionModel;
 using MyIhsan.Common.Parameters;
-using MyIhsan.Identity.Entities.Entities;
-using MyIhsan.Identity.Service.Core;
-using MyIhsan.Identity.Service.Dtos;
-using MyIhsan.Identity.Service.Interfaces;
-using MyIhsan.Identity.Service.UnitOfWork;
+using MyIhsan.Entities.Entities;
+using MyIhsan.Service.Core;
+using MyIhsan.Service.Dtos;
+using MyIhsan.Service.Interfaces;
+using MyIhsan.Service.UnitOfWork;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +14,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyIhsan.Identity.Service.Services
+namespace MyIhsan.Service.Services
 {
     public class MenuServices : BaseService<Menus, MenuDto>, IMenuServices
     {

@@ -2,13 +2,13 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Configuration;
-using MyIhsan.Identity.Data.Context;
+using MyIhsan.Data.Context;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyIhsan.Identity.Service.UnitOfWork
+namespace MyIhsan.Service.UnitOfWork
 {
     public class IdentityUnitOfWork<T> : IIdentityUnitOfWork<T> where T : class
     {

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MyIhsan.Identity.Service.Dtos
+namespace MyIhsan.Service.Dtos
 {
     public class UserDto : IPrimaryKeyField<long?>
     {

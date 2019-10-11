@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>MyIhsan.Data</AssemblyName>
+    <RootNamespace>MyIhsan.Data</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,7 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MyIhsan.Common\MyIhsan.Common.csproj" />
-    <ProjectReference Include="..\MyIhsan.Identity.Entities\MyIhsan.Identity.Entities.csproj" />
+    <ProjectReference Include="..\MyIhsan.Identity.Entities\MyIhsan.Entities.csproj" />
   </ItemGroup>
 
 </Project>

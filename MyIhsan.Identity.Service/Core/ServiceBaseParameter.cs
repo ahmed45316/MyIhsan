@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
-using MyIhsan.Identity.Service.UnitOfWork;
+using MyIhsan.Service.UnitOfWork;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using MyIhsan.Common.Core;
 
-namespace MyIhsan.Identity.Service.Core
+namespace MyIhsan.Service.Core
 {
     public class ServiceBaseParameter<T> : IServiceBaseParameter<T> where T : class
     {

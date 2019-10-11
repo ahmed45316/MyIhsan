@@ -7,10 +7,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using NetCore.AutoRegisterDi;
 using MyIhsan.Common.Core;
-using MyIhsan.Identity.Service.Core;
-using MyIhsan.Identity.Service.Dtos;
-using MyIhsan.Identity.Service.Services;
-using MyIhsan.Identity.Service.UnitOfWork;
+using MyIhsan.Service.Core;
+using MyIhsan.Service.Dtos;
+using MyIhsan.Service.Services;
+using MyIhsan.Service.UnitOfWork;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.Collections.Generic;
@@ -18,8 +18,8 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using MyIhsan.Identity.Data.Context;
-using MyIhsan.Identity.Service.Profiler;
+using MyIhsan.Data.Context;
+using MyIhsan.Service.Profiler;
 
 namespace MyIhsan.API.Extensions
 {

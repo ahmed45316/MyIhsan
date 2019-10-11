@@ -1,14 +1,14 @@
 ﻿using MyIhsan.Common.Core;
 using MyIhsan.Common.Parameters;
-using MyIhsan.Identity.Entities.Entities;
-using MyIhsan.Identity.Service.Core;
-using MyIhsan.Identity.Service.Dtos;
+using MyIhsan.Entities.Entities;
+using MyIhsan.Service.Core;
+using MyIhsan.Service.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyIhsan.Identity.Service.Interfaces
+namespace MyIhsan.Service.Interfaces
 {
     public interface IRoleServices : IBaseService<AspNetRoles, RoleDto>
     {

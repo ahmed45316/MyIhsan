@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyIhsan.Identity.Service.Core
+namespace MyIhsan.Service.Core
 {
     public interface IBaseService<T, TDto>
     {
