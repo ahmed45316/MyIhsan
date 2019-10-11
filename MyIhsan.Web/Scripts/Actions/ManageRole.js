@@ -23,7 +23,7 @@ $(document).ready(function () {
             sync: false,
             dataType: 'json',
             headers: {
-                'Authorization': `Bearer ${$.cookie("tokenR")}`
+                'Authorization': `Bearer ${$.cookie("token")}`
             },
             data: function (params) {
                 params.page = params.page || 1;
@@ -58,7 +58,7 @@ $(document).ready(function () {
                 url: baseUrl + "Page/GetScreensSelect2",
                 dataType: 'json',
                 headers: {
-                    'Authorization': `Bearer ${$.cookie("tokenR")}`
+                    'Authorization': `Bearer ${$.cookie("token")}`
                 },
                 data: function (params) {
                     params.page = params.page || 1;
@@ -91,7 +91,7 @@ $(document).ready(function () {
                 url: baseUrl + "Page/GetChildScreensSelect2",
                 dataType: 'json',
                 headers: {
-                    'Authorization': `Bearer ${$.cookie("tokenR")}`
+                    'Authorization': `Bearer ${$.cookie("token")}`
                 },
                 data: function (params) {
                     params.page = params.page || 1;
@@ -212,7 +212,7 @@ function addClick(obj) {
                     url: `${getUserRole}/${id}`,
                     type: 'get',
                     headers: {
-                        'Authorization': `Bearer ${$.cookie("tokenR")}`
+                        'Authorization': `Bearer ${$.cookie("token")}`
                     },
                     success: function (res) {
                         $("#ddl_Users").empty();
@@ -319,7 +319,7 @@ $('#saveBtn').on('click', function () {
                     url: saveUserRole,
                     type: 'post',
                     headers: {
-                        'Authorization': `Bearer ${$.cookie("tokenR")}`
+                        'Authorization': `Bearer ${$.cookie("token")}`
                     },
                     data: param,
                     success: function (res) {
@@ -352,7 +352,7 @@ function RenderData(id) {
         "ajax": {
             "url": `${baseUrl}Page/GetScreenData/${id}/${$('#ddl_BasicScreen').val()}`,
             "headers": {
-                'Authorization': `Bearer ${$.cookie("tokenR")}`
+                'Authorization': `Bearer ${$.cookie("token")}`
             },
             "type": "GET",
             "datatype": "json"
@@ -371,7 +371,7 @@ function RenderData(id) {
         "ajax": {
             "url": `${baseUrl}Page/GetScreenDataSelected/${id}/${$('#ddl_BasicScreen').val()}`,
             "headers": {
-                'Authorization': `Bearer ${$.cookie("tokenR")}`
+                'Authorization': `Bearer ${$.cookie("token")}`
             },
             "type": "GET",
             "datatype": "json"
@@ -410,7 +410,7 @@ $('#saveScreenBtn').on('click', function () {
                     url: baseUrl + "Page/SaveScreens",
                     type: 'post',
                     headers: {
-                        'Authorization': `Bearer ${$.cookie("tokenR")}`
+                        'Authorization': `Bearer ${$.cookie("token")}`
                     },
                     data: param,
                     success: function (res) {
@@ -444,7 +444,7 @@ $('#ddl_BasicScreen').on('change', function () {
                         url: baseUrl + "Page/GetScreenData/" + sessionStorage.getItem("RoleIdItem") + "/" + $('#ddl_BasicScreen').val(),
                         type: "get",
                         headers: {
-                            'Authorization': `Bearer ${$.cookie("tokenR")}`
+                            'Authorization': `Bearer ${$.cookie("token")}`
                         },
                         success: function (result) {
                             table.clear().draw();
@@ -456,7 +456,7 @@ $('#ddl_BasicScreen').on('change', function () {
                         url: baseUrl + "Page/GetScreenDataSelected/" + sessionStorage.getItem("RoleIdItem") + "/" + $('#ddl_BasicScreen').val(),
                         type: "get",
                         headers: {
-                            'Authorization': `Bearer ${$.cookie("tokenR")}`
+                            'Authorization': `Bearer ${$.cookie("token")}`
                         },
                         success: function (result) {
                             table1.clear().draw();
@@ -483,7 +483,7 @@ $('#ddl_SecondScreen').on('change', function () {
                         url: baseUrl + "Page/GetScreenData/" + sessionStorage.getItem("RoleIdItem") + "/" + $('#ddl_BasicScreen').val() + "/" + $('#ddl_SecondScreen').val(),
                         type: "get",
                         headers: {
-                            'Authorization': `Bearer ${$.cookie("tokenR")}`
+                            'Authorization': `Bearer ${$.cookie("token")}`
                         },
                         success: function (result) {
                             table.clear().draw();
@@ -495,7 +495,7 @@ $('#ddl_SecondScreen').on('change', function () {
                         url: baseUrl + "Page/GetScreenDataSelected/" + sessionStorage.getItem("RoleIdItem") + "/" + $('#ddl_BasicScreen').val() + "/" + $('#ddl_SecondScreen').val(),
                         type: "get",
                         headers: {
-                            'Authorization': `Bearer ${$.cookie("tokenR")}`
+                            'Authorization': `Bearer ${$.cookie("token")}`
                         },
                         success: function (result) {
                             table1.clear().draw();

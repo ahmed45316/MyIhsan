@@ -15,9 +15,9 @@ namespace MyIhsan.Web
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             HttpSessionStateBase session = filterContext.HttpContext.Session;
-            if (filterContext.HttpContext.Request.Cookies["userIdR"] != null && filterContext.HttpContext.Request.Cookies["userIdR"].Value.ToString().Trim() != "") session["userId"] = filterContext.HttpContext.Request.Cookies["userIdR"].Value;
+            if (filterContext.HttpContext.Request.Cookies["userId"] != null && filterContext.HttpContext.Request.Cookies["userId"].Value.ToString().Trim() != "") session["userId"] = filterContext.HttpContext.Request.Cookies["userId"].Value;
 
-            if (session["userId"] == null || (filterContext.HttpContext.Request.Cookies["tokenR"] == null || filterContext.HttpContext.Request.Cookies["tokenR"].Value.ToString().Trim() == ""))
+            if (session["userId"] == null || (filterContext.HttpContext.Request.Cookies["token"] == null || filterContext.HttpContext.Request.Cookies["token"].Value.ToString().Trim() == ""))
             {
                     session.Remove("Menu");
                     session.Remove("MyMenu");
@@ -33,7 +33,7 @@ namespace MyIhsan.Web
                     if (session["Menu"] == null)
                     {
                     var restClientContainer = new RestClientContainer<ResponseResult>(ConfigurationManager.AppSettings["ApiUrl"]);
-                    var dataRet = restClientContainer.Get("Accounts/GetMenu", filterContext.HttpContext.Request.Cookies["tokenR"].Value.ToString()).Result.Data;
+                    var dataRet = restClientContainer.Get("Accounts/GetMenu", filterContext.HttpContext.Request.Cookies["token"].Value.ToString()).Result.Data;
                     string json = JsonConvert.SerializeObject(dataRet);
                     var result=Helper<List<MenuViewModel>>.Convert(json);
                     session["Menu"] = result;

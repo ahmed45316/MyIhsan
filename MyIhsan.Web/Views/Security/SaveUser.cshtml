@@ -1,96 +1,157 @@
 ﻿@model MyIhsan.Web.Models.ViewModels.UserViewModel
 
-<div class="modal fade" id="model" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">@MyIhsan.LanguageResources.Authentication.Auth.usersPopupTitle</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <!-- BEGIN FORM-->
-            @using (Html.BeginForm("Users", "Security", FormMethod.Post, new { id = "popupForm", @class = "form-horizontal" }))
-            {
-                <div class="modal-body">
-                    @Html.HiddenFor(a => a.Id ,new { @id = "hiddenId" })
-                    <div class="form-body">
-                        <!--/row-->
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    @Html.LabelFor(m => m.UserName, new { @class = "control-label col-md-12" })
-                                    <div class="col-md-12">
-                                        <div class="input-group">
-                                            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control form-control-sm", @id = "usernametxt" })
+    <div class="modal fade" id="model" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">@MyIhsan.LanguageResources.Authentication.Auth.usersPopupTitle</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <!-- BEGIN FORM-->
+                @using (Html.BeginForm("Users", "Security", FormMethod.Post, new { enctype = "multipart/form-data", id = "popupForm", @class = "form-horizontal" }))
+                {
+                    <div class="modal-body">
+                        @Html.HiddenFor(a => a.Id, new { @id = "hiddenId" })
+                        <div class="form-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.Name, new { @class = "control-label col-md-12" })
+                                        <div class="col-md-12">
+                                            <div class="input-group">
+                                                @Html.TextBoxFor(m => m.Name, new { @class = "form-control form-control-sm", @id = "nametxt" })
+                                            </div>
                                         </div>
+                                        <center> @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger", @Style = "font-size:15px;" })</center>
                                     </div>
-                                    <center> @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger", @Style = "font-size:15px;" })</center>
+                                </div>
+                                <!--/span-->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.NameEn, new { @class = "control-label col-md-12" })
+                                        <div class="col-md-12">
+                                            <div class="input-group">
+                                                @Html.TextBoxFor(m => m.NameEn, new { @class = "form-control form-control-sm", @id = "nameEntxt" })
+                                            </div>
+                                        </div>
+                                        <center> @Html.ValidationMessageFor(m => m.NameEn, "", new { @class = "text-danger", @Style = "font-size:15px;" })</center>
+                                    </div>
+                                </div>
+
+                                <!--/span-->
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.CountryId, new { @class = "control-label col-md-12" })
+                                        <div class="col-md-12">
+                                            <div class=" input-control select2-bootstrap-prepend ">
+                                                @Html.DropDownListFor(n => n.CountryId, Enumerable.Empty<SelectListItem>(), new { @id = "ddl_Country", @style = "width:100%;" })
+                                            </div>
+                                        </div>
+                                        @*<center> @Html.ValidationMessageFor(m => m.CountryId, "", new { @class = "text-danger", @Style = "font-size:15px;" })</center>*@
+                                    </div>
+                                </div>
+                                <!--/span-->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.CityId, new { @class = "control-label col-md-12" })
+                                        <div class="col-md-12">
+                                            <div class=" input-control select2-bootstrap-prepend ">
+                                                @Html.DropDownListFor(n => n.CityId, Enumerable.Empty<SelectListItem>(), new { @id = "ddl_City", @style = "width:100%;" })
+                                            </div>
+                                        </div>
+                                        @* <center> @Html.ValidationMessageFor(m => m.CityId, "", new { @class = "text-danger", @Style = "font-size:15px;" })</center>*@
+                                    </div>
+                                </div>
+                                <!--/span-->
+                            </div>
+                            <div class="row">
+                                <!--/span-->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.PhoneNumber, new { @class = "control-label col-md-12" })
+                                        <div class="col-md-12">
+                                            <div class="input-group">
+                                                @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control form-control-sm", @id = "phonetxt" })
+                                            </div>
+                                        </div>
+                                        <center>@Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger", @Style = "font-size:15px;" })</center>
+                                    </div>
+                                </div>
+                                <!--/span-->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.Gender, new { @class = "control-label col-md-12" })
+                                        <div class="col-md-12">
+                                            <div class="input-group">
+                                                @Html.DropDownListFor(m => m.Gender, Enumerable.Empty<SelectListItem>(), new { @class = "form-control form-control-sm", @id = "ddl_Gender" })
+                                            </div>
+                                        </div>
+                                        <center>@Html.ValidationMessageFor(m => m.Gender, "", new { @class = "text-danger", @Style = "font-size:15px;" })</center>
+                                    </div>
                                 </div>
                             </div>
-                            <!--/span-->
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    @Html.LabelFor(m => m.Email, new { @class = "control-label col-md-12" })
-                                    <div class="col-md-12">
-                                        <div class="input-group">
-                                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control form-control-sm", @id = "emailtxt" })
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.UserName, new { @class = "control-label col-md-12" })
+                                        <div class="col-md-12">
+                                            <div class="input-group">
+                                                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control form-control-sm", @id = "usernametxt" })
+                                            </div>
                                         </div>
+                                        <center> @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger", @Style = "font-size:15px;" })</center>
                                     </div>
-                                    <center>@Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger", @Style = "font-size:15px;" })</center>
+                                </div>
+                                <!--/span-->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.Email, new { @class = "control-label col-md-12" })
+                                        <div class="col-md-12">
+                                            <div class="input-group">
+                                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control form-control-sm", @id = "emailtxt" })
+                                            </div>
+                                        </div>
+                                        <center>@Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger", @Style = "font-size:15px;" })</center>
+                                    </div>
+                                </div>
+                                <!--/span-->
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.PasswordHash, new { @class = "control-label col-md-12" })
+                                        <div class="col-md-12">
+                                            <div class="input-group">
+                                                @Html.PasswordFor(m => m.PasswordHash, new { @class = "form-control form-control-sm", @id = "passtxt" })
+                                            </div>
+                                        </div>
+                                        <center>  @Html.ValidationMessageFor(m => m.PasswordHash, "", new { @class = "text-danger", @Style = "font-size:15px;" })</center>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.ConfirmPasswordHash, new { @class = "control-label col-md-12" })
+                                        <div class="col-md-12">
+                                            <div class="input-group">
+                                                @Html.PasswordFor(m => m.ConfirmPasswordHash, new { @class = "form-control form-control-sm", @id = "passConfirmedtxt" })
+                                            </div>
+                                        </div>
+                                        <center>  @Html.ValidationMessageFor(m => m.ConfirmPasswordHash, "", new { @class = "text-danger", @Style = "font-size:15px;" })</center>
+                                    </div>
                                 </div>
                             </div>
-                            <!--/span-->
                         </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    @Html.LabelFor(m => m.PasswordHash, new { @class = "control-label col-md-12" })
-                                    <div class="col-md-12">
-                                        <div class="input-group">
-                                            @Html.PasswordFor(m => m.PasswordHash, new { @class = "form-control form-control-sm", @id = "passtxt" })
-                                        </div>
-                                    </div>
-                                    <center>  @Html.ValidationMessageFor(m => m.PasswordHash, "", new { @class = "text-danger", @Style = "font-size:15px;" })</center>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    @Html.LabelFor(m => m.ConfirmPasswordHash, new { @class = "control-label col-md-12" })
-                                    <div class="col-md-12">
-                                        <div class="input-group">
-                                            @Html.PasswordFor(m => m.ConfirmPasswordHash, new { @class = "form-control form-control-sm", @id = "passConfirmedtxt" })
-                                        </div>
-                                    </div>
-                                    <center>  @Html.ValidationMessageFor(m => m.ConfirmPasswordHash, "", new { @class = "text-danger", @Style = "font-size:15px;" })</center>
-                                </div>
-                            </div>
-                        </div>
-                        <!--/row-->
-                        <div class="row">
-                            <!--/span-->
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    @Html.LabelFor(m => m.PhoneNumber, new { @class = "control-label col-md-12" })
-                                    <div class="col-md-12">
-                                        <div class="input-group">
-                                            @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control form-control-sm", @id = "phonetxt" })
-                                        </div>
-                                    </div>
-                                    <center>@Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger", @Style = "font-size:15px;" })</center>
-                                </div>
-                            </div>
-                            <!--/span-->
-                        </div>                                             
-                        <!--/row-->
                     </div>
-                </div>
-                <!-- END FORM-->
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">@MyIhsan.LanguageResources.Translate.buttonSave</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">@MyIhsan.LanguageResources.Translate.Close</button>
-                </div>
-            }
+                    <!-- END FORM-->
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">@MyIhsan.LanguageResources.Translate.buttonSave</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">@MyIhsan.LanguageResources.Translate.Close</button>
+                    </div>
+                }
+            </div>
         </div>
     </div>
-</div>

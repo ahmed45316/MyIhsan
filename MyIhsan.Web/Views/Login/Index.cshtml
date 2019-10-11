@@ -3,7 +3,7 @@
     Layout = null;
 }
 @{
-    var language = Request.Cookies["LangR"] == null ? "ar-EG" : Request.Cookies["LangR"].Value.ToString();
+    var language = Request.Cookies["Lang"] == null ? "ar-EG" : Request.Cookies["Lang"].Value.ToString();
     var loginTitle = language == "ar-EG" ? "شاشة الدخول" : "Login Page";
 }
 <!DOCTYPE html>

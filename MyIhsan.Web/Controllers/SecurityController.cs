@@ -39,7 +39,7 @@ namespace MyIhsan.Web.Controllers
         public ActionResult Save(string id)
         {
             if (string.IsNullOrEmpty(id)) return PartialView(new RoleViewModel());
-            var response = restClientContainer.Get($"Role/Get/{id}",Request.Cookies["tokenR"].Value.ToString()).Result.Data;
+            var response = restClientContainer.Get($"Role/Get/{id}",Request.Cookies["token"].Value.ToString()).Result.Data;
             string json = JsonConvert.SerializeObject(response);
             var data = !string.IsNullOrEmpty(id) ? Helper<RoleViewModel>.Convert(json) : new RoleViewModel();
             RoleViewModel Role = data;
@@ -56,13 +56,13 @@ namespace MyIhsan.Web.Controllers
                 if (!string.IsNullOrEmpty(model.Id))
                 {
                     //Edit
-                    var response = restClientContainer.Put("Role/Update", model, Request.Cookies["tokenR"].Value.ToString()).Result.Data;
+                    var response = restClientContainer.Put("Role/Update", model, Request.Cookies["token"].Value.ToString()).Result.Data;
                     TempData["AlertMessages"] = MyIhsan.LanguageResources.Translate.updated;
                 }
                 else
                 {
                     //Save
-                    var response = restClientContainer.Post("Role/Add", model, Request.Cookies["tokenR"].Value.ToString()).Result.Data;
+                    var response = restClientContainer.Post("Role/Add", model, Request.Cookies["token"].Value.ToString()).Result.Data;
                     TempData["AlertMessages"] = MyIhsan.LanguageResources.Translate.save;
                 }
             }
@@ -73,7 +73,7 @@ namespace MyIhsan.Web.Controllers
         [HttpGet]
         public ActionResult Delete(string id)
         {
-            var response = restClientContainer.Delete($"Role/RemoveById/{id}", Request.Cookies["tokenR"].Value.ToString()).Result.Data;
+            var response = restClientContainer.Delete($"Role/Remove/{id}", Request.Cookies["token"].Value.ToString()).Result.Data;
             var data = (bool)response;
             if (data == true) TempData["AlertMessages"] = MyIhsan.LanguageResources.Translate.deleted;
             return Json(data, JsonRequestBehavior.AllowGet);
@@ -82,7 +82,7 @@ namespace MyIhsan.Web.Controllers
         [HttpGet]
         public ActionResult GetUser(string id)
         {
-            var response = restClientContainer.Get($"User/Get/{Request.Cookies["LangR"].Value}/{id}", Request.Cookies["tokenR"].Value.ToString()).Result.Data;
+            var response = restClientContainer.Get($"User/Get/{id}", Request.Cookies["token"].Value.ToString()).Result.Data;
             string json = JsonConvert.SerializeObject(response);
             var data = !string.IsNullOrEmpty(id) ? Helper<UserViewModel>.Convert(json): new UserViewModel();
             data.PasswordHash = null;
@@ -95,16 +95,16 @@ namespace MyIhsan.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (!string.IsNullOrEmpty(model.Id))
+                if (model.Id.HasValue && model.Id!=0)
                 {
                     //Edit 
-                   var response= restClientContainer.Put("User/Update", model, Request.Cookies["tokenR"].Value.ToString()).Result.Data;
+                   var response= restClientContainer.Put("User/Update", model, Request.Cookies["token"].Value.ToString()).Result.Data;
                     TempData["AlertMessages"] = MyIhsan.LanguageResources.Translate.updated;
                 }
                 else
                 {
                     //Save
-                    var response = restClientContainer.Post("User/Add", model, Request.Cookies["tokenR"].Value.ToString()).Result.Data;
+                    var response = restClientContainer.Post("User/Add", model, Request.Cookies["token"].Value.ToString()).Result.Data;
                     TempData["AlertMessages"] = MyIhsan.LanguageResources.Translate.save;
                 }
             }
@@ -115,7 +115,7 @@ namespace MyIhsan.Web.Controllers
         [HttpGet]
         public ActionResult DeleteUser(string id)
         {
-            var response = restClientContainer.Delete($"User/RemoveById/{id}", Request.Cookies["tokenR"].Value.ToString()).Result.Data;
+            var response = restClientContainer.Delete($"User/Remove/{id}", Request.Cookies["token"].Value.ToString()).Result.Data;
             var data = (bool)response;
             if (data == true) TempData["AlertMessages"] = MyIhsan.LanguageResources.Translate.deleted;
             return Json(data, JsonRequestBehavior.AllowGet);
@@ -143,7 +143,7 @@ namespace MyIhsan.Web.Controllers
                 PageNumber = skip,
                 PageSize = pageSize
             };
-            var returnedData = restClientContainerPagging.Post("Role/GetAll", parameters, Request.Cookies["tokenR"].Value.ToString()).Result ;
+            var returnedData = restClientContainerPagging.Post("Role/GetAll", parameters, Request.Cookies["token"].Value.ToString()).Result ;
             int recordsTotal = returnedData?.TotalPage??0;
             var data = returnedData?.Result?.Data;
             if (returnedData == null || returnedData.Result == null|| data == null)
@@ -183,7 +183,7 @@ namespace MyIhsan.Web.Controllers
                 PageNumber = skip,
                 PageSize = pageSize
             };
-            var returnedData = restClientContainerPagging.Post("User/GetAll", parameters, Request.Cookies["tokenR"].Value.ToString()).Result;
+            var returnedData = restClientContainerPagging.Post("User/GetAll", parameters, Request.Cookies["token"].Value.ToString()).Result;
             int recordsTotal = returnedData?.TotalPage ?? 0;
             var data = returnedData?.Result?.Data;
             if (returnedData == null || returnedData.Result == null || data==null)
@@ -216,7 +216,7 @@ namespace MyIhsan.Web.Controllers
         }
         private bool IsNameExists(string name, string id)
         {
-            var checks = (bool)restClientContainer.Get($"Role/IsNameExists/{name}/{id}", Request.Cookies["tokenR"].Value.ToString()).Result.Data;
+            var checks = (bool)restClientContainer.Get($"Role/IsNameExists/{name}/{id}", Request.Cookies["token"].Value.ToString()).Result.Data;
             return checks;
         }
         //For User
@@ -258,7 +258,7 @@ namespace MyIhsan.Web.Controllers
         }
         private bool IsExists(string name, byte type, string id)
         {
-            var checks =(bool) restClientContainer.Get($"User/IsExists/{name}/{type}/{id}", Request.Cookies["tokenR"].Value.ToString()).Result.Data;
+            var checks =(bool) restClientContainer.Get($"User/IsExists/{name}/{type}/{id}", Request.Cookies["token"].Value.ToString()).Result.Data;
             return checks;
         }
 

@@ -2,7 +2,7 @@
 @using MyIhsan.Web.Models.ViewModels;
 @{
     var menu = Session["Menu"] as IEnumerable<MenuViewModel>;
-    var lang = Request.Cookies["LangR"]==null?"ar-EG" : Request.Cookies["LangR"].Value.ToString();
+    var lang = Request.Cookies["Lang"]==null?"ar-EG" : Request.Cookies["Lang"].Value.ToString();
 }
 <div class="page-sidebar-wrapper">
     <div class="page-sidebar navbar-collapse collapse">

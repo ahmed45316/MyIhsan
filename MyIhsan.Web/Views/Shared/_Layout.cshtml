@@ -57,7 +57,7 @@
     </style>
     <script>
         var userId='@Session["userId"]';
-        @{var language = Request.Cookies["LangR"] == null ? "en-US" : Request.Cookies["LangR"].Value.ToString();}
+        @{var language = Request.Cookies["Lang"] == null ? "en-US" : Request.Cookies["Lang"].Value.ToString();}
         var lang = '@language';
         var sessionExpireUrl = '@Url.Action("CheckUserSession", "Login")';
         var pageSize = 20;

@@ -28,7 +28,7 @@ namespace MyIhsan.Web.Controllers
         // GET: Login
         public ActionResult Index()
         {
-            if (Session["userId"] != null || (HttpContext.Request.Cookies["userIdR"] != null && HttpContext.Request.Cookies["userIdR"].Value.ToString().Trim() != ""))
+            if (Session["userId"] != null || (HttpContext.Request.Cookies["userId"] != null && HttpContext.Request.Cookies["userId"].Value.ToString().Trim() != ""))
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -45,12 +45,12 @@ namespace MyIhsan.Web.Controllers
                 Session["userId"] = dataRet.UserId;
                 if (model.IsSavedPassword)
                 {
-                    Response.Cookies["userIdR"].Value = dataRet.UserId;
-                    Response.Cookies["userIdR"].Expires = DateTime.Now.AddDays(6);
+                    Response.Cookies["userId"].Value = dataRet.UserId;
+                    Response.Cookies["userId"].Expires = DateTime.Now.AddDays(6);
                 }
                 Session["userName"] = model.Username;
-                Response.Cookies["tokenR"].Value = dataRet.Token;
-                Response.Cookies["tokenR"].Expires = DateTime.Now.AddDays(7); // add expiry time
+                Response.Cookies["token"].Value = dataRet.Token;
+                Response.Cookies["token"].Expires = DateTime.Now.AddDays(7); // add expiry time
 
                 return RedirectToAction("Index", "Home");
             }
@@ -62,17 +62,17 @@ namespace MyIhsan.Web.Controllers
             Session.Remove("userId");
             Session.Remove("Menu");
             Session.Remove("MyMenu");
-            Response.Cookies["userIdR"].Value = "";
-            Response.Cookies["userIdR"].Expires = DateTime.Now.AddDays(-1);
+            Response.Cookies["userId"].Value = "";
+            Response.Cookies["userId"].Expires = DateTime.Now.AddDays(-1);
             Session.Remove("userName");
-            Response.Cookies["tokenR"].Value = "";
-            Response.Cookies["tokenR"].Expires = DateTime.Now.AddDays(-1); // add expiry time
+            Response.Cookies["token"].Value = "";
+            Response.Cookies["token"].Expires = DateTime.Now.AddDays(-1); // add expiry time
             return RedirectToAction("Index", "Login");
         }
         public JsonResult CheckUserSession()
         {
             var res = false;
-            res = (Session["userId"] != null ||( HttpContext.Request.Cookies["userIdR"] != null && HttpContext.Request.Cookies["userIdR"].Value.ToString().Trim() != "")) ? true : false;
+            res = (Session["userId"] != null ||( HttpContext.Request.Cookies["userId"] != null && HttpContext.Request.Cookies["userId"].Value.ToString().Trim() != "")) ? true : false;
             return Json(res, JsonRequestBehavior.AllowGet);
         }
         private void call(string Lang)
@@ -83,7 +83,7 @@ namespace MyIhsan.Web.Controllers
                 Thread.CurrentThread.CurrentUICulture = new CultureInfo(Lang);
             }
 
-            HttpCookie cookie = new HttpCookie("LangR");
+            HttpCookie cookie = new HttpCookie("Lang");
             cookie.Value = Lang;
             cookie.Expires = DateTime.Now.AddDays(90);
             Response.Cookies.Add(cookie);
@@ -91,7 +91,7 @@ namespace MyIhsan.Web.Controllers
         }
         public ActionResult ChangeLanguage()
         {
-            var cookie = Request.Cookies["LangR"];
+            var cookie = Request.Cookies["Lang"];
             var lang = (cookie == null || cookie.Value.Trim() == "") ? "ar-EG" : cookie.Value == "ar-EG" ? "en-US" : "ar-EG";
             call(lang);
             string url = this.Request.UrlReferrer.AbsoluteUri;

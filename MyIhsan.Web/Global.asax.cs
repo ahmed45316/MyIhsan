@@ -22,7 +22,7 @@ namespace MyIhsan.Web
 
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
-            HttpCookie cookie = HttpContext.Current.Request.Cookies["LangR"];
+            HttpCookie cookie = HttpContext.Current.Request.Cookies["Lang"];
             if (cookie != null && cookie.Value != null && cookie.Value.ToString().Trim() != "")
             {
                 Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo(cookie.Value);
@@ -30,7 +30,7 @@ namespace MyIhsan.Web
             }
             else
             {
-                HttpCookie cookie1 = new HttpCookie("LangR");
+                HttpCookie cookie1 = new HttpCookie("Lang");
                 cookie1.Value = "en-US";
                 cookie1.Expires = DateTime.Now.AddDays(90);
                 Response.Cookies.Add(cookie1);
