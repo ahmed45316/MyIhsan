@@ -18,7 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Basic.Infrastructure\Basic.Infrastructure.csproj" />
-    <ProjectReference Include="..\MyIhsan.Identity.Data\MyIhsan.Data.csproj" />
+    <ProjectReference Include="..\MyIhsan.Data\MyIhsan.Data.csproj" />
   </ItemGroup>
 
   <ItemGroup>

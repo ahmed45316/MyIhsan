@@ -17,7 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MyIhsan.Common\MyIhsan.Common.csproj" />
-    <ProjectReference Include="..\MyIhsan.Identity.Entities\MyIhsan.Entities.csproj" />
+    <ProjectReference Include="..\MyIhsan.Entities\MyIhsan.Entities.csproj" />
   </ItemGroup>
 
 </Project>
