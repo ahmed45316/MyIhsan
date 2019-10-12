@@ -99,7 +99,7 @@ function UpdateUser(obj) {
                         //var $newOption = $("<option selected='selected'></option>").val(data.countryId).text(data.countryName);
                         //$("#ddl_Country").append($newOption).trigger('change');
 
-                        $('#ddl_City').select2('val',data.cityId)
+                        $('#ddl_City').select2('val', data.cityId);
                         //$('#ddl_City').val(data.cityId);
                         //var $newOption1 = $("<option selected='selected'></option>").val(data.cityId).text(data.cityName);
 
@@ -107,7 +107,7 @@ function UpdateUser(obj) {
 
                         $('#teltxt').val(data.telNumber);
                         $('#addresstxt').val(data.address);
-                        $("#ddl_Gender").select2('val', data.gender);
+                        $("#ddl_Gender").select2('val', `${data.gender}`);
                         //$("#ddl_Gender").val(data.gender);
                         //var $newOption2 = $("<option selected='selected'></option>").val(data.gender).text(data.genderName);
                         //$("#ddl_Gender").append($newOption2).trigger('change');
@@ -210,7 +210,7 @@ $(document).ready(function () {
     //});
 
     $('#ddl_Gender').select2({
-        data: [{ id: '1', text: 'Male' }, { id: '0', text: 'Female' }],
+        data: [{ id: 'true', text: 'Male' }, { id: 'false', text: 'Female' }],
         placeholder: select2Placeholder,
         minimumInputLength: 0,
         allowClear: true,

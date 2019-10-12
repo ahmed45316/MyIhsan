@@ -55,13 +55,13 @@ namespace MyIhsan.Service.Services
             var userDto = Mapper.Map<UserDto>(user);
             userDto.CountryName = "Egypt";
             userDto.CityName = "Cairo";
-            userDto.GenderName = userDto.Gender == 1 ? "Male" : "Female";
+            userDto.GenderName = userDto.Gender == true ? "Male" : "Female";
             return ResponseResult.GetRepositoryActionResult(userDto, status: HttpStatusCode.OK, message: HttpStatusCode.OK.ToString());
         }
         public async override Task<IResponseResult> AddAsync(UserDto model)
         {
             if (model == null) return ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.NoContent, message: HttpStatusCode.NoContent.ToString());
-            var isExist = await _unitOfWork.Repository.IsExists(q => (q.UserName == model.UserName || q.Email == model.Email || (q.PhoneNumber == model.PhoneNumber && (model.PhoneNumber != "" && model.PhoneNumber != null))) && q.IsDeleted != 1);
+            var isExist = await _unitOfWork.Repository.IsExists(q => (q.UserName == model.UserName || q.Email == model.Email || (q.PhoneNumber == model.PhoneNumber && (model.PhoneNumber != "" && model.PhoneNumber != null))) && q.IsDeleted != true);
             if (isExist) return ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.NotAcceptable, message: HttpStatusCode.NotAcceptable.ToString());
             var data = await _unitOfWork.Repository.FindAsync(q => q != null);
             model.Id = data == null ? 1000 : (1000 + data.Count());
@@ -75,7 +75,7 @@ namespace MyIhsan.Service.Services
         public async override Task<IResponseResult> UpdateAsync(UserDto model)
         {
             if (model == null) return ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.NoContent, message: HttpStatusCode.NoContent.ToString());
-            var isExist = await _unitOfWork.Repository.FirstOrDefaultAsync(q => (q.UserName == model.UserName || q.Email == model.Email || (q.PhoneNumber == model.PhoneNumber && (model.PhoneNumber != "" && model.PhoneNumber != null))) && q.Id != model.Id && q.IsDeleted != 1) != null;
+            var isExist = await _unitOfWork.Repository.FirstOrDefaultAsync(q => (q.UserName == model.UserName || q.Email == model.Email || (q.PhoneNumber == model.PhoneNumber && (model.PhoneNumber != "" && model.PhoneNumber != null))) && q.Id != model.Id && q.IsDeleted != true) != null;
             if (isExist) return ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.NotAcceptable, message: HttpStatusCode.NotAcceptable.ToString());
             var original = await _unitOfWork.Repository.FirstOrDefaultAsync(q => q.Id == model.Id);
             model.SecurityStamp = Guid.NewGuid().ToString();
@@ -88,7 +88,7 @@ namespace MyIhsan.Service.Services
         {
             if (id == null) return ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.NoContent, message: HttpStatusCode.NoContent.ToString());
             var user = await _unitOfWork.Repository.FirstOrDefaultAsync(q => q.Id ==(long) id);
-            user.IsDeleted = 1;
+            user.IsDeleted = true;
             _unitOfWork.Repository.Update(user, user.Id);
             await _unitOfWork.SaveChanges();
             return ResponseResult.GetRepositoryActionResult(true, status: HttpStatusCode.OK, message: HttpStatusCode.OK.ToString());
@@ -97,25 +97,25 @@ namespace MyIhsan.Service.Services
 
         public async Task<IResponseResult> IsUsernameExists(string name, long id)
         {
-            var res = await _unitOfWork.Repository.FirstOrDefaultAsync(q => q.UserName.ToLower() == name.ToLower() && q.Id != id && q.IsDeleted!=1);
+            var res = await _unitOfWork.Repository.FirstOrDefaultAsync(q => q.UserName.ToLower() == name.ToLower() && q.Id != id && q.IsDeleted!=true);
             return ResponseResult.GetRepositoryActionResult(res != null, status: HttpStatusCode.OK, message: HttpStatusCode.OK.ToString());
         }
 
         public async Task<IResponseResult> IsEmailExists(string email, long id)
         {
-            var res = await _unitOfWork.Repository.FirstOrDefaultAsync(q => q.Email.ToLower() == email.ToLower() && q.Id != id && q.IsDeleted!=1);
+            var res = await _unitOfWork.Repository.FirstOrDefaultAsync(q => q.Email.ToLower() == email.ToLower() && q.Id != id && q.IsDeleted!=true);
             return ResponseResult.GetRepositoryActionResult(res != null, status: HttpStatusCode.OK, message: HttpStatusCode.OK.ToString());
         }
 
         public async Task<IResponseResult> IsPhoneExists(string phone, long id)
         {
-            var res = await _unitOfWork.Repository.FirstOrDefaultAsync(q => q.PhoneNumber == phone && q.Id != id && q.IsDeleted!=1);
+            var res = await _unitOfWork.Repository.FirstOrDefaultAsync(q => q.PhoneNumber == phone && q.Id != id && q.IsDeleted!=true);
             return ResponseResult.GetRepositoryActionResult(res != null, status: HttpStatusCode.OK, message: HttpStatusCode.OK.ToString());
         }
 
         public async Task<Select2PagedResult> GetUsersSelect2(string searchTerm, int pageSize, int pageNumber)
         {
-            var users = !string.IsNullOrEmpty(searchTerm) ? await _unitOfWork.Repository.FindAsync(n => n.IsDeleted!=1 && n.UserName.ToLower().Contains(searchTerm.ToLower())) : await _unitOfWork.Repository.FindAsync(q => q.IsDeleted!=1);
+            var users = !string.IsNullOrEmpty(searchTerm) ? await _unitOfWork.Repository.FindAsync(n => n.IsDeleted!=true && n.UserName.ToLower().Contains(searchTerm.ToLower())) : await _unitOfWork.Repository.FindAsync(q => q.IsDeleted!=true);
             var result = users.OrderBy(q => q.Id).Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(q => new Select2OptionModel { id = q.Id.ToString(), text = q.UserName }).ToList();
             var select2pagedResult = new Select2PagedResult();
             select2pagedResult.Total = users.Count();
@@ -156,7 +156,7 @@ namespace MyIhsan.Service.Services
         static Expression<Func<AspNetUsers, bool>> PredicateBuilderFunction(GetAllUserParameters filter)
         {
             var predicate = PredicateBuilder.New<AspNetUsers>(true);
-            predicate = predicate.And(b => b.IsDeleted!=1);
+            predicate = predicate.And(b => b.IsDeleted!=true);
             if (!string.IsNullOrWhiteSpace(filter.UserName))
             {
                 predicate = predicate.And(b => b.UserName.ToLower().StartsWith(filter.UserName));

@@ -30,7 +30,7 @@ namespace MyIhsan.Web.Models.ViewModels
 
         [Display(Name = "gender", ResourceType = typeof(Auth))]
         [Required(ErrorMessageResourceType = typeof(Auth), ErrorMessageResourceName = "genderRegx")]
-        public short? Gender { get; set; }
+        public bool Gender { get; set; }
 
         [Display(Name = "address", ResourceType = typeof(Auth))]
         public string Address { get; set; }
