@@ -18,7 +18,7 @@ namespace MyIhsan.Service.Interfaces
         Task<IResponseResult> IsEmailExists(string email, long id);
         Task<IResponseResult> IsPhoneExists(string phone, long id);
         Task<Select2PagedResult> GetUsersSelect2(string searchTerm, int pageSize, int pageNumber);
-        Task<IEnumerable<Select2OptionModel>> GetUserAssignedSelect2(long id);
+        Task<IEnumerable<Select2OptionModel>> GetUserAssignedSelect2(string id);
         Task<IResponseResult> SaveUserAssigned(AssignUserOnRoleParameters parameters);
     }
 }

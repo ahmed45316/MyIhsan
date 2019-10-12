@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 using MyIhsan.Common.Parameters;
 using MyIhsan.Common.Core;
 using MyIhsan.Entities.Views;
+using MyIhsan.Service.UnitOfWork;
+using MyIhsan.Entities.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace MyIhsan.Service.Services
 {
@@ -18,10 +21,14 @@ namespace MyIhsan.Service.Services
     {
         private readonly ITokenBusiness _tokenBusiness;
         private readonly IServiceBaseParameter<AspNetUsers> _serviceBaseParameter;
-        public LoginServices(IServiceBaseParameter<AspNetUsers> serviceBaseParameter,ITokenBusiness tokenBusiness)
+        private readonly IIdentityUnitOfWork<AspNetRoles> _roleUnitOfWork;
+        private readonly IIdentityUnitOfWork<AspNetUsersRoles> _userRolesUnitOfWork;
+        public LoginServices(IServiceBaseParameter<AspNetUsers> serviceBaseParameter,ITokenBusiness tokenBusiness, IIdentityUnitOfWork<AspNetRoles> roleUnitOfWork, IIdentityUnitOfWork<AspNetUsersRoles> userRolesUnitOfWork)
         {
             _tokenBusiness = tokenBusiness;
             _serviceBaseParameter = serviceBaseParameter;
+            _roleUnitOfWork = roleUnitOfWork;
+            _userRolesUnitOfWork = userRolesUnitOfWork;
         }
         public async Task<IResponseResult> Login(LoginParameters parameters)
         {
@@ -29,7 +36,10 @@ namespace MyIhsan.Service.Services
             if (user == null) return _serviceBaseParameter.ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.BadRequest,message: "Wrong Username Or Password");
            
             var refToken = Guid.NewGuid().ToString();
-            var roles ="";
+            var userRole =await _userRolesUnitOfWork.Repository.FindAsync(q=>q.UserId == user.Id.ToString());
+            var roleIds = userRole.Select(q => q.RoleId).ToList();
+            var role =await _roleUnitOfWork.Repository.FindAsync(q => roleIds.Contains(q.Id));
+            var roles =role.Select(q=>q.Name).ToList();
             var userDto = Mapper.Map<UserDto>(user);
             var userLoginReturn = _tokenBusiness.GenerateJsonWebToken(userDto, string.Join(",", roles), refToken);
             return _serviceBaseParameter.ResponseResult.GetRepositoryActionResult(userLoginReturn, status: HttpStatusCode.OK, message: HttpStatusCode.OK.ToString()); 

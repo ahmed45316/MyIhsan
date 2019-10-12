@@ -19,14 +19,18 @@ using MyIhsan.Common.Extensions;
 using AutoMapper;
 using System.Linq.Expressions;
 using LinqKit;
+using MyIhsan.Entities.Entities;
 
 namespace MyIhsan.Service.Services
 {
     public class UserServices : BaseService<AspNetUsers, UserDto>,IUserServices
     {
-        public UserServices(IServiceBaseParameter<AspNetUsers> businessBaseParameter) : base(businessBaseParameter)
+        private readonly IIdentityUnitOfWork<AspNetRoles> _roleUnitOfWork;
+        private readonly IIdentityUnitOfWork<AspNetUsersRoles> _userRolesUnitOfWork;
+        public UserServices(IServiceBaseParameter<AspNetUsers> businessBaseParameter, IIdentityUnitOfWork<AspNetRoles> roleUnitOfWork, IIdentityUnitOfWork<AspNetUsersRoles> userRolesUnitOfWork) : base(businessBaseParameter)
         {
-
+            _roleUnitOfWork = roleUnitOfWork;
+            _userRolesUnitOfWork = userRolesUnitOfWork;
         }
 
         public async Task<IDataPagging> GetUsers(GetAllUserParameters parameters)
@@ -44,7 +48,17 @@ namespace MyIhsan.Service.Services
             }
 
             var usersDto = Mapper.Map<IEnumerable<UserDto>>(usesrPagging);
-            
+            var ids = usersDto.Select(q => Convert.ToString(q?.Id)).ToList();
+            var userRoles = await _userRolesUnitOfWork.Repository.FindAsync(q => ids.Contains(q.UserId));
+            var roleIds = userRoles.Select(q => q.RoleId).ToList();
+            var roles = await _roleUnitOfWork.Repository.FindAsync(q => roleIds.Contains(q.Id));
+            foreach (var user in usersDto)
+            {
+                var userRoleIds = userRoles.Where(q => q.UserId == user.Id.ToString()).Select(q=>q.RoleId).ToList();
+                var userRolesData = roles.Where(q => userRoleIds.Contains(q.Id)).ToList();
+                var rolesString = userRolesData.Select(q => q.Name).ToList();
+                user.Roles = (!rolesString.Any()) ? null : String.Join(",", rolesString);
+            }
             var repoResult = ResponseResult.GetRepositoryActionResult(usersDto, status: HttpStatusCode.OK, message: HttpStatusCode.OK.ToString());
             return new DataPagging(parameters.PageNumber, parameters.PageSize, users.Item1, repoResult);
         }
@@ -122,36 +136,39 @@ namespace MyIhsan.Service.Services
             select2pagedResult.Results = result;
             return select2pagedResult;
         }
-        public async Task<IEnumerable<Select2OptionModel>> GetUserAssignedSelect2(long id)
+        public async Task<IEnumerable<Select2OptionModel>> GetUserAssignedSelect2(string id)
         {
-            //var role = await _role_unitOfWork.Repository.FirstOrDefaultAsync(q => q.Id == id, include: source => source.Include(a => a.AspNetUsersRole).Include(b => b.AspNetUsersRole), disableTracking: false);
-            //var userIdList = role.AspNetUsersRole.Select(q => q.UserId).ToList();
-            //var userassignQuery = await __unitOfWork.Repository.FindAsync(q => userIdList.Contains(q.Id) && !q.IsDeleted);
-            //var userassign = userassignQuery.Select(q => new Select2OptionModel { id = q.Id, text = q.UserName }).ToList();
-            //return userassign;
-            throw new Exception();
+            var role = await _roleUnitOfWork.Repository.FirstOrDefaultAsync(q => q.Id == id, include: source => source.Include(a => a.AspNetUsersRoles), disableTracking: false);
+            var userIdList = role.AspNetUsersRoles.Select(q =>long.Parse(q.UserId)).ToList();
+            var userassignQuery = await _unitOfWork.Repository.FindAsync(q => userIdList.Contains(q.Id??0) && q.IsDeleted !=true);
+            var userassign = userassignQuery.Select(q => new Select2OptionModel { id = q.Id.ToString(), text = q.UserName }).ToList();
+            return userassign;
         }
         public async Task<IResponseResult> SaveUserAssigned(AssignUserOnRoleParameters parameters)
         {
-            //var role = await _role_unitOfWork.Repository.FirstOrDefaultAsync(q => q.Id == parameters.RoleId, include: source => source.Include(a => a.AspNetUsersRole), disableTracking: false);
-            //if (parameters.AssignedUser != null)
-            //{
-            //    foreach (var item in parameters.AssignedUser)
-            //    {
-            //        var isExist = await _usersRole_unitOfWork.Repository.FirstOrDefaultAsync(q => q.UserId == item && q.RoleId == parameters.RoleId) != null;
-            //        if (!isExist)
-            //        {
-            //            var userRole = new AspNetUsersRole() { Id = Guid.NewGuid().ToString(), UserId = item, RoleId = parameters.RoleId };
-            //            _usersRole_unitOfWork.Repository.Add(userRole);
-            //        }
-            //    }
-            //}
+            var role = await _roleUnitOfWork.Repository.FirstOrDefaultAsync(q => q.Id == parameters.RoleId, include: source => source.Include(a => a.AspNetUsersRoles), disableTracking: false);
+            if (parameters.AssignedUser != null)
+            {
+                foreach (var user in parameters.AssignedUser)
+                {
+                    var isExist = role.AspNetUsersRoles.Any(q=>q.UserId == user);
+                    if (!isExist)
+                    {
+                        var userRole = new AspNetUsersRoles() { Id = Guid.NewGuid().ToString(), UserId = user, RoleId = parameters.RoleId };
+                        role.AspNetUsersRoles.Add(userRole);
+                    }
+                }
+            }
+            if (role.AspNetUsersRoles.Any()) await _roleUnitOfWork.SaveChanges();
 
-            //var userRemove = parameters.AssignedUser is null ? role.AspNetUsersRole : role.AspNetUsersRole.Where(q => !parameters.AssignedUser.Contains(q.UserId));
-            //_usersRole_unitOfWork.Repository.RemoveRange(userRemove);
-            //await _usersRole_unitOfWork.SaveChanges();
-            //return ResponseResult.GetRepositoryActionResult(true, status: HttpStatusCode.Created, message: HttpStatusCode.Created.ToString());
-            throw new Exception();
+            var userRemove = parameters.AssignedUser is null ? role.AspNetUsersRoles : role.AspNetUsersRoles.Where(q => !parameters.AssignedUser.Contains(q.UserId));
+            if (userRemove.Any())
+            {
+                _userRolesUnitOfWork.Repository.RemoveRange(userRemove);
+                await _userRolesUnitOfWork.SaveChanges();
+            }
+
+            return ResponseResult.GetRepositoryActionResult(true, status: HttpStatusCode.Created, message: HttpStatusCode.Created.ToString());
         }
         static Expression<Func<AspNetUsers, bool>> PredicateBuilderFunction(GetAllUserParameters filter)
         {

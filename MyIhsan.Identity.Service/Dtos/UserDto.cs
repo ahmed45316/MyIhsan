@@ -31,5 +31,6 @@ namespace MyIhsan.Service.Dtos
         public bool? EmailConfirmed { get; set; }
         public string Email { get; set; }
         public long? Id { get; set; }
+        public string Roles { get; set; }
     }
 }

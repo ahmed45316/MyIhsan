@@ -18,14 +18,14 @@ namespace MyIhsan.Service.Services
 {
     public class MenuServices : BaseService<Menus, MenuDto>, IMenuServices
     {
-        //private readonly IIdentityUnitOfWork<AspNetUser> _userUnitOfWork;
+        private readonly IIdentityUnitOfWork<AspNetUsersRoles> _userRoleUnitOfWork;
         private readonly IIdentityUnitOfWork<AspNetRoles> _roleUnitOfWork;
         private readonly IIdentityUnitOfWork<MenuRoles> _menuRoleUnitOfWork;
         private readonly List<string> _menuIdList;
         private readonly List<string> _menuIdSelectedList;
-        public MenuServices(IServiceBaseParameter<Menus> businessBaseParameter, IIdentityUnitOfWork<AspNetRoles> roleUnitOfWork, IIdentityUnitOfWork<MenuRoles> menuRoleUnitOfWork) : base(businessBaseParameter)
+        public MenuServices(IServiceBaseParameter<Menus> businessBaseParameter, IIdentityUnitOfWork<AspNetRoles> roleUnitOfWork, IIdentityUnitOfWork<MenuRoles> menuRoleUnitOfWork, IIdentityUnitOfWork<AspNetUsersRoles> userRoleUnitOfWork) : base(businessBaseParameter)
         {
-            //_userUnitOfWork = userUnitOfWork;
+            _userRoleUnitOfWork = userRoleUnitOfWork;
             _roleUnitOfWork = roleUnitOfWork;
             _menuRoleUnitOfWork = menuRoleUnitOfWork;
             _menuIdList = new List<string>();
@@ -34,9 +34,8 @@ namespace MyIhsan.Service.Services
 
         public async Task<IResponseResult> GetMenu(string userId)
         {
-            //var roleData = await _userUnitOfWork.Repository.FirstOrDefaultAsync(q => q.Id == userId, include: source => source.Include(a => a.AspNetUsersRole), disableTracking: false);
-            var roleData = await _roleUnitOfWork.Repository.GetAllAsync();
-            var roles = roleData.Select(s => s.Id).ToList();
+            var userRoles = await _userRoleUnitOfWork.Repository.FindAsync(q => q.UserId == userId);
+            var roles = userRoles.Select(q => q.RoleId).ToList();
             var data = new List<Menus>();
             if (roles.Any())
             {

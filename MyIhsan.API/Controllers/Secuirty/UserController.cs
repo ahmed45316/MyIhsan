@@ -113,7 +113,7 @@ namespace MyIhsan.API.Controllers.Secuirty
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetUserAssigned(long id)
+        public async Task<IActionResult> GetUserAssigned(string id)
         {
             return Ok(await _userServices.GetUserAssignedSelect2(id));
         }

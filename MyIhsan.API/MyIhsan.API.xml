@@ -196,7 +196,7 @@
             <param name="searchTerm"></param>
             <returns></returns>
         </member>
-        <member name="M:MyIhsan.API.Controllers.Secuirty.UserController.GetUserAssigned(System.Int64)">
+        <member name="M:MyIhsan.API.Controllers.Secuirty.UserController.GetUserAssigned(System.String)">
             <summary>
             Get users to assigned to Role 
             </summary>
