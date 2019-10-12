@@ -46,10 +46,28 @@ namespace MyIhsan.Service.Services
             var result = await _unitOfWork.Repository.IsExists(q => q.Name == name && q.Id != id && !(q.IsDeleted?? false));
             return ResponseResult.GetRepositoryActionResult(result, status: HttpStatusCode.Accepted, message: HttpStatusCode.Accepted.ToString());
         }
+        public async override Task<IResponseResult> DeleteAsync(object id)
+        {
+            try
+            {
+                var role = await _unitOfWork.Repository.GetAsync(id);
+                role.IsDeleted = true;
+                _unitOfWork.Repository.Update(role, role.Id);
+                 await _unitOfWork.SaveChanges();
 
+                return result = ResponseResult.GetRepositoryActionResult(result: true, status: HttpStatusCode.Accepted);
+            }
+            catch (Exception e)
+            {
+                result.Message = e.InnerException != null ? e.InnerException.Message : e.Message;
+                result = new ResponseResult(null, HttpStatusCode.InternalServerError, e, result.Message);
+                return result;
+            }
+        }
         static Expression<Func<AspNetRoles, bool>> PredicateBuilderFunction(GetAllRoleParameters filter)
         {
             var predicate = PredicateBuilder.New<AspNetRoles>(true);
+            predicate = predicate.And(b =>b.IsDeleted!=true);
             if (!string.IsNullOrWhiteSpace(filter.RoleName))
             {
                 predicate = predicate.And(b => b.Name.ToLower().StartsWith(filter.RoleName));

@@ -36,7 +36,7 @@ namespace MyIhsan.Web
             var querystring = filterContext.RequestContext.HttpContext.Request.QueryString;
             string parameter = querystring["ScreenType"] == null ? null : Decoder.Decode(querystring["ScreenType"]);
             //IRestfulApi<List<bool>, List<bool>> res = new RestfulApi<List<bool>, List<bool>>(ConfigurationManager.AppSettings["ApiUrl"]);
-            var restClientContainer = new RestClientContainer<ResponseResult>(ConfigurationManager.AppSettings["ApiUrl"]);
+            var restClientContainer = new RestClientContainer(ConfigurationManager.AppSettings["ApiUrl"]);
             //var menu = res.GetAsyncByGetVerb($"Role/CanShowPage/{language}/{controllerName}/{actionName}/{parameter}", null, filterContext.HttpContext.Request.Cookies["token"].Value.ToString()).Result;
             //if (menu != null ) session["PageName"] = menu;
             //if (menu == null )

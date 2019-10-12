@@ -8,11 +8,13 @@ namespace MyIhsan.Service.Dtos
     public class UserDto : IPrimaryKeyField<long?>
     {
         public string NameEn { get; set; }
-        public string EntityIdInfo { get; set; }
         public string Name { get; set; }
         public string CityId { get; set; }
+        public string CityName { get; set; }
         public string CountryId { get; set; }
+        public string CountryName { get; set; }
         public short? Gender { get; set; }
+        public string GenderName { get; set; }
         public string Address { get; set; }
         public string TelNumber { get; set; }
         public short? IsBlock { get; set; }

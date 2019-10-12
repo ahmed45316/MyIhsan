@@ -75,10 +75,6 @@
                                             @MyIhsan.LanguageResources.Translate.gridActions
                                         </th>
 
-                                        @*<th class="all">الجمعية</th>
-                                            <th class="all">تعديل</th>
-                                            <th class="all">حذف</th>*@
-
                                     </tr>
                                 </thead>
                             </table>
@@ -110,14 +106,5 @@
     var getUser ='@Url.Action("GetUser", "Security")';
     var deleteUri = '@Url.Action("DeleteUser", "Security")';
     var serverUri = '@Url.Action("LoadUserData", "Security")';
-    var optionListUrl1 = baseUrl + "Role/GetEntities";
-    var optionListUrl2 = baseUrl + "Reports/GetCountrySelect2";
-    var optionListUrl100 = baseUrl + "General/GetStatusSelect2";
-    var saveUserEntity = baseUrl + "User/SaveUserEntityAssigned";
-    var getUserEntity = baseUrl + "User/GetEntityAssigned";
-    var saveUserDept = baseUrl + "User/SaveUserDepartmentAssigned";
-    var getUserDept = baseUrl + "User/GetDepartmentAssigned";
-    var addDept = '@MyIhsan.LanguageResources.Authentication.Auth.addDepartment';
-    var addEntity = '@MyIhsan.LanguageResources.Authentication.Auth.addEntity';
 </script>
 <script src="~/Scripts/Actions/User.js?v1"></script>

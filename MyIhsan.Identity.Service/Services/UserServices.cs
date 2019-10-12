@@ -24,7 +24,7 @@ namespace MyIhsan.Service.Services
 {
     public class UserServices : BaseService<AspNetUsers, UserDto>,IUserServices
     {
-        protected internal UserServices(IServiceBaseParameter<AspNetUsers> businessBaseParameter) : base(businessBaseParameter)
+        public UserServices(IServiceBaseParameter<AspNetUsers> businessBaseParameter) : base(businessBaseParameter)
         {
 
         }
@@ -53,6 +53,9 @@ namespace MyIhsan.Service.Services
             var user = await _unitOfWork.Repository.FirstOrDefaultAsync(q => q.Id ==(long) id);
             if (user == null) return ResponseResult.GetRepositoryActionResult(status: HttpStatusCode.NoContent, message: HttpStatusCode.NoContent.ToString());
             var userDto = Mapper.Map<UserDto>(user);
+            userDto.CountryName = "Egypt";
+            userDto.CityName = "Cairo";
+            userDto.GenderName = userDto.Gender == 1 ? "Male" : "Female";
             return ResponseResult.GetRepositoryActionResult(userDto, status: HttpStatusCode.OK, message: HttpStatusCode.OK.ToString());
         }
         public async override Task<IResponseResult> AddAsync(UserDto model)
@@ -94,13 +97,13 @@ namespace MyIhsan.Service.Services
 
         public async Task<IResponseResult> IsUsernameExists(string name, long id)
         {
-            var res = await _unitOfWork.Repository.FirstOrDefaultAsync(q => q.UserName == name && q.Id != id && q.IsDeleted!=1);
+            var res = await _unitOfWork.Repository.FirstOrDefaultAsync(q => q.UserName.ToLower() == name.ToLower() && q.Id != id && q.IsDeleted!=1);
             return ResponseResult.GetRepositoryActionResult(res != null, status: HttpStatusCode.OK, message: HttpStatusCode.OK.ToString());
         }
 
         public async Task<IResponseResult> IsEmailExists(string email, long id)
         {
-            var res = await _unitOfWork.Repository.FirstOrDefaultAsync(q => q.Email == email && q.Id != id && q.IsDeleted!=1);
+            var res = await _unitOfWork.Repository.FirstOrDefaultAsync(q => q.Email.ToLower() == email.ToLower() && q.Id != id && q.IsDeleted!=1);
             return ResponseResult.GetRepositoryActionResult(res != null, status: HttpStatusCode.OK, message: HttpStatusCode.OK.ToString());
         }
 
@@ -153,6 +156,7 @@ namespace MyIhsan.Service.Services
         static Expression<Func<AspNetUsers, bool>> PredicateBuilderFunction(GetAllUserParameters filter)
         {
             var predicate = PredicateBuilder.New<AspNetUsers>(true);
+            predicate = predicate.And(b => b.IsDeleted!=1);
             if (!string.IsNullOrWhiteSpace(filter.UserName))
             {
                 predicate = predicate.And(b => b.UserName.ToLower().StartsWith(filter.UserName));

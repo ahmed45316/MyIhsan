@@ -11,6 +11,7 @@ using System.Configuration;
 using System.Linq;
 using System.Web.Mvc;
 using fillGrids=MyIhsan.Web.Models.FillGrid;
+using System.Threading.Tasks;
 
 namespace MyIhsan.Web.Controllers
 {
@@ -18,12 +19,10 @@ namespace MyIhsan.Web.Controllers
     {
         // GET: Security
         //[PageAuthorize]
-        private readonly RestClientContainer<ResponseResult> restClientContainer;
-        private readonly RestClientContainer<DataPagging> restClientContainerPagging;
+        private readonly RestClientContainer restClientContainer;
         public SecurityController()
         {
-            restClientContainer = new RestClientContainer<ResponseResult>(ConfigurationManager.AppSettings["ApiUrl"]);
-            restClientContainerPagging = new RestClientContainer<DataPagging>(ConfigurationManager.AppSettings["ApiUrl"]);
+            restClientContainer = new RestClientContainer(ConfigurationManager.AppSettings["ApiUrl"]);
         }
         public ActionResult Users()
         {
@@ -36,11 +35,11 @@ namespace MyIhsan.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult Save(string id)
+        public async Task<ActionResult> Save(string id)
         {
             if (string.IsNullOrEmpty(id)) return PartialView(new RoleViewModel());
-            var response = restClientContainer.Get($"Role/Get/{id}",Request.Cookies["token"].Value.ToString()).Result.Data;
-            string json = JsonConvert.SerializeObject(response);
+            var response = await restClientContainer.SendRequest<ResponseResult>($"Role/Get/{id}",RestSharp.Method.GET);
+            string json = JsonConvert.SerializeObject(response.Data);
             var data = !string.IsNullOrEmpty(id) ? Helper<RoleViewModel>.Convert(json) : new RoleViewModel();
             RoleViewModel Role = data;
             return PartialView(Role);
@@ -48,7 +47,7 @@ namespace MyIhsan.Web.Controllers
 
         [HttpPost]
         [ActionName("Save")]
-        public ActionResult SaveRole(RoleViewModel model)
+        public async Task<ActionResult> SaveRole(RoleViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -56,13 +55,13 @@ namespace MyIhsan.Web.Controllers
                 if (!string.IsNullOrEmpty(model.Id))
                 {
                     //Edit
-                    var response = restClientContainer.Put("Role/Update", model, Request.Cookies["token"].Value.ToString()).Result.Data;
+                    await restClientContainer.SendRequest<ResponseResult>("Role/Update",RestSharp.Method.PUT, model);
                     TempData["AlertMessages"] = MyIhsan.LanguageResources.Translate.updated;
                 }
                 else
                 {
                     //Save
-                    var response = restClientContainer.Post("Role/Add", model, Request.Cookies["token"].Value.ToString()).Result.Data;
+                    await restClientContainer.SendRequest<ResponseResult>("Role/Add", RestSharp.Method.POST, model);
                     TempData["AlertMessages"] = MyIhsan.LanguageResources.Translate.save;
                 }
             }
@@ -71,40 +70,30 @@ namespace MyIhsan.Web.Controllers
 
         //Delete Role
         [HttpGet]
-        public ActionResult Delete(string id)
+        public async Task<ActionResult> Delete(string id)
         {
-            var response = restClientContainer.Delete($"Role/Remove/{id}", Request.Cookies["token"].Value.ToString()).Result.Data;
-            var data = (bool)response;
+            var response = await restClientContainer.SendRequest<ResponseResult>($"Role/Remove/{id}",RestSharp.Method.DELETE);
+            var data = (bool)response.Data;
             if (data == true) TempData["AlertMessages"] = MyIhsan.LanguageResources.Translate.deleted;
-            return Json(data, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpGet]
-        public ActionResult GetUser(string id)
-        {
-            var response = restClientContainer.Get($"User/Get/{id}", Request.Cookies["token"].Value.ToString()).Result.Data;
-            string json = JsonConvert.SerializeObject(response);
-            var data = !string.IsNullOrEmpty(id) ? Helper<UserViewModel>.Convert(json): new UserViewModel();
-            data.PasswordHash = null;
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
         [ActionName("Users")]
-        public ActionResult SaveUser(UserViewModel model)
+        public async Task<ActionResult> SaveUser(UserViewModel model)
         {
             if (ModelState.IsValid)
             {
                 if (model.Id.HasValue && model.Id!=0)
                 {
                     //Edit 
-                   var response= restClientContainer.Put("User/Update", model, Request.Cookies["token"].Value.ToString()).Result.Data;
+                   await restClientContainer.SendRequest<ResponseResult>("User/Update",RestSharp.Method.PUT, model);
                     TempData["AlertMessages"] = MyIhsan.LanguageResources.Translate.updated;
                 }
                 else
                 {
                     //Save
-                    var response = restClientContainer.Post("User/Add", model, Request.Cookies["token"].Value.ToString()).Result.Data;
+                    await restClientContainer.SendRequest<ResponseResult>("User/Add", RestSharp.Method.POST, model);
                     TempData["AlertMessages"] = MyIhsan.LanguageResources.Translate.save;
                 }
             }
@@ -113,17 +102,17 @@ namespace MyIhsan.Web.Controllers
 
         //Delete User
         [HttpGet]
-        public ActionResult DeleteUser(string id)
+        public async Task<ActionResult> DeleteUser(string id)
         {
-            var response = restClientContainer.Delete($"User/Remove/{id}", Request.Cookies["token"].Value.ToString()).Result.Data;
-            var data = (bool)response;
+            var response = await restClientContainer.SendRequest<ResponseResult>($"User/Remove/{id}",RestSharp.Method.DELETE);
+            var data = (bool)response.Data;
             if (data == true) TempData["AlertMessages"] = MyIhsan.LanguageResources.Translate.deleted;
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
         //Load Role Grid
         [HttpPost]
-        public ActionResult LoadData(RoleSearchParameters searchParam)
+        public async Task<ActionResult> LoadData(RoleSearchParameters searchParam)
         {
 
             var draw = Request.Form.GetValues("draw") == null ? "1" : Request.Form.GetValues("draw").FirstOrDefault();
@@ -143,7 +132,7 @@ namespace MyIhsan.Web.Controllers
                 PageNumber = skip,
                 PageSize = pageSize
             };
-            var returnedData = restClientContainerPagging.Post("Role/GetAll", parameters, Request.Cookies["token"].Value.ToString()).Result ;
+            var returnedData = await restClientContainer.SendRequest<DataPagging>("Role/GetAll", RestSharp.Method.POST,parameters);
             int recordsTotal = returnedData?.TotalPage??0;
             var data = returnedData?.Result?.Data;
             if (returnedData == null || returnedData.Result == null|| data == null)
@@ -163,7 +152,7 @@ namespace MyIhsan.Web.Controllers
         }
         ////Load User Grid
         [HttpPost]
-        public ActionResult LoadUserData(UserSearchParameters searchParam)
+        public async Task<ActionResult> LoadUserData(UserSearchParameters searchParam)
         {
 
             var draw = Request.Form.GetValues("draw") == null ? "1" : Request.Form.GetValues("draw").FirstOrDefault();
@@ -183,7 +172,7 @@ namespace MyIhsan.Web.Controllers
                 PageNumber = skip,
                 PageSize = pageSize
             };
-            var returnedData = restClientContainerPagging.Post("User/GetAll", parameters, Request.Cookies["token"].Value.ToString()).Result;
+            var returnedData = await restClientContainer.SendRequest<DataPagging>("User/GetAll",RestSharp.Method.POST, parameters);
             int recordsTotal = returnedData?.TotalPage ?? 0;
             var data = returnedData?.Result?.Data;
             if (returnedData == null || returnedData.Result == null || data==null)
@@ -191,41 +180,43 @@ namespace MyIhsan.Web.Controllers
                 return Json(new { draw = draw, recordsFiltered = 0, recordsTotal = 0, data = new fillGrids.UsersViewModel() }, JsonRequestBehavior.AllowGet);
             }
             string json = JsonConvert.SerializeObject(data);
+            var jsonDeserialize = Helper<List<fillGrids.UsersViewModel>>.Convert(json);
             var listSerialized = new
             {
                 draw = draw,
                 recordsFiltered = recordsTotal,
                 recordsTotal = recordsTotal,
-                data = Helper<List<fillGrids.UsersViewModel>>.Convert(json)
+                data = jsonDeserialize
             };
             return Json(listSerialized, JsonRequestBehavior.AllowGet);
 
         }
         //For Role
         [HttpPost]
-        public ActionResult CheckExistingName(string Name, string Id)
+        public async Task<ActionResult> CheckExistingName(string Name, string Id)
         {
             try
             {
-                return Json(!IsNameExists(Name, Id));
+                return Json(!await IsNameExists(Name, Id));
             }
             catch (Exception)
             {
                 return Json(false);
             }
         }
-        private bool IsNameExists(string name, string id)
+        private async Task<bool> IsNameExists(string name, string id)
         {
-            var checks = (bool)restClientContainer.Get($"Role/IsNameExists/{name}/{id}", Request.Cookies["token"].Value.ToString()).Result.Data;
+            var result = await restClientContainer.SendRequest<ResponseResult>($"Role/IsNameExists/{name}/{id}", RestSharp.Method.GET);
+            var checks = (bool)result.Data;
             return checks;
         }
         //For User
         [HttpPost]
-        public ActionResult CheckUserNameExist(string UserName, string Id)
+        public async Task<ActionResult> CheckUserNameExist(string UserName, string Id)
         {
             try
             {
-                return Json(!IsExists(UserName, 1, Id));
+                return Json(!await IsExists(UserName, 1, Id));
             }
             catch (Exception)
             {
@@ -233,11 +224,11 @@ namespace MyIhsan.Web.Controllers
             }
         }
         [HttpPost]
-        public ActionResult CheckEmailExist(string Email, string Id)
+        public async Task<ActionResult> CheckEmailExist(string Email, string Id)
         {
             try
             {
-                return Json(!IsExists(Email, 2, Id));
+                return Json(!await IsExists(Email, 2, Id));
             }
             catch (Exception)
             {
@@ -245,20 +236,21 @@ namespace MyIhsan.Web.Controllers
             }
         }
         [HttpPost]
-        public ActionResult CheckPhoneExist(string PhoneNumber, string Id)
+        public async Task<ActionResult> CheckPhoneExist(string PhoneNumber, string Id)
         {
             try
             {
-                return Json(!IsExists(PhoneNumber, 3, Id));
+                return Json(!await IsExists(PhoneNumber, 3, Id));
             }
             catch (Exception)
             {
                 return Json(false);
             }
         }
-        private bool IsExists(string name, byte type, string id)
+        private async Task<bool> IsExists(string name, byte type, string id)
         {
-            var checks =(bool) restClientContainer.Get($"User/IsExists/{name}/{type}/{id}", Request.Cookies["token"].Value.ToString()).Result.Data;
+            var result = await restClientContainer.SendRequest<ResponseResult>($"User/IsUsernameExists/{name}/{type}/{id}", RestSharp.Method.GET);
+            var checks =(bool)result.Data;
             return checks;
         }
 

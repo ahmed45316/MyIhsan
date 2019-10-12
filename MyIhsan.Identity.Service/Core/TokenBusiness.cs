@@ -14,13 +14,11 @@ namespace MyIhsan.Service.Core
     {
         private readonly IConfiguration _config;
         private readonly UserLoginReturn _userLoginReturn;
-        private readonly DecodingValidToken _decodingValidToken;
 
         public TokenBusiness(IConfiguration config)
         { 
             _config = config;
             _userLoginReturn = new UserLoginReturn();
-            _decodingValidToken = new DecodingValidToken();
         }
 
         public UserLoginReturn GenerateJsonWebToken(UserDto userInfo, string roles, string refreshToken ="")
@@ -48,65 +46,6 @@ namespace MyIhsan.Service.Core
             _userLoginReturn.Token = new JwtSecurityTokenHandler().WriteToken(token);
             return _userLoginReturn;
         }
-
        
-        public DecodingValidToken GetUserDataFromToken(ControllerBase controller)
-        {
-            var hasValue = controller.Request.Headers.TryGetValue("Authorization", out var bearerToken);
-            if (!hasValue) return null;
-            var split = bearerToken.ToString().Split(' ');
-            var token = split[1];
-            var result = ValidateAndDecodeToken(token);
-            return result;
-        }
-        private TokenValidationParameters TokenValidationParameters()
-        {
-            string secret = _config["Jwt:SigningKey"];
-            var key = Encoding.ASCII.GetBytes(secret);
-            return new TokenValidationParameters
-            {
-                // Clock skew compensates for server time drift.
-                ClockSkew = TimeSpan.FromMinutes(5),
-                // Specify the key used to sign the token:
-                IssuerSigningKey = new SymmetricSecurityKey(key),
-                ValidateIssuerSigningKey = true,
-                RequireSignedTokens = true,
-                // Ensure the token was issued by a trusted authorization server (default true):
-                ValidIssuer = _config["Jwt:Site"],
-                ValidateIssuer = true,
-                // Ensure the token audience matches our audience value (default true):
-                ValidAudience = _config["Jwt:Site"],
-                ValidateAudience = true,
-                // Ensure the token hasn't expired:
-                RequireExpirationTime = true,
-                ValidateLifetime = true,
-            };
-        }
-
-        private DecodingValidToken ValidateAndDecodeToken(string jwtToken)
-        {
-            var validationParameters = TokenValidationParameters();
-            var handler = new JwtSecurityTokenHandler();
-            try
-            {
-                _decodingValidToken.ClaimsPrincipal = handler.ValidateToken(jwtToken, validationParameters, out var rawValidatedToken);
-
-                //_decodingValidToken.JwtSecurityToken = (JwtSecurityToken)rawValidatedToken;
-
-                return _decodingValidToken;
-            }
-            catch (SecurityTokenValidationException stvex)
-            {
-                // The token failed validation!
-                // TODO: Log it or display an error.
-                throw new Exception($"Token failed validation: {stvex.Message}");
-            }
-            catch (ArgumentException argex)
-            {
-                // The token was not well-formed or was invalid for some other reason.
-                // TODO: Log it or display an error.
-                throw new Exception($"Token was invalid: {argex.Message}");
-            }
-        }
     }
 }

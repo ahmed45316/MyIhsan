@@ -20,10 +20,10 @@ namespace MyIhsan.Web.Controllers
 {
     public class LoginController : Controller
     {
-        private readonly RestClientContainer<ResponseResult> restClientContainer;
+        private readonly RestClientContainer restClientContainer;
         public LoginController()
         {
-            restClientContainer = new RestClientContainer<ResponseResult>(ConfigurationManager.AppSettings["ApiUrl"]);
+            restClientContainer = new RestClientContainer(ConfigurationManager.AppSettings["ApiUrl"]);
         }
         // GET: Login
         public ActionResult Index()
@@ -35,9 +35,9 @@ namespace MyIhsan.Web.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Index(LoginParameters model)
+        public async Task<ActionResult> Index(LoginParameters model)
         {
-            var data = restClientContainer.Post("Accounts/Login",model).Result;
+            var data = await restClientContainer.SendRequest<ResponseResult>("Accounts/Login",RestSharp.Method.POST, model);
             if (data.Data != null)
             {
                 string json= JsonConvert.SerializeObject(data.Data);

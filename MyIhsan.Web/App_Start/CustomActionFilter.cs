@@ -32,8 +32,8 @@ namespace MyIhsan.Web
                 {
                     if (session["Menu"] == null)
                     {
-                    var restClientContainer = new RestClientContainer<ResponseResult>(ConfigurationManager.AppSettings["ApiUrl"]);
-                    var dataRet = restClientContainer.Get("Accounts/GetMenu", filterContext.HttpContext.Request.Cookies["token"].Value.ToString()).Result.Data;
+                    var restClientContainer = new RestClientContainer(ConfigurationManager.AppSettings["ApiUrl"]);
+                    var dataRet = restClientContainer.SendRequest<ResponseResult>("Accounts/GetMenu",RestSharp.Method.GET).Result.Data;
                     string json = JsonConvert.SerializeObject(dataRet);
                     var result=Helper<List<MenuViewModel>>.Convert(json);
                     session["Menu"] = result;

@@ -9,10 +9,11 @@ using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace MyIhsan.Repositories.Repository
 {
-    public class RestClientContainer<T> where T:class,new()
+    public class RestClientContainer
     {
         private readonly RestClient client;
         private readonly string _serverUri;
@@ -20,42 +21,19 @@ namespace MyIhsan.Repositories.Repository
         {
             _serverUri = serverUri;
             client = new RestClient();
-        }        
-        public Task<T> Get(string uri, string accessToken = null)
-        {
-            client.CookieContainer = new CookieContainer();
-            var taskCompletionSource = new TaskCompletionSource<T>();
-            var request = new RestRequest($"{_serverUri}{uri}", Method.GET);
-            if (accessToken != null) request.AddParameter("Authorization", "Bearer " + accessToken, ParameterType.HttpHeader);
-            client.ExecuteAsync<T>(request, (response) => taskCompletionSource.SetResult(response.Data));
-            return taskCompletionSource.Task;
         }
-        public Task<T> Post(string uri,object obj,string accessToken = null)
+        public async Task<T> SendRequest<T>(string uri, Method method, object obj = null)
         {
             client.CookieContainer = new CookieContainer();
-            var taskCompletionSource = new TaskCompletionSource<T>();
-            var request = new RestRequest($"{_serverUri}{uri}", Method.POST).AddJsonBody(obj);
+            var request = new RestRequest($"{_serverUri}{uri}", method);
+            if (method == Method.POST || method == Method.PUT)
+            {
+                request.AddJsonBody(obj);
+            }
+            var accessToken = HttpContext.Current.Request.Cookies["token"]?.Value;
             if (accessToken != null) request.AddParameter("Authorization", "Bearer " + accessToken, ParameterType.HttpHeader);
-            client.ExecuteAsync<T>(request, (response) => taskCompletionSource.SetResult(response.Data));
-            return taskCompletionSource.Task;
-        }
-        public Task<T> Put(string uri, object obj, string accessToken = null)
-        {
-            client.CookieContainer = new CookieContainer();
-            var taskCompletionSource = new TaskCompletionSource<T>();
-            var request = new RestRequest($"{_serverUri}{uri}", Method.PUT).AddJsonBody(obj);
-            if (accessToken != null) request.AddParameter("Authorization", "Bearer " + accessToken, ParameterType.HttpHeader);
-            client.ExecuteAsync<T>(request, (response) => taskCompletionSource.SetResult(response.Data));
-            return taskCompletionSource.Task;
-        }
-        public Task<T> Delete(string uri, string accessToken = null)
-        {
-            client.CookieContainer = new CookieContainer();
-            var taskCompletionSource = new TaskCompletionSource<T>();
-            var request = new RestRequest($"{_serverUri}{uri}", Method.DELETE);
-            if (accessToken != null) request.AddParameter("Authorization", "Bearer " + accessToken, ParameterType.HttpHeader);
-            client.ExecuteAsync<T>(request, (response) => taskCompletionSource.SetResult(response.Data));
-            return taskCompletionSource.Task;
+            var response = client.ExecuteTaskAsync<T>(request).GetAwaiter().GetResult();
+            return response.Data;
         }
     }
 }

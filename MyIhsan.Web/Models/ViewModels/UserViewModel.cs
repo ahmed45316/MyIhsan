@@ -14,13 +14,6 @@ namespace MyIhsan.Web.Models.ViewModels
         [Required(ErrorMessageResourceType = typeof(Auth), ErrorMessageResourceName = "nameEnRegx")]
         public string NameEn { get; set; }
 
-        [Display(Name = "entity", ResourceType = typeof(Auth))]
-        public string EntityIdInfo { get; set; }
-
-        public string EntityName { get; set; }
-
-        public string EntityNameEn { get; set; }
-
         [Display(Name = "name", ResourceType = typeof(Auth))]
         [Required(ErrorMessageResourceType = typeof(Auth), ErrorMessageResourceName = "nameRegx")]
         public string Name { get; set; }
@@ -71,6 +64,6 @@ namespace MyIhsan.Web.Models.ViewModels
         [Remote("CheckEmailExist", "Security", AdditionalFields = "Id", HttpMethod = "POST", ErrorMessageResourceName = "mailExist", ErrorMessageResourceType = typeof(Auth))]
         public string Email { get; set; }
 
-        public long? Id { get; set; } 
+        public long? Id { get; set; }
     }
 }
